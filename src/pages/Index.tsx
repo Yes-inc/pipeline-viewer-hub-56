@@ -1,13 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { DollarSign, TrendingUp } from "lucide-react";
+import DashboardLayout from "../components/DashboardLayout";
+import SalesGraph from "../components/SalesGraph";
+import InfoCard from "../components/InfoCard";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <DashboardLayout>
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <InfoCard
+            title="Total Pipeline Value"
+            value="$2.4M"
+            icon={DollarSign}
+            trend="+12.5% from last month"
+            trendUp={true}
+          />
+          <InfoCard
+            title="Potential Pipeline Value"
+            value="$4.8M"
+            icon={TrendingUp}
+            trend="+8.2% from last month"
+            trendUp={true}
+          />
+        </div>
+        <SalesGraph />
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
