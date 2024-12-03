@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, PuzzlePiece } from "lucide-react";
+import { LayoutDashboard, Puzzle } from "lucide-react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -35,7 +35,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                 >
-                  <PuzzlePiece className="w-4 h-4 mr-2" />
+                  <Puzzle className="w-4 h-4 mr-2" />
                   Integrations
                 </Link>
               </div>
