@@ -12,25 +12,40 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSheetData, type PipelineRow } from "../utils/googleSheets";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [rowsToShow, setRowsToShow] = useState(10);
+  const { toast } = useToast();
 
-  // Generate sample data for the table
-  const generateTableData = (count: number) => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i + 1,
-      client: `Client ${i + 1}`,
-      value: `$${Math.floor(Math.random() * 100000)}`,
-      status: ["In Progress", "Completed", "Pending"][Math.floor(Math.random() * 3)],
-      lastUpdated: new Date(Date.now() - Math.random() * 10000000000).toLocaleDateString(),
-    }));
-  };
+  const { data: tableData = [], isLoading, error } = useQuery({
+    queryKey: ['pipelineData'],
+    queryFn: async () => {
+      // Replace these with your actual Google Sheet credentials and ID
+      const credentials = {
+        client_email: localStorage.getItem('GOOGLE_CLIENT_EMAIL'),
+        private_key: localStorage.getItem('GOOGLE_PRIVATE_KEY'),
+      };
+      const sheetId = localStorage.getItem('GOOGLE_SHEET_ID');
 
-  const tableData = generateTableData(1000);
+      if (!credentials.client_email || !credentials.private_key || !sheetId) {
+        toast({
+          title: "Missing Google Sheets Configuration",
+          description: "Please set up your Google Sheets credentials in the settings.",
+          variant: "destructive",
+        });
+        return [];
+      }
+
+      return fetchSheetData(credentials, sheetId);
+    },
+    refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
+  });
 
   const handleShowMore = () => {
-    setRowsToShow(prev => Math.min(prev + 10, 1000));
+    setRowsToShow(prev => Math.min(prev + 10, tableData.length));
   };
 
   return (
@@ -69,19 +84,29 @@ const Index = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {tableData.slice(0, rowsToShow).map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.client}</TableCell>
-                      <TableCell>{row.value}</TableCell>
-                      <TableCell>{row.status}</TableCell>
-                      <TableCell>{row.lastUpdated}</TableCell>
+                  {isLoading ? (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center">Loading...</TableCell>
                     </TableRow>
-                  ))}
+                  ) : error ? (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center text-red-500">Error loading data</TableCell>
+                    </TableRow>
+                  ) : (
+                    tableData.slice(0, rowsToShow).map((row: PipelineRow) => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell>{row.client}</TableCell>
+                        <TableCell>{row.value}</TableCell>
+                        <TableCell>{row.status}</TableCell>
+                        <TableCell>{row.lastUpdated}</TableCell>
+                      </TableRow>
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </ScrollArea>
-            {rowsToShow < 1000 && (
+            {rowsToShow < tableData.length && (
               <div className="mt-4 text-center">
                 <button
                   onClick={handleShowMore}
