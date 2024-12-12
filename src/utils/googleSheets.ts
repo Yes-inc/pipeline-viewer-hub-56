@@ -2,10 +2,15 @@ import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 export type PipelineRow = {
   id: string;
-  client: string;
+  name: string;
+  company: string;
+  linkedinUrl: string;
   value: string;
   status: string;
-  lastUpdated: string;
+  advisor: string;
+  profilePicUrl: string;
+  lastContactedDate: string;
+  initiatedContactDate: string;
 };
 
 export const fetchSheetData = async (credentials: any, sheetId: string): Promise<PipelineRow[]> => {
@@ -17,9 +22,14 @@ export const fetchSheetData = async (credentials: any, sheetId: string): Promise
   
   return rows.map((row) => ({
     id: row.get('id') || '',
-    client: row.get('client') || '',
+    name: row.get('name') || '',
+    company: row.get('company') || '',
+    linkedinUrl: row.get('linkedinUrl') || '',
     value: row.get('value') || '',
     status: row.get('status') || '',
-    lastUpdated: row.get('lastUpdated') || new Date().toLocaleDateString(),
+    advisor: row.get('advisor') || '',
+    profilePicUrl: row.get('profilePicUrl') || '',
+    lastContactedDate: row.get('lastContactedDate') || new Date().toLocaleDateString(),
+    initiatedContactDate: row.get('initiatedContactDate') || new Date().toLocaleDateString(),
   }));
 };

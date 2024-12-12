@@ -2,6 +2,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { type PipelineRow } from "../utils/googleSheets";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserRound } from "lucide-react";
 
 interface PipelineTableProps {
   title: string;
@@ -30,25 +32,37 @@ export const PipelineTable = ({
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Profile</TableHead>
                 <TableHead>Prospect Name</TableHead>
                 <TableHead>Company</TableHead>
                 <TableHead>LinkedIn URL</TableHead>
                 <TableHead>Value</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Advisor</TableHead>
+                <TableHead>Last Contacted</TableHead>
+                <TableHead>Contact Initiated</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center">Loading...</TableCell>
+                  <TableCell colSpan={9} className="text-center">Loading...</TableCell>
                 </TableRow>
               ) : error ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-red-500">Error loading data</TableCell>
+                  <TableCell colSpan={9} className="text-center text-red-500">Error loading data</TableCell>
                 </TableRow>
               ) : (
                 data.slice(0, rowsToShow).map((row: PipelineRow) => (
                   <TableRow key={row.id}>
+                    <TableCell>
+                      <Avatar>
+                        <AvatarImage src={row.profilePicUrl} alt={row.name} />
+                        <AvatarFallback>
+                          <UserRound className="h-4 w-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    </TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.company}</TableCell>
                     <TableCell>
@@ -63,6 +77,9 @@ export const PipelineTable = ({
                     </TableCell>
                     <TableCell>{row.value}</TableCell>
                     <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.advisor}</TableCell>
+                    <TableCell>{row.lastContactedDate}</TableCell>
+                    <TableCell>{row.initiatedContactDate}</TableCell>
                   </TableRow>
                 ))
               )}
