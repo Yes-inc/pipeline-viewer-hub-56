@@ -1,4 +1,4 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 export type PipelineRow = {
   id: string;
@@ -9,19 +9,17 @@ export type PipelineRow = {
 };
 
 export const fetchSheetData = async (credentials: any, sheetId: string): Promise<PipelineRow[]> => {
-  const doc = new GoogleSpreadsheet(sheetId);
-  
-  await doc.useServiceAccountAuth(credentials);
+  const doc = new GoogleSpreadsheet(sheetId, credentials);
   await doc.loadInfo();
   
   const sheet = doc.sheetsByIndex[0];
-  const rows = await sheet.getRows();
+  const rows = await sheet.getRows() as GoogleSpreadsheetRow[];
   
-  return rows.map((row: any) => ({
-    id: row.id || '',
-    client: row.client || '',
-    value: row.value || '',
-    status: row.status || '',
-    lastUpdated: row.lastUpdated || new Date().toLocaleDateString(),
+  return rows.map((row) => ({
+    id: row.get('id') || '',
+    client: row.get('client') || '',
+    value: row.get('value') || '',
+    status: row.get('status') || '',
+    lastUpdated: row.get('lastUpdated') || new Date().toLocaleDateString(),
   }));
 };

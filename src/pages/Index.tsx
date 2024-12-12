@@ -15,15 +15,42 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSheetData, type PipelineRow } from "../utils/googleSheets";
 import { useToast } from "@/components/ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Index = () => {
   const [rowsToShow, setRowsToShow] = useState(10);
   const { toast } = useToast();
 
+  const prospects = [
+    {
+      id: 1,
+      name: "Alice Johnson",
+      company: "Tech Corp",
+      value: "$50,000",
+      status: "Active",
+      image: "/placeholder.svg"
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      company: "Innovation Ltd",
+      value: "$75,000",
+      status: "In Progress",
+      image: "/placeholder.svg"
+    },
+    {
+      id: 3,
+      name: "Carol Williams",
+      company: "Future Systems",
+      value: "$100,000",
+      status: "New Lead",
+      image: "/placeholder.svg"
+    }
+  ];
+
   const { data: tableData = [], isLoading, error } = useQuery({
     queryKey: ['pipelineData'],
     queryFn: async () => {
-      // Replace these with your actual Google Sheet credentials and ID
       const credentials = {
         client_email: localStorage.getItem('GOOGLE_CLIENT_EMAIL'),
         private_key: localStorage.getItem('GOOGLE_PRIVATE_KEY'),
@@ -41,7 +68,7 @@ const Index = () => {
 
       return fetchSheetData(credentials, sheetId);
     },
-    refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
+    refetchInterval: 5 * 60 * 1000,
   });
 
   const handleShowMore = () => {
@@ -69,6 +96,39 @@ const Index = () => {
         </div>
         <SalesGraph />
         
+        <div className="bg-white rounded-lg shadow">
+          <div className="p-6">
+            <h2 className="text-xl font-semibold mb-4">Sales Prospects</h2>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Profile</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Company</TableHead>
+                  <TableHead>Value</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {prospects.map((prospect) => (
+                  <TableRow key={prospect.id}>
+                    <TableCell>
+                      <Avatar>
+                        <AvatarImage src={prospect.image} alt={prospect.name} />
+                        <AvatarFallback>{prospect.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                    </TableCell>
+                    <TableCell>{prospect.name}</TableCell>
+                    <TableCell>{prospect.company}</TableCell>
+                    <TableCell>{prospect.value}</TableCell>
+                    <TableCell>{prospect.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
         <div className="bg-white rounded-lg shadow">
           <div className="p-6">
             <h2 className="text-xl font-semibold mb-4">Pipeline Details</h2>
