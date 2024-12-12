@@ -30,11 +30,11 @@ export const PipelineTable = ({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Client</TableHead>
+                <TableHead>Prospect Name</TableHead>
+                <TableHead>Company</TableHead>
+                <TableHead>LinkedIn URL</TableHead>
                 <TableHead>Value</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Last Updated</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -49,11 +49,20 @@ export const PipelineTable = ({
               ) : (
                 data.slice(0, rowsToShow).map((row: PipelineRow) => (
                   <TableRow key={row.id}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.client}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.company}</TableCell>
+                    <TableCell>
+                      <a 
+                        href={row.linkedinUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        {row.linkedinUrl}
+                      </a>
+                    </TableCell>
                     <TableCell>{row.value}</TableCell>
                     <TableCell>{row.status}</TableCell>
-                    <TableCell>{row.lastUpdated}</TableCell>
                   </TableRow>
                 ))
               )}

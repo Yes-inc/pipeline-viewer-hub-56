@@ -11,57 +11,55 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSheetData, type PipelineRow } from "../utils/googleSheets";
 import { useToast } from "@/components/ui/use-toast";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-// Move prospects data to a separate file
 import { prospects } from "../data/prospects";
-
-// Move PipelineTable component to a separate file
 import { PipelineTable } from "../components/PipelineTable";
 
 const Index = () => {
-  const [rowsToShow, setRowsToShow] = useState(10);
   const { toast } = useToast();
 
   const samplePipelineData: PipelineRow[] = [
     {
       id: "001",
-      client: "Acme Corporation",
+      name: "John Doe",
+      company: "Acme Corporation",
+      linkedinUrl: "https://linkedin.com/in/john-doe",
       value: "$250,000",
-      status: "Contact Initiated",
-      lastUpdated: "2024-03-15"
+      status: "Contact Initiated"
     },
     {
       id: "002",
-      client: "Global Industries",
+      name: "Jane Smith",
+      company: "Global Industries",
+      linkedinUrl: "https://linkedin.com/in/jane-smith",
       value: "$175,000",
-      status: "New Lead",
-      lastUpdated: "2024-03-14"
+      status: "New Lead"
     },
     {
       id: "003",
-      client: "Tech Solutions Inc",
+      name: "Mike Johnson",
+      company: "Tech Solutions Inc",
+      linkedinUrl: "https://linkedin.com/in/mike-johnson",
       value: "$420,000",
-      status: "Contact Initiated",
-      lastUpdated: "2024-03-13"
+      status: "Contact Initiated"
     },
     {
       id: "004",
-      client: "Digital Dynamics",
+      name: "Sarah Wilson",
+      company: "Digital Dynamics",
+      linkedinUrl: "https://linkedin.com/in/sarah-wilson",
       value: "$150,000",
-      status: "Negotiation",
-      lastUpdated: "2024-03-12"
+      status: "Negotiation"
     },
     {
       id: "005",
-      client: "Future Systems",
+      name: "Tom Brown",
+      company: "Future Systems",
+      linkedinUrl: "https://linkedin.com/in/tom-brown",
       value: "$300,000",
-      status: "Proposal",
-      lastUpdated: "2024-03-11"
+      status: "Proposal"
     }
   ];
 
@@ -115,9 +113,9 @@ const Index = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Profile</TableHead>
-                  <TableHead>Name</TableHead>
+                  <TableHead>Prospect Name</TableHead>
                   <TableHead>Company</TableHead>
+                  <TableHead>LinkedIn URL</TableHead>
                   <TableHead>Value</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
@@ -125,14 +123,18 @@ const Index = () => {
               <TableBody>
                 {prospects.map((prospect) => (
                   <TableRow key={prospect.id}>
-                    <TableCell>
-                      <Avatar>
-                        <AvatarImage src={prospect.image} alt={prospect.name} />
-                        <AvatarFallback>{prospect.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                      </Avatar>
-                    </TableCell>
                     <TableCell>{prospect.name}</TableCell>
                     <TableCell>{prospect.company}</TableCell>
+                    <TableCell>
+                      <a 
+                        href={prospect.linkedinUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        {prospect.linkedinUrl}
+                      </a>
+                    </TableCell>
                     <TableCell>{prospect.value}</TableCell>
                     <TableCell>{prospect.status}</TableCell>
                   </TableRow>
@@ -142,8 +144,8 @@ const Index = () => {
           </div>
         </div>
 
-        <PipelineTable title="Pipeline Details - Current Quarter" />
-        <PipelineTable title="Pipeline Details - Next Quarter" />
+        <PipelineTable title="Pipeline Details - Current Quarter" data={tableData} isLoading={isLoading} error={error} />
+        <PipelineTable title="Pipeline Details - Next Quarter" data={tableData} isLoading={isLoading} error={error} />
       </div>
     </DashboardLayout>
   );
