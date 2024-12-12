@@ -11,6 +11,7 @@ export type PipelineRow = {
   profilePicUrl: string;
   lastContactedDate: string;
   initiatedContactDate: string;
+  jobTitle: string;
 };
 
 export const fetchSheetData = async (credentials: any, sheetId: string): Promise<PipelineRow[]> => {
@@ -31,5 +32,6 @@ export const fetchSheetData = async (credentials: any, sheetId: string): Promise
     profilePicUrl: row.get('profilePicUrl') || '',
     lastContactedDate: row.get('lastContactedDate') || new Date().toLocaleDateString(),
     initiatedContactDate: row.get('initiatedContactDate') || new Date().toLocaleDateString(),
+    jobTitle: row.get('jobTitle') || '',
   }));
 };

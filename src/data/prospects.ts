@@ -9,7 +9,8 @@ export const prospects = [
     advisor: "John Smith",
     profilePicUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
     lastContactedDate: "2024-03-15",
-    initiatedContactDate: "2024-02-01"
+    initiatedContactDate: "2024-02-01",
+    jobTitle: "Senior Product Manager"
   },
   {
     id: "2",
@@ -21,7 +22,8 @@ export const prospects = [
     advisor: "Sarah Wilson",
     profilePicUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
     lastContactedDate: "2024-03-20",
-    initiatedContactDate: "2024-01-15"
+    initiatedContactDate: "2024-01-15",
+    jobTitle: "Director of Engineering"
   },
   {
     id: "3",
@@ -33,6 +35,7 @@ export const prospects = [
     advisor: "Mike Brown",
     profilePicUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
     lastContactedDate: "2024-03-18",
-    initiatedContactDate: "2024-02-10"
+    initiatedContactDate: "2024-02-10",
+    jobTitle: "VP of Sales"
   }
 ];

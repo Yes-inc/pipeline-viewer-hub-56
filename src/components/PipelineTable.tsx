@@ -34,6 +34,7 @@ export const PipelineTable = ({
               <TableRow>
                 <TableHead>Profile</TableHead>
                 <TableHead>Prospect Name</TableHead>
+                <TableHead>Job Title</TableHead>
                 <TableHead>Company</TableHead>
                 <TableHead>LinkedIn URL</TableHead>
                 <TableHead>Value</TableHead>
@@ -46,11 +47,11 @@ export const PipelineTable = ({
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center">Loading...</TableCell>
+                  <TableCell colSpan={10} className="text-center">Loading...</TableCell>
                 </TableRow>
               ) : error ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center text-red-500">Error loading data</TableCell>
+                  <TableCell colSpan={10} className="text-center text-red-500">Error loading data</TableCell>
                 </TableRow>
               ) : (
                 data.slice(0, rowsToShow).map((row: PipelineRow) => (
@@ -64,6 +65,7 @@ export const PipelineTable = ({
                       </Avatar>
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.jobTitle}</TableCell>
                     <TableCell>{row.company}</TableCell>
                     <TableCell>
                       <a 
