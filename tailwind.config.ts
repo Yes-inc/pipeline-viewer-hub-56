@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Unbound', 'sans-serif'],
+        sans: ['Unbounded', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
