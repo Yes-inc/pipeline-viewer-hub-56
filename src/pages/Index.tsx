@@ -111,7 +111,7 @@ const Index = () => {
         
         <div className="bg-white rounded-lg shadow">
           <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Sales Prospects</h2>
+            <h2 className="text-xl font-semibold mb-4">Engaged Prospects</h2>
             <Table>
               <TableHeader>
                 <TableRow>
