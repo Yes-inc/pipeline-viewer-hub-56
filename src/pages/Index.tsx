@@ -17,43 +17,22 @@ import { fetchSheetData, type PipelineRow } from "../utils/googleSheets";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Move prospects data to a separate file
+import { prospects } from "../data/prospects";
+
+// Move PipelineTable component to a separate file
+import { PipelineTable } from "../components/PipelineTable";
+
 const Index = () => {
   const [rowsToShow, setRowsToShow] = useState(10);
   const { toast } = useToast();
-
-  const prospects = [
-    {
-      id: 1,
-      name: "Alice Johnson",
-      company: "Tech Corp",
-      value: "$50,000",
-      status: "Active",
-      image: "/placeholder.svg"
-    },
-    {
-      id: 2,
-      name: "Bob Smith",
-      company: "Innovation Ltd",
-      value: "$75,000",
-      status: "In Progress",
-      image: "/placeholder.svg"
-    },
-    {
-      id: 3,
-      name: "Carol Williams",
-      company: "Future Systems",
-      value: "$100,000",
-      status: "New Lead",
-      image: "/placeholder.svg"
-    }
-  ];
 
   const samplePipelineData: PipelineRow[] = [
     {
       id: "001",
       client: "Acme Corporation",
       value: "$250,000",
-      status: "In Progress",
+      status: "Contact Initiated",
       lastUpdated: "2024-03-15"
     },
     {
@@ -67,7 +46,7 @@ const Index = () => {
       id: "003",
       client: "Tech Solutions Inc",
       value: "$420,000",
-      status: "Contract Sent",
+      status: "Contact Initiated",
       lastUpdated: "2024-03-13"
     },
     {
@@ -108,62 +87,6 @@ const Index = () => {
     },
     refetchInterval: 5 * 60 * 1000,
   });
-
-  const handleShowMore = () => {
-    setRowsToShow(prev => Math.min(prev + 10, tableData.length));
-  };
-
-  const PipelineTable = ({ title }: { title: string }) => (
-    <div className="bg-white rounded-lg shadow">
-      <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">{title}</h2>
-        <ScrollArea className="h-[400px] rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>Value</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Last Updated</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center">Loading...</TableCell>
-                </TableRow>
-              ) : error ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center text-red-500">Error loading data</TableCell>
-                </TableRow>
-              ) : (
-                tableData.slice(0, rowsToShow).map((row: PipelineRow) => (
-                  <TableRow key={row.id}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.client}</TableCell>
-                    <TableCell>{row.value}</TableCell>
-                    <TableCell>{row.status}</TableCell>
-                    <TableCell>{row.lastUpdated}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </ScrollArea>
-        {rowsToShow < tableData.length && (
-          <div className="mt-4 text-center">
-            <button
-              onClick={handleShowMore}
-              className="text-primary hover:text-primary/80 font-medium"
-            >
-              Show More Rows
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
 
   return (
     <DashboardLayout>
