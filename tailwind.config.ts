@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Unbound', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -25,11 +28,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#6366f1",
+          DEFAULT: "#1e3a8a",
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#8b5cf6",
+          DEFAULT: "#1e40af",
           foreground: "#ffffff",
         },
         success: {
