@@ -79,6 +79,12 @@ const Index = () => {
           isLoading={isLoading} 
           error={error} 
         />
+        <PipelineTable 
+          title="Pipeline Details - Future Quarter" 
+          data={tableData} 
+          isLoading={isLoading} 
+          error={error} 
+        />
       </div>
     </DashboardLayout>
   );
