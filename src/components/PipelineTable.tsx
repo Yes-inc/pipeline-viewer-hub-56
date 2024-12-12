@@ -27,27 +27,27 @@ export const PipelineTable = ({
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4">{title}</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
         <ScrollArea className="h-[400px] rounded-md border">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Profile</TableHead>
-                <TableHead>Prospect Name</TableHead>
-                <TableHead>Job Title</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>LinkedIn URL</TableHead>
-                <TableHead>Value</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Advisor</TableHead>
-                <TableHead>Last Contacted</TableHead>
-                <TableHead>Contact Initiated</TableHead>
+                <TableHead className="text-gray-900">Profile</TableHead>
+                <TableHead className="text-gray-900">Prospect Name</TableHead>
+                <TableHead className="text-gray-900">Job Title</TableHead>
+                <TableHead className="text-gray-900">Company</TableHead>
+                <TableHead className="text-gray-900">LinkedIn URL</TableHead>
+                <TableHead className="text-gray-900">Value</TableHead>
+                <TableHead className="text-gray-900">Status</TableHead>
+                <TableHead className="text-gray-900">Advisor</TableHead>
+                <TableHead className="text-gray-900">Last Contacted</TableHead>
+                <TableHead className="text-gray-900">Contact Initiated</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={10} className="text-center">Loading...</TableCell>
+                  <TableCell colSpan={10} className="text-center text-gray-900">Loading...</TableCell>
                 </TableRow>
               ) : error ? (
                 <TableRow>
@@ -64,9 +64,9 @@ export const PipelineTable = ({
                         </AvatarFallback>
                       </Avatar>
                     </TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.jobTitle}</TableCell>
-                    <TableCell>{row.company}</TableCell>
+                    <TableCell className="text-gray-900">{row.name}</TableCell>
+                    <TableCell className="text-gray-900">{row.jobTitle}</TableCell>
+                    <TableCell className="text-gray-900">{row.company}</TableCell>
                     <TableCell>
                       <a 
                         href={row.linkedinUrl} 
@@ -77,11 +77,11 @@ export const PipelineTable = ({
                         {row.linkedinUrl}
                       </a>
                     </TableCell>
-                    <TableCell>{row.value}</TableCell>
-                    <TableCell>{row.status}</TableCell>
-                    <TableCell>{row.advisor}</TableCell>
-                    <TableCell>{row.lastContactedDate}</TableCell>
-                    <TableCell>{row.initiatedContactDate}</TableCell>
+                    <TableCell className="text-gray-900">{row.value}</TableCell>
+                    <TableCell className="text-gray-900">{row.status}</TableCell>
+                    <TableCell className="text-gray-900">{row.advisor}</TableCell>
+                    <TableCell className="text-gray-900">{row.lastContactedDate}</TableCell>
+                    <TableCell className="text-gray-900">{row.initiatedContactDate}</TableCell>
                   </TableRow>
                 ))
               )}
