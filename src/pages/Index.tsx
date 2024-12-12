@@ -48,7 +48,45 @@ const Index = () => {
     }
   ];
 
-  const { data: tableData = [], isLoading, error } = useQuery({
+  const samplePipelineData: PipelineRow[] = [
+    {
+      id: "001",
+      client: "Acme Corporation",
+      value: "$250,000",
+      status: "In Progress",
+      lastUpdated: "2024-03-15"
+    },
+    {
+      id: "002",
+      client: "Global Industries",
+      value: "$175,000",
+      status: "New Lead",
+      lastUpdated: "2024-03-14"
+    },
+    {
+      id: "003",
+      client: "Tech Solutions Inc",
+      value: "$420,000",
+      status: "Contract Sent",
+      lastUpdated: "2024-03-13"
+    },
+    {
+      id: "004",
+      client: "Digital Dynamics",
+      value: "$150,000",
+      status: "Negotiation",
+      lastUpdated: "2024-03-12"
+    },
+    {
+      id: "005",
+      client: "Future Systems",
+      value: "$300,000",
+      status: "Proposal",
+      lastUpdated: "2024-03-11"
+    }
+  ];
+
+  const { data: tableData = samplePipelineData, isLoading, error } = useQuery({
     queryKey: ['pipelineData'],
     queryFn: async () => {
       const credentials = {
@@ -63,7 +101,7 @@ const Index = () => {
           description: "Please set up your Google Sheets credentials in the settings.",
           variant: "destructive",
         });
-        return [];
+        return samplePipelineData;
       }
 
       return fetchSheetData(credentials, sheetId);
@@ -74,6 +112,58 @@ const Index = () => {
   const handleShowMore = () => {
     setRowsToShow(prev => Math.min(prev + 10, tableData.length));
   };
+
+  const PipelineTable = ({ title }: { title: string }) => (
+    <div className="bg-white rounded-lg shadow">
+      <div className="p-6">
+        <h2 className="text-xl font-semibold mb-4">{title}</h2>
+        <ScrollArea className="h-[400px] rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Client</TableHead>
+                <TableHead>Value</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Last Updated</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center">Loading...</TableCell>
+                </TableRow>
+              ) : error ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-red-500">Error loading data</TableCell>
+                </TableRow>
+              ) : (
+                tableData.slice(0, rowsToShow).map((row: PipelineRow) => (
+                  <TableRow key={row.id}>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.client}</TableCell>
+                    <TableCell>{row.value}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.lastUpdated}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+        {rowsToShow < tableData.length && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={handleShowMore}
+              className="text-primary hover:text-primary/80 font-medium"
+            >
+              Show More Rows
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <DashboardLayout>
@@ -129,55 +219,8 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6">
-            <h2 className="text-xl font-semibold mb-4">Pipeline Details</h2>
-            <ScrollArea className="h-[400px] rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Value</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Last Updated</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {isLoading ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center">Loading...</TableCell>
-                    </TableRow>
-                  ) : error ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center text-red-500">Error loading data</TableCell>
-                    </TableRow>
-                  ) : (
-                    tableData.slice(0, rowsToShow).map((row: PipelineRow) => (
-                      <TableRow key={row.id}>
-                        <TableCell>{row.id}</TableCell>
-                        <TableCell>{row.client}</TableCell>
-                        <TableCell>{row.value}</TableCell>
-                        <TableCell>{row.status}</TableCell>
-                        <TableCell>{row.lastUpdated}</TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </ScrollArea>
-            {rowsToShow < tableData.length && (
-              <div className="mt-4 text-center">
-                <button
-                  onClick={handleShowMore}
-                  className="text-primary hover:text-primary/80 font-medium"
-                >
-                  Show More Rows
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+        <PipelineTable title="Pipeline Details - Current Quarter" />
+        <PipelineTable title="Pipeline Details - Next Quarter" />
       </div>
     </DashboardLayout>
   );
