@@ -1,14 +1,14 @@
-import { DollarSign, TrendingUp, ThumbsUp } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "../components/DashboardLayout";
 import InfoCard from "../components/InfoCard";
-import { useQuery } from "@tanstack/react-query";
 import { PipelineTable } from "../components/PipelineTable";
-import { supabase } from "@/integrations/supabase/client";
 import ConnectionsGraph from "../components/ConnectionsGraph";
+import { Users, Building2, UserCheck } from "lucide-react";
 
 const Index = () => {
-  const { data: tableData = [], isLoading, error } = useQuery({
-    queryKey: ['pipelineData'],
+  const { data: connections = [], isLoading, error } = useQuery({
+    queryKey: ['connections'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('Established-Connection')
@@ -19,19 +19,21 @@ const Index = () => {
       return data.map((row, index) => ({
         id: index.toString(),
         name: row.Full_Name,
-        jobTitle: '', // Not in the current schema
+        jobTitle: '',
         company: row.Company,
         linkedinUrl: row.LinkedIn_URL,
-        value: '', // Not in the current schema
-        status: '', // Not in the current schema
+        value: '',
+        status: '',
         advisor: row.Advisor,
-        lastContactedDate: '', // Not in the current schema
-        initiatedContactDate: '', // Not in the current schema
-        profilePicUrl: '' // Not in the current schema
+        lastContactedDate: '',
+        initiatedContactDate: '',
+        profilePicUrl: ''
       }));
-    },
-    refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
+    }
   });
+
+  const uniqueAdvisors = new Set(connections.map(conn => conn.advisor).filter(Boolean)).size;
+  const uniqueCompanies = new Set(connections.map(conn => conn.company).filter(Boolean)).size;
 
   return (
     <DashboardLayout>
@@ -43,36 +45,36 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
             title="Total Connections"
-            value={`${tableData?.length || 0}`}
-            icon={DollarSign}
+            value={connections.length.toString()}
+            icon={Users}
             trend="+12.5% from last month"
             trendUp={true}
           />
           <InfoCard
             title="Active Advisors"
-            value={Array.from(new Set(tableData?.map(d => d.advisor).filter(Boolean))).length.toString()}
-            icon={ThumbsUp}
+            value={uniqueAdvisors.toString()}
+            icon={UserCheck}
             trend="+25% from last month"
             trendUp={true}
           />
           <InfoCard
             title="Companies Reached"
-            value={Array.from(new Set(tableData?.map(d => d.company).filter(Boolean))).length.toString()}
-            icon={TrendingUp}
+            value={uniqueCompanies.toString()}
+            icon={Building2}
             trend="+8.2% from last month"
             trendUp={true}
           />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ConnectionsGraph data={tableData} />
+          <ConnectionsGraph data={connections} />
         </div>
 
         <PipelineTable 
           title="Established Connections" 
-          data={tableData} 
-          isLoading={isLoading} 
-          error={error} 
+          data={connections}
+          isLoading={isLoading}
+          error={error}
         />
       </div>
     </DashboardLayout>
