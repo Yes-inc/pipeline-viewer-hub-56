@@ -1,36 +1,34 @@
 import { DollarSign, TrendingUp, ThumbsUp } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
-import SalesGraph from "../components/SalesGraph";
-import CombinedValueGraph from "../components/CombinedValueGraph";
 import InfoCard from "../components/InfoCard";
 import { useQuery } from "@tanstack/react-query";
-import { type PipelineRow } from "../utils/googleSheets";
-import { useToast } from "@/components/ui/use-toast";
-import { prospects } from "../data/prospects";
 import { PipelineTable } from "../components/PipelineTable";
+import { supabase } from "@/integrations/supabase/client";
+import ConnectionsGraph from "../components/ConnectionsGraph";
 
 const Index = () => {
-  const { toast } = useToast();
-
-  const { data: tableData = prospects, isLoading, error } = useQuery({
+  const { data: tableData = [], isLoading, error } = useQuery({
     queryKey: ['pipelineData'],
     queryFn: async () => {
-      try {
-        const response = await fetch('/api/fetchGoogleSheets');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data = await response.json();
-        return data as PipelineRow[];
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        toast({
-          title: "Error fetching data",
-          description: "There was an error fetching the pipeline data. Using sample data instead.",
-          variant: "destructive",
-        });
-        return prospects;
-      }
+      const { data, error } = await supabase
+        .from('Established-Connection')
+        .select('*');
+      
+      if (error) throw error;
+      
+      return data.map((row, index) => ({
+        id: index.toString(),
+        name: row.Full_Name,
+        jobTitle: '', // Not in the current schema
+        company: row.Company,
+        linkedinUrl: row.LinkedIn_URL,
+        value: '', // Not in the current schema
+        status: '', // Not in the current schema
+        advisor: row.Advisor,
+        lastContactedDate: '', // Not in the current schema
+        initiatedContactDate: '', // Not in the current schema
+        profilePicUrl: '' // Not in the current schema
+      }));
     },
     refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
   });
@@ -44,45 +42,34 @@ const Index = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
-            title="Total Pipeline Value"
-            value="$2.4M"
+            title="Total Connections"
+            value={`${tableData?.length || 0}`}
             icon={DollarSign}
             trend="+12.5% from last month"
             trendUp={true}
           />
           <InfoCard
-            title="Marketing Engagement"
-            value="455 likes"
+            title="Active Advisors"
+            value={Array.from(new Set(tableData?.map(d => d.advisor).filter(Boolean))).length.toString()}
             icon={ThumbsUp}
             trend="+25% from last month"
             trendUp={true}
           />
           <InfoCard
-            title="Potential Pipeline Value"
-            value="$4.8M"
+            title="Companies Reached"
+            value={Array.from(new Set(tableData?.map(d => d.company).filter(Boolean))).length.toString()}
             icon={TrendingUp}
             trend="+8.2% from last month"
             trendUp={true}
           />
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <SalesGraph />
-          <CombinedValueGraph />
+          <ConnectionsGraph data={tableData} />
         </div>
+
         <PipelineTable 
-          title="Pipeline Details - Current Quarter" 
-          data={tableData} 
-          isLoading={isLoading} 
-          error={error} 
-        />
-        <PipelineTable 
-          title="Pipeline Details - Next Quarter" 
-          data={tableData} 
-          isLoading={isLoading} 
-          error={error} 
-        />
-        <PipelineTable 
-          title="Pipeline Details - Future Quarter" 
+          title="Established Connections" 
           data={tableData} 
           isLoading={isLoading} 
           error={error} 

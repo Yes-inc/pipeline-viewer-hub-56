@@ -9,7 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      "Established-Connection": {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string
+          Last_Name: string | null
+          LinkedIn_URL: string
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name: string
+          Last_Name?: string | null
+          LinkedIn_URL: string
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
