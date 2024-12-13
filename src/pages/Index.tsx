@@ -8,9 +8,29 @@ import { fetchSheetData, type PipelineRow } from "../utils/googleSheets";
 import { useToast } from "@/components/ui/use-toast";
 import { prospects } from "../data/prospects";
 import { PipelineTable } from "../components/PipelineTable";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Index = () => {
   const { toast } = useToast();
+  const [showCredentialsForm, setShowCredentialsForm] = useState(false);
+
+  const handleCredentialsSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    localStorage.setItem('GOOGLE_CLIENT_EMAIL', formData.get('clientEmail') as string);
+    localStorage.setItem('GOOGLE_PRIVATE_KEY', formData.get('privateKey') as string);
+    localStorage.setItem('GOOGLE_SHEET_ID', formData.get('sheetId') as string);
+    
+    toast({
+      title: "Credentials saved",
+      description: "Your Google Sheets credentials have been saved.",
+    });
+    
+    setShowCredentialsForm(false);
+  };
 
   const samplePipelineData: PipelineRow[] = prospects;
 
@@ -40,6 +60,61 @@ const Index = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <Button 
+            variant="outline"
+            onClick={() => setShowCredentialsForm(!showCredentialsForm)}
+          >
+            Configure Google Sheets
+          </Button>
+        </div>
+
+        {showCredentialsForm && (
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4 text-gray-900">Google Sheets Configuration</h2>
+            <form onSubmit={handleCredentialsSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="clientEmail" className="block text-sm font-medium text-gray-700">
+                  Client Email
+                </label>
+                <Input
+                  id="clientEmail"
+                  name="clientEmail"
+                  type="email"
+                  required
+                  placeholder="your-service-account@project.iam.gserviceaccount.com"
+                />
+              </div>
+              <div>
+                <label htmlFor="privateKey" className="block text-sm font-medium text-gray-700">
+                  Private Key
+                </label>
+                <Input
+                  id="privateKey"
+                  name="privateKey"
+                  type="text"
+                  required
+                  placeholder="-----BEGIN PRIVATE KEY-----\n..."
+                />
+              </div>
+              <div>
+                <label htmlFor="sheetId" className="block text-sm font-medium text-gray-700">
+                  Sheet ID
+                </label>
+                <Input
+                  id="sheetId"
+                  name="sheetId"
+                  type="text"
+                  required
+                  placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+                />
+              </div>
+              <Button type="submit">Save Credentials</Button>
+            </form>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
             title="Total Pipeline Value"
