@@ -35,9 +35,9 @@ export const PipelineTable = ({
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
         <div className="relative rounded-md border">
-          <div className="max-h-[400px] overflow-auto">
+          <div className="bg-white border-b">
             <Table>
-              <TableHeader className="sticky top-0 bg-white z-20">
+              <TableHeader>
                 <TableRow>
                   <TableHead className="sticky left-0 bg-white w-[80px] text-gray-900">Profile</TableHead>
                   <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
@@ -49,6 +49,10 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[150px] text-gray-900">Advisor</TableHead>
                 </TableRow>
               </TableHeader>
+            </Table>
+          </div>
+          <div className="max-h-[400px] overflow-auto">
+            <Table>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
