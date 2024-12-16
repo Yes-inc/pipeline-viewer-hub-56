@@ -18,6 +18,7 @@ export const PipelineTable = ({
   error = null 
 }: PipelineTableProps) => {
   const [rowsToShow, setRowsToShow] = useState(10);
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   
   useEffect(() => {
     setRowsToShow(10);
@@ -66,7 +67,12 @@ export const PipelineTable = ({
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
-                    <TableRow key={index}>
+                    <TableRow 
+                      key={index}
+                      onClick={() => setSelectedRow(index)}
+                      data-state={selectedRow === index ? 'selected' : undefined}
+                      className="cursor-pointer"
+                    >
                       <TableCell className="sticky left-0 bg-white w-[80px]">
                         <Avatar>
                           <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
