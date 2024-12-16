@@ -5,19 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserRound } from "lucide-react";
 
 interface PipelineTableProps {
-  I'll modify the PipelineTable component to display shortened LinkedIn URLs while maintaining the full URL in the link itself.
-
-<lov-code>
-Let's update the PipelineTable component to shorten the displayed LinkedIn URLs:
-
-<lov-write file_path="src/components/PipelineTable.tsx">
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useState, useEffect } from "react";
-import { type PipelineRow } from "../utils/googleSheets";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRound } from "lucide-react";
-
-interface PipelineTableProps {
   title: string;
   data?: PipelineRow[];
   isLoading?: boolean;
