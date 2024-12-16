@@ -35,20 +35,20 @@ export const PipelineTable = ({
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
         <div className="relative rounded-md border">
-          <Table>
-            <TableHeader className="sticky top-0 z-20 bg-white shadow-sm">
-              <TableRow>
-                <TableHead className="sticky left-0 z-30 bg-white w-[80px] text-gray-900">Profile</TableHead>
-                <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
-                <TableHead className="min-w-[150px] text-gray-900">First Name</TableHead>
-                <TableHead className="min-w-[150px] text-gray-900">Last Name</TableHead>
-                <TableHead className="min-w-[150px] text-gray-900">Company</TableHead>
-                <TableHead className="min-w-[200px] text-gray-900">LinkedIn URL</TableHead>
-                <TableHead className="min-w-[200px] text-gray-900">Email</TableHead>
-                <TableHead className="min-w-[150px] text-gray-900">Advisor</TableHead>
-              </TableRow>
-            </TableHeader>
-            <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
+          <div className="max-h-[400px] overflow-auto">
+            <Table>
+              <TableHeader className="sticky top-0 bg-white z-20">
+                <TableRow>
+                  <TableHead className="sticky left-0 bg-white w-[80px] text-gray-900">Profile</TableHead>
+                  <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
+                  <TableHead className="min-w-[150px] text-gray-900">First Name</TableHead>
+                  <TableHead className="min-w-[150px] text-gray-900">Last Name</TableHead>
+                  <TableHead className="min-w-[150px] text-gray-900">Company</TableHead>
+                  <TableHead className="min-w-[200px] text-gray-900">LinkedIn URL</TableHead>
+                  <TableHead className="min-w-[200px] text-gray-900">Email</TableHead>
+                  <TableHead className="min-w-[150px] text-gray-900">Advisor</TableHead>
+                </TableRow>
+              </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
@@ -65,7 +65,7 @@ export const PipelineTable = ({
                 ) : (
                   visibleData.map((row, index) => (
                     <TableRow key={index}>
-                      <TableCell className="sticky left-0 z-10 bg-white w-[80px]">
+                      <TableCell className="sticky left-0 bg-white w-[80px]">
                         <Avatar>
                           <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
                           <AvatarFallback>
@@ -93,8 +93,8 @@ export const PipelineTable = ({
                   ))
                 )}
               </TableBody>
-            </div>
-          </Table>
+            </Table>
+          </div>
         </div>
         {hasMoreRows && (
           <div className="mt-4 text-center">
