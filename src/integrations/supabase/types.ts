@@ -39,7 +39,7 @@ export type Database = {
         }
         Relationships: []
       }
-      "Leads-Generated": {
+      Leads: {
         Row: {
           Advisor: string | null
           Company: string | null

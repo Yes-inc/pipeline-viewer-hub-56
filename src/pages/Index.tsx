@@ -16,7 +16,7 @@ const Index = () => {
       console.log('Starting to fetch generated leads...');
       
       const { data, error } = await supabase
-        .from('Leads-Generated')
+        .from('Leads')  // Updated table name here
         .select('*');
       
       console.log('Generated leads response:', { data, error });
