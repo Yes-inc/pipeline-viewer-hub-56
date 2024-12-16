@@ -16,7 +16,7 @@ const Index = () => {
         .from('Established-Connection')
         .select('*');
       if (error) throw error;
-      return formatTableData(data);
+      return data;
     }
   });
 
@@ -28,7 +28,7 @@ const Index = () => {
         .from('More-Active-Leads')
         .select('*');
       if (error) throw error;
-      return formatTableData(data);
+      return data;
     }
   });
 
@@ -40,31 +40,14 @@ const Index = () => {
         .from('Leads-Generated-[Introductions-Made]')
         .select('*');
       if (error) throw error;
-      return formatTableData(data);
+      return data;
     }
   });
 
-  // Helper function to format table data
-  const formatTableData = (data: any[]) => {
-    return data.map((row, index) => ({
-      id: index.toString(),
-      name: row.Full_Name,
-      jobTitle: '',
-      company: row.Company,
-      linkedinUrl: row.LinkedIn_URL,
-      value: '',
-      status: '',
-      advisor: row.Advisor,
-      lastContactedDate: '',
-      initiatedContactDate: '',
-      profilePicUrl: ''
-    }));
-  };
-
   // Calculate combined metrics
   const allConnections = [...establishedConnections, ...activeLeads, ...generatedLeads];
-  const uniqueAdvisors = new Set(allConnections.map(conn => conn.advisor).filter(Boolean)).size;
-  const uniqueCompanies = new Set(allConnections.map(conn => conn.company).filter(Boolean)).size;
+  const uniqueAdvisors = new Set(allConnections.map(conn => conn.Advisor).filter(Boolean)).size;
+  const uniqueCompanies = new Set(allConnections.map(conn => conn.Company).filter(Boolean)).size;
 
   return (
     <DashboardLayout>
