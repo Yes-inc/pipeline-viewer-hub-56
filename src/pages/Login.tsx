@@ -19,6 +19,11 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <img
+          src="/lovable-uploads/14960bfa-ea4b-4001-8a83-63355d968fad.png"
+          alt="Yes.inc Logo"
+          className="mx-auto h-24 w-auto mb-8"
+        />
         <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">
           Yes.inc Client Dashboard
         </h1>
