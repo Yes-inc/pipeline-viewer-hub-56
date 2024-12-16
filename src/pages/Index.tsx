@@ -92,37 +92,38 @@ const Index = () => {
           <CombinedValueGraph data={allConnections} />
         </div>
 
-      <Tabs defaultValue="established" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="established">Established Connections</TabsTrigger>
-          <TabsTrigger value="active">More Active Leads</TabsTrigger>
-          <TabsTrigger value="generated">Generated Leads</TabsTrigger>
-        </TabsList>
-        <TabsContent value="established">
-          <PipelineTable 
-            title="Established Connections" 
-            data={establishedConnections}
-            isLoading={isLoadingEstablished}
-            error={errorEstablished}
-          />
-        </TabsContent>
-        <TabsContent value="active">
-          <PipelineTable 
-            title="More Active Leads" 
-            data={activeLeads}
-            isLoading={isLoadingActive}
-            error={errorActive}
-          />
-        </TabsContent>
-        <TabsContent value="generated">
-          <PipelineTable 
-            title="Generated Leads" 
-            data={generatedLeads}
-            isLoading={isLoadingGenerated}
-            error={errorGenerated}
-          />
-        </TabsContent>
-      </Tabs>
+        <Tabs defaultValue="established" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="established">Established Connections</TabsTrigger>
+            <TabsTrigger value="active">More Active Leads</TabsTrigger>
+            <TabsTrigger value="generated">Generated Leads</TabsTrigger>
+          </TabsList>
+          <TabsContent value="established">
+            <PipelineTable 
+              title="Established Connections" 
+              data={establishedConnections}
+              isLoading={isLoadingEstablished}
+              error={errorEstablished}
+            />
+          </TabsContent>
+          <TabsContent value="active">
+            <PipelineTable 
+              title="More Active Leads" 
+              data={activeLeads}
+              isLoading={isLoadingActive}
+              error={errorActive}
+            />
+          </TabsContent>
+          <TabsContent value="generated">
+            <PipelineTable 
+              title="Generated Leads" 
+              data={generatedLeads}
+              isLoading={isLoadingGenerated}
+              error={errorGenerated}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
     </DashboardLayout>
   );
 };
