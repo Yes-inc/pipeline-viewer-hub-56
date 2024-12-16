@@ -36,29 +36,22 @@ export const PipelineTable = ({
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
         <div className="relative">
-          <div className="overflow-x-auto">
-            {/* Fixed Header */}
-            <div className="sticky top-0 z-10 bg-white border-b">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-gray-900 sticky left-0 bg-white">Profile</TableHead>
-                    <TableHead className="text-gray-900">Full Name</TableHead>
-                    <TableHead className="text-gray-900">First Name</TableHead>
-                    <TableHead className="text-gray-900">Last Name</TableHead>
-                    <TableHead className="text-gray-900">Company</TableHead>
-                    <TableHead className="text-gray-900">LinkedIn URL</TableHead>
-                    <TableHead className="text-gray-900">Email</TableHead>
-                    <TableHead className="text-gray-900">Advisor</TableHead>
-                  </TableRow>
-                </TableHeader>
-              </Table>
-            </div>
-            
-            {/* Scrollable Content */}
+          <div className="w-full overflow-x-auto">
             <ScrollArea className="h-[400px] rounded-md border">
-              <div className="min-w-full">
+              <div className="min-w-[1200px]"> {/* Set minimum width to prevent squishing */}
                 <Table>
+                  <TableHeader className="sticky top-0 z-10 bg-white">
+                    <TableRow>
+                      <TableHead className="text-gray-900 sticky left-0 bg-white z-20 w-[80px]">Profile</TableHead>
+                      <TableHead className="text-gray-900 min-w-[150px]">Full Name</TableHead>
+                      <TableHead className="text-gray-900 min-w-[150px]">First Name</TableHead>
+                      <TableHead className="text-gray-900 min-w-[150px]">Last Name</TableHead>
+                      <TableHead className="text-gray-900 min-w-[150px]">Company</TableHead>
+                      <TableHead className="text-gray-900 min-w-[200px]">LinkedIn URL</TableHead>
+                      <TableHead className="text-gray-900 min-w-[200px]">Email</TableHead>
+                      <TableHead className="text-gray-900 min-w-[150px]">Advisor</TableHead>
+                    </TableRow>
+                  </TableHeader>
                   <TableBody>
                     {isLoading ? (
                       <TableRow>
@@ -75,7 +68,7 @@ export const PipelineTable = ({
                     ) : (
                       visibleData.map((row, index) => (
                         <TableRow key={index}>
-                          <TableCell className="sticky left-0 bg-white">
+                          <TableCell className="sticky left-0 bg-white z-10 w-[80px]">
                             <Avatar>
                               <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
                               <AvatarFallback>

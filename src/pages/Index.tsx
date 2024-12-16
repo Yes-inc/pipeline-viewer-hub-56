@@ -33,17 +33,22 @@ const Index = () => {
     }
   });
 
-  // Query for Generated Leads - Fixed table name
+  // Query for Generated Leads
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
+      console.log('Fetching generated leads...');
       const { data, error } = await supabase
         .from('Leads-Generated-[Introductions-Made]')
         .select('*');
-      console.log('Generated Leads Data:', data); // Debug log
-      console.log('Generated Leads Error:', error); // Debug log
-      if (error) throw error;
-      return data;
+      
+      console.log('Generated Leads Query Result:', { data, error });
+      
+      if (error) {
+        console.error('Generated Leads Error:', error);
+        throw error;
+      }
+      return data || [];
     }
   });
 
@@ -87,38 +92,37 @@ const Index = () => {
           <CombinedValueGraph data={allConnections} />
         </div>
 
-        <Tabs defaultValue="established" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="established">Established Connections</TabsTrigger>
-            <TabsTrigger value="active">More Active Leads</TabsTrigger>
-            <TabsTrigger value="generated">Generated Leads</TabsTrigger>
-          </TabsList>
-          <TabsContent value="established">
-            <PipelineTable 
-              title="Established Connections" 
-              data={establishedConnections}
-              isLoading={isLoadingEstablished}
-              error={errorEstablished}
-            />
-          </TabsContent>
-          <TabsContent value="active">
-            <PipelineTable 
-              title="More Active Leads" 
-              data={activeLeads}
-              isLoading={isLoadingActive}
-              error={errorActive}
-            />
-          </TabsContent>
-          <TabsContent value="generated">
-            <PipelineTable 
-              title="Generated Leads" 
-              data={generatedLeads}
-              isLoading={isLoadingGenerated}
-              error={errorGenerated}
-            />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <Tabs defaultValue="established" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="established">Established Connections</TabsTrigger>
+          <TabsTrigger value="active">More Active Leads</TabsTrigger>
+          <TabsTrigger value="generated">Generated Leads</TabsTrigger>
+        </TabsList>
+        <TabsContent value="established">
+          <PipelineTable 
+            title="Established Connections" 
+            data={establishedConnections}
+            isLoading={isLoadingEstablished}
+            error={errorEstablished}
+          />
+        </TabsContent>
+        <TabsContent value="active">
+          <PipelineTable 
+            title="More Active Leads" 
+            data={activeLeads}
+            isLoading={isLoadingActive}
+            error={errorActive}
+          />
+        </TabsContent>
+        <TabsContent value="generated">
+          <PipelineTable 
+            title="Generated Leads" 
+            data={generatedLeads}
+            isLoading={isLoadingGenerated}
+            error={errorGenerated}
+          />
+        </TabsContent>
+      </Tabs>
     </DashboardLayout>
   );
 };
