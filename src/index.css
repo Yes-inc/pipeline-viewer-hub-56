@@ -56,3 +56,18 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+/* Custom styles for map popups */
+.custom-popup .leaflet-popup-content-wrapper {
+  background: transparent;
+  box-shadow: none;
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  border: none;
+}
+
+.custom-popup .leaflet-popup-tip-container {
+  display: none;
+}

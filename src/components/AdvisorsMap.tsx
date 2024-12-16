@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { useEffect, useRef } from "react";
 
 // Fix for default marker icon in react-leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -28,6 +29,8 @@ const locationCoordinates: { [key: string]: L.LatLngExpression } = {
 };
 
 const AdvisorsMap = () => {
+  const mapRef = useRef<L.Map | null>(null);
+  
   const { data: advisors = [], isLoading } = useQuery({
     queryKey: ['advisors'],
     queryFn: async () => {
@@ -38,6 +41,53 @@ const AdvisorsMap = () => {
       return data as Advisor[];
     }
   });
+
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+      
+      // Clear existing overlays
+      map.eachLayer((layer) => {
+        if (layer instanceof L.Popup) {
+          map.removeLayer(layer);
+        }
+      });
+
+      // Add card overlays for each advisor
+      advisors
+        .filter(advisor => advisor.Location && locationCoordinates[advisor.Location])
+        .forEach((advisor) => {
+          const position = locationCoordinates[advisor.Location!];
+          const cardContent = `
+            <div class="bg-white p-3 rounded-lg shadow-lg min-w-[200px]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                  ${advisor.Picture 
+                    ? `<img src="${advisor.Picture}" alt="${advisor.Name}" class="w-full h-full object-cover" />`
+                    : `<div class="w-full h-full flex items-center justify-center bg-primary text-white">${advisor.Name.charAt(0)}</div>`
+                  }
+                </div>
+                <div>
+                  <div class="font-medium">${advisor.Name}</div>
+                  <div class="text-sm text-gray-500">${advisor.Location}</div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          L.popup({
+            closeButton: false,
+            closeOnClick: false,
+            autoClose: false,
+            className: 'custom-popup',
+            offset: [0, -30]
+          })
+            .setLatLng(position as L.LatLngExpression)
+            .setContent(cardContent)
+            .addTo(map);
+        });
+    }
+  }, [advisors, mapRef.current]);
 
   if (isLoading) {
     return <div className="h-[400px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
@@ -54,33 +104,18 @@ const AdvisorsMap = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
       <h2 className="text-lg font-semibold mb-4">Advisor Locations</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        {validAdvisors.map((advisor, index) => (
-          <Card key={index} className="p-4 shadow-sm">
-            <div className="flex items-center space-x-3">
-              <Avatar>
-                <AvatarImage src={advisor.Picture || undefined} alt={advisor.Name} />
-                <AvatarFallback>{advisor.Name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div>
-                <span className="font-medium block">{advisor.Name}</span>
-                <span className="text-gray-500 text-sm">{advisor.Location}</span>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
       <div className="h-[400px] rounded-lg overflow-hidden">
         <MapContainer
+          ref={mapRef}
           className="h-full w-full"
-          center={defaultCenter}
+          center={defaultCenter as L.LatLngExpression}
           zoom={2}
           scrollWheelZoom={false}
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
