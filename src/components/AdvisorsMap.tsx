@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import type { MapContainer as LeafletMap, TileLayer as LeafletTileLayer } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -29,7 +30,7 @@ const locationCoordinates: { [key: string]: L.LatLngExpression } = {
 };
 
 const AdvisorsMap = () => {
-  const mapRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
   
   const { data: advisors = [], isLoading } = useQuery({
     queryKey: ['advisors'],
@@ -108,13 +109,13 @@ const AdvisorsMap = () => {
         <MapContainer
           ref={mapRef}
           className="h-full w-full"
-          center={defaultCenter}
-          zoom={2}
+          defaultCenter={defaultCenter}
+          defaultZoom={2}
           scrollWheelZoom={false}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
