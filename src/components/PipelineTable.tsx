@@ -50,12 +50,12 @@ export const PipelineTable = ({
           <Table>
             <TableHeader className="sticky top-0 bg-white z-50 border-b">
               <TableRow>
-                <TableHead className="w-[70px] p-0 text-gray-900">Profile</TableHead>
-                <TableHead className="min-w-[130px] text-left text-gray-900">Full Name</TableHead>
-                <TableHead className="min-w-[130px] text-left text-gray-900">Company</TableHead>
-                <TableHead className="min-w-[180px] text-left text-gray-900">LinkedIn URL</TableHead>
-                {showEmail && <TableHead className="min-w-[180px] text-left text-gray-900">Email</TableHead>}
-                <TableHead className="min-w-[130px] text-left text-gray-900">Advisor</TableHead>
+                <TableHead className="w-[70px] text-gray-900">Profile</TableHead>
+                <TableHead className="min-w-[130px] pl-4 text-gray-900">Full Name</TableHead>
+                <TableHead className="min-w-[130px] pl-4 text-gray-900">Company</TableHead>
+                <TableHead className="min-w-[180px] pl-4 text-gray-900">LinkedIn URL</TableHead>
+                {showEmail && <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>}
+                <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
               </TableRow>
             </TableHeader>
             <div className="max-h-[400px] overflow-auto">
@@ -80,7 +80,7 @@ export const PipelineTable = ({
                       data-state={selectedRow === index ? 'selected' : undefined}
                       className="cursor-pointer"
                     >
-                      <TableCell className="w-[70px] p-0">
+                      <TableCell>
                         <Avatar>
                           <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
                           <AvatarFallback>
@@ -88,9 +88,9 @@ export const PipelineTable = ({
                           </AvatarFallback>
                         </Avatar>
                       </TableCell>
-                      <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.Company}</TableCell>
-                      <TableCell>
+                      <TableCell className="pl-4 text-gray-900">{row.Full_Name}</TableCell>
+                      <TableCell className="pl-4 text-gray-900">{row.Company}</TableCell>
+                      <TableCell className="pl-4">
                         <a 
                           href={row.LinkedIn_URL} 
                           target="_blank" 
@@ -101,8 +101,8 @@ export const PipelineTable = ({
                           {shortenUrl(row.LinkedIn_URL)}
                         </a>
                       </TableCell>
-                      {showEmail && <TableCell className="text-gray-900">{row.Email}</TableCell>}
-                      <TableCell className="text-gray-900">{row.Advisor}</TableCell>
+                      {showEmail && <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>}
+                      <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
                     </TableRow>
                   ))
                 )}
