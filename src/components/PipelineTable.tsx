@@ -40,6 +40,7 @@ export const PipelineTable = ({
 
   const visibleData = data?.slice(0, rowsToShow) || [];
   const hasMoreRows = rowsToShow < (data?.length || 0);
+  const showEmail = title !== "Generated Leads";
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -54,7 +55,7 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[130px] px-2 text-gray-900">Full Name</TableHead>
                   <TableHead className="min-w-[130px] px-2 text-gray-900">Company</TableHead>
                   <TableHead className="min-w-[180px] px-2 text-gray-900">LinkedIn URL</TableHead>
-                  <TableHead className="min-w-[180px] px-2 text-gray-900">Email</TableHead>
+                  {showEmail && <TableHead className="min-w-[180px] px-2 text-gray-900">Email</TableHead>}
                   <TableHead className="min-w-[130px] px-2 text-gray-900">Advisor</TableHead>
                 </TableRow>
               </TableHeader>
@@ -65,15 +66,15 @@ export const PipelineTable = ({
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -104,7 +105,7 @@ export const PipelineTable = ({
                           {shortenUrl(row.LinkedIn_URL)}
                         </a>
                       </TableCell>
-                      <TableCell className="text-gray-900">{row.Email}</TableCell>
+                      {showEmail && <TableCell className="text-gray-900">{row.Email}</TableCell>}
                       <TableCell className="text-gray-900">{row.Advisor}</TableCell>
                     </TableRow>
                   ))
