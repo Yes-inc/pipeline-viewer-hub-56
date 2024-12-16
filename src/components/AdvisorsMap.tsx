@@ -53,6 +53,7 @@ const AdvisorsMap = () => {
           className="h-full w-full"
           center={defaultCenter}
           zoom={4}
+          scrollWheelZoom={false}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
