@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import type { MapContainerProps } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -36,7 +37,7 @@ const AdvisorsMap = () => {
   }
 
   // Default center (can be adjusted based on advisor locations)
-  const defaultCenter = [40.7128, -74.0060] as [number, number];
+  const defaultCenter: L.LatLngExpression = [40.7128, -74.0060];
 
   // Filter out advisors without valid locations and parse coordinates
   const validAdvisors = advisors.filter(advisor => {
@@ -61,9 +62,10 @@ const AdvisorsMap = () => {
           />
           {validAdvisors.map((advisor, index) => {
             const [lat, lng] = advisor.Location!.split(',').map(Number);
+            const position: L.LatLngExpression = [lat, lng];
             
             return (
-              <Marker key={index} position={[lat, lng]}>
+              <Marker key={index} position={position}>
                 <Popup>
                   <div className="flex items-center space-x-3 p-2">
                     <Avatar>
