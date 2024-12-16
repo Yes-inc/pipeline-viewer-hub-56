@@ -1,5 +1,4 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect } from "react";
 import { type PipelineRow } from "../utils/googleSheets";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -76,10 +75,10 @@ export const PipelineTable = ({
                               </AvatarFallback>
                             </Avatar>
                           </TableCell>
-                          <TableCell>{row.Full_Name}</TableCell>
-                          <TableCell>{row.First_Name}</TableCell>
-                          <TableCell>{row.Last_Name}</TableCell>
-                          <TableCell>{row.Company}</TableCell>
+                          <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
+                          <TableCell className="text-gray-900">{row.First_Name}</TableCell>
+                          <TableCell className="text-gray-900">{row.Last_Name}</TableCell>
+                          <TableCell className="text-gray-900">{row.Company}</TableCell>
                           <TableCell>
                             <a 
                               href={row.LinkedIn_URL} 
@@ -90,8 +89,8 @@ export const PipelineTable = ({
                               {row.LinkedIn_URL}
                             </a>
                           </TableCell>
-                          <TableCell>{row.Email}</TableCell>
-                          <TableCell>{row.Advisor}</TableCell>
+                          <TableCell className="text-gray-900">{row.Email}</TableCell>
+                          <TableCell className="text-gray-900">{row.Advisor}</TableCell>
                         </TableRow>
                       ))
                     )}
