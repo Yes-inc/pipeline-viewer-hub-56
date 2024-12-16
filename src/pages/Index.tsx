@@ -47,12 +47,16 @@ const Index = () => {
   });
 
   // Calculate metrics
-  const totalIntroductions = establishedConnections.length;
-  const activeConversionRate = establishedConnections.length > 0 
-    ? ((activeLeads.length / establishedConnections.length) * 100).toFixed(1) 
+  const totalEstablished = establishedConnections.length;
+  const totalActive = activeLeads.length;
+  const totalGenerated = generatedLeads.length;
+
+  // Calculate conversion rates
+  const activeConversionRate = totalEstablished > 0 
+    ? ((totalActive / totalEstablished) * 100).toFixed(1) 
     : '0';
-  const generatedConversionRate = activeLeads.length > 0 
-    ? ((generatedLeads.length / activeLeads.length) * 100).toFixed(1) 
+  const generatedConversionRate = totalActive > 0 
+    ? ((totalGenerated / totalActive) * 100).toFixed(1) 
     : '0';
 
   return (
@@ -65,9 +69,9 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
             title="Established Connections"
-            value={totalIntroductions.toString()}
+            value={totalEstablished.toString()}
             icon={Users}
-            trend={`${totalIntroductions} established connections`}
+            trend={`${totalEstablished} established connections`}
             trendUp={true}
           />
           <InfoCard
