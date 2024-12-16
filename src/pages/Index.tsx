@@ -47,7 +47,7 @@ const Index = () => {
   });
 
   // Calculate metrics
-  const totalIntroductions = establishedConnections.length + activeLeads.length + generatedLeads.length;
+  const totalIntroductions = establishedConnections.length;
   const activeConversionRate = establishedConnections.length > 0 
     ? ((activeLeads.length / establishedConnections.length) * 100).toFixed(1) 
     : '0';
@@ -67,7 +67,7 @@ const Index = () => {
             title="Total Introductions"
             value={totalIntroductions.toString()}
             icon={Users}
-            trend={`${totalIntroductions} total connections`}
+            trend={`${totalIntroductions} established connections`}
             trendUp={true}
           />
           <InfoCard
