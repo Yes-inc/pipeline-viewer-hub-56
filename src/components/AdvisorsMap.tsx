@@ -15,8 +15,8 @@ L.Icon.Default.mergeOptions({
 
 interface Advisor {
   Name: string;
-  Location: string;
-  Picture: string;
+  Location: string | null;
+  Picture: string | null;
 }
 
 const AdvisorsMap = () => {
@@ -36,31 +36,37 @@ const AdvisorsMap = () => {
   }
 
   // Default center (can be adjusted based on advisor locations)
-  const defaultCenter: [number, number] = [40.7128, -74.0060];
+  const defaultCenter = [40.7128, -74.0060] as [number, number];
+
+  // Filter out advisors without valid locations and parse coordinates
+  const validAdvisors = advisors.filter(advisor => {
+    if (!advisor.Location) return false;
+    const [lat, lng] = advisor.Location.split(',').map(Number);
+    return !isNaN(lat) && !isNaN(lng);
+  });
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
       <h2 className="text-lg font-semibold mb-4">Advisor Locations</h2>
       <div className="h-[400px] rounded-lg overflow-hidden">
         <MapContainer
+          className="h-full w-full"
           center={defaultCenter}
           zoom={4}
-          style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          {advisors.map((advisor, index) => {
-            // Convert location string to coordinates (assuming format: "lat,lng")
-            const [lat, lng] = advisor.Location?.split(',').map(Number) || defaultCenter;
+          {validAdvisors.map((advisor, index) => {
+            const [lat, lng] = advisor.Location!.split(',').map(Number);
             
             return (
               <Marker key={index} position={[lat, lng]}>
                 <Popup>
                   <div className="flex items-center space-x-3 p-2">
                     <Avatar>
-                      <AvatarImage src={advisor.Picture} alt={advisor.Name} />
+                      <AvatarImage src={advisor.Picture || undefined} alt={advisor.Name} />
                       <AvatarFallback>{advisor.Name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <span className="font-medium">{advisor.Name}</span>
