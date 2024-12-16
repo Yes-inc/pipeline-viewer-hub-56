@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import type { MapContainerProps } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,6 +19,13 @@ interface Advisor {
   Picture: string | null;
 }
 
+// Map of country/location names to their coordinates
+const locationCoordinates: { [key: string]: L.LatLngExpression } = {
+  'Portugal': [39.3999, -8.2245],
+  'Bangladesh': [23.6850, 90.3563],
+  'Brazil': [-14.2350, -51.9253]
+};
+
 const AdvisorsMap = () => {
   const { data: advisors = [], isLoading } = useQuery({
     queryKey: ['advisors'],
@@ -36,15 +42,13 @@ const AdvisorsMap = () => {
     return <div className="h-[400px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
   }
 
-  // Default center (can be adjusted based on advisor locations)
-  const defaultCenter: L.LatLngExpression = [40.7128, -74.0060];
+  // Center the map on Portugal as a default location
+  const defaultCenter: L.LatLngExpression = [39.3999, -8.2245];
 
-  // Filter out advisors without valid locations and parse coordinates
-  const validAdvisors = advisors.filter(advisor => {
-    if (!advisor.Location) return false;
-    const [lat, lng] = advisor.Location.split(',').map(Number);
-    return !isNaN(lat) && !isNaN(lng);
-  });
+  // Filter out advisors without valid locations
+  const validAdvisors = advisors.filter(advisor => 
+    advisor.Location && locationCoordinates[advisor.Location]
+  );
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
@@ -53,7 +57,7 @@ const AdvisorsMap = () => {
         <MapContainer
           className="h-full w-full"
           center={defaultCenter}
-          zoom={4}
+          zoom={2}
           scrollWheelZoom={false}
         >
           <TileLayer
@@ -61,8 +65,7 @@ const AdvisorsMap = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {validAdvisors.map((advisor, index) => {
-            const [lat, lng] = advisor.Location!.split(',').map(Number);
-            const position: L.LatLngExpression = [lat, lng];
+            const position = locationCoordinates[advisor.Location!];
             
             return (
               <Marker key={index} position={position}>
@@ -73,6 +76,7 @@ const AdvisorsMap = () => {
                       <AvatarFallback>{advisor.Name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <span className="font-medium">{advisor.Name}</span>
+                    <span className="text-gray-500">({advisor.Location})</span>
                   </div>
                 </Popup>
               </Marker>
