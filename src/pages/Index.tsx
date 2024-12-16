@@ -100,10 +100,25 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="established" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="established">Established Connections</TabsTrigger>
-            <TabsTrigger value="active">More Active Leads</TabsTrigger>
-            <TabsTrigger value="generated">Generated Leads</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">
+            <TabsTrigger 
+              value="established" 
+              className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all"
+            >
+              Established Connections
+            </TabsTrigger>
+            <TabsTrigger 
+              value="active"
+              className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all"
+            >
+              More Active Leads
+            </TabsTrigger>
+            <TabsTrigger 
+              value="generated"
+              className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all"
+            >
+              Generated Leads
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="established">
             <PipelineTable 
