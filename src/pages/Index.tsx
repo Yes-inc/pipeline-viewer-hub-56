@@ -7,7 +7,7 @@ import { Users, TrendingUp, ArrowUpRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
 import FunnelChart from "../components/FunnelChart";
-import EngagementTrends from "../components/EngagementTrends";
+import PipelineBarChart from "../components/PipelineBarChart";
 
 const Index = () => {
   // Query for Established Connections
@@ -92,7 +92,8 @@ const Index = () => {
             activeLeads={activeLeads}
             generatedLeads={generatedLeads}
           />
-          <EngagementTrends 
+          <PipelineBarChart 
+            establishedConnections={establishedConnections}
             activeLeads={activeLeads}
             generatedLeads={generatedLeads}
           />
