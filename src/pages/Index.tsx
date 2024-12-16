@@ -33,7 +33,7 @@ const Index = () => {
     }
   });
 
-  // Query for Generated Leads
+  // Query for Generated Leads - Fixed table name and proper error handling
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
