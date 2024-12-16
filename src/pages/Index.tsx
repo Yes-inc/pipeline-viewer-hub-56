@@ -6,8 +6,8 @@ import { PipelineTable } from "../components/PipelineTable";
 import { Users, TrendingUp, ArrowUpRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
-import FunnelChart from "../components/FunnelChart";
 import PipelineBarChart from "../components/PipelineBarChart";
+import AdvisorsMap from "../components/AdvisorsMap";
 
 const Index = () => {
   // Query for Established Connections
@@ -91,11 +91,7 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6">
-          <FunnelChart 
-            establishedConnections={establishedConnections}
-            activeLeads={activeLeads}
-            generatedLeads={generatedLeads}
-          />
+          <AdvisorsMap />
           <PipelineBarChart 
             establishedConnections={establishedConnections}
             activeLeads={activeLeads}

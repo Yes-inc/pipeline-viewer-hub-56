@@ -9,6 +9,24 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      Advisors: {
+        Row: {
+          Location: string | null
+          Name: string
+          Picture: string | null
+        }
+        Insert: {
+          Location?: string | null
+          Name?: string
+          Picture?: string | null
+        }
+        Update: {
+          Location?: string | null
+          Name?: string
+          Picture?: string | null
+        }
+        Relationships: []
+      }
       "Established-Connection": {
         Row: {
           Advisor: string | null
