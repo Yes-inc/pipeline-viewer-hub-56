@@ -51,11 +51,11 @@ export const PipelineTable = ({
             <TableHeader className="sticky top-0 bg-white z-50 border-b">
               <TableRow>
                 <TableHead className="w-[70px] p-0 text-gray-900">Profile</TableHead>
-                <TableHead className="min-w-[130px] px-2 text-gray-900">Full Name</TableHead>
-                <TableHead className="min-w-[130px] px-2 text-gray-900">Company</TableHead>
-                <TableHead className="min-w-[180px] px-2 text-gray-900">LinkedIn URL</TableHead>
-                {showEmail && <TableHead className="min-w-[180px] px-2 text-gray-900">Email</TableHead>}
-                <TableHead className="min-w-[130px] px-2 text-gray-900">Advisor</TableHead>
+                <TableHead className="min-w-[130px] text-left text-gray-900">Full Name</TableHead>
+                <TableHead className="min-w-[130px] text-left text-gray-900">Company</TableHead>
+                <TableHead className="min-w-[180px] text-left text-gray-900">LinkedIn URL</TableHead>
+                {showEmail && <TableHead className="min-w-[180px] text-left text-gray-900">Email</TableHead>}
+                <TableHead className="min-w-[130px] text-left text-gray-900">Advisor</TableHead>
               </TableRow>
             </TableHeader>
             <div className="max-h-[400px] overflow-auto">
