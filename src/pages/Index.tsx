@@ -99,7 +99,7 @@ const Index = () => {
           />
         </div>
 
-        <Tabs defaultValue="established" className="w-full">
+        <Tabs defaultValue="generated" className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">
             <TabsTrigger 
               value="established" 
