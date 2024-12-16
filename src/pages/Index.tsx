@@ -9,30 +9,6 @@ import CombinedValueGraph from "../components/CombinedValueGraph";
 import { PipelineRow } from "../utils/googleSheets";
 
 const Index = () => {
-  // Query for Established Connections
-  const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
-    queryKey: ['established-connections'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('Established-Connection')
-        .select('*');
-      if (error) throw error;
-      return data;
-    }
-  });
-
-  // Query for More Active Leads
-  const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
-    queryKey: ['active-leads'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('More-Active-Leads')
-        .select('*');
-      if (error) throw error;
-      return data;
-    }
-  });
-
   // Query for Generated Leads 
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
@@ -49,6 +25,30 @@ const Index = () => {
       }
       
       return data; // Return the data fetched from Supabase
+    }
+  });
+
+  // Query for More Active Leads
+  const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
+    queryKey: ['active-leads'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('More-Active-Leads')
+        .select('*');
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  // Query for Established Connections
+  const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
+    queryKey: ['established-connections'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Established-Connection')
+        .select('*');
+      if (error) throw error;
+      return data;
     }
   });
 
@@ -92,18 +92,18 @@ const Index = () => {
           <CombinedValueGraph data={allConnections} />
         </div>
 
-        <Tabs defaultValue="established" className="w-full">
+        <Tabs defaultValue="generated" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="established">Established Connections</TabsTrigger>
-            <TabsTrigger value="active">More Active Leads</TabsTrigger>
             <TabsTrigger value="generated">Generated Leads</TabsTrigger>
+            <TabsTrigger value="active">More Active Leads</TabsTrigger>
+            <TabsTrigger value="established">Established Connections</TabsTrigger>
           </TabsList>
-          <TabsContent value="established">
+          <TabsContent value="generated">
             <PipelineTable 
-              title="Established Connections" 
-              data={establishedConnections}
-              isLoading={isLoadingEstablished}
-              error={errorEstablished}
+              title="Generated Leads" 
+              data={generatedLeads}
+              isLoading={isLoadingGenerated}
+              error={errorGenerated}
             />
           </TabsContent>
           <TabsContent value="active">
@@ -114,12 +114,12 @@ const Index = () => {
               error={errorActive}
             />
           </TabsContent>
-          <TabsContent value="generated">
+          <TabsContent value="established">
             <PipelineTable 
-              title="Generated Leads" 
-              data={generatedLeads}
-              isLoading={isLoadingGenerated}
-              error={errorGenerated}
+              title="Established Connections" 
+              data={establishedConnections}
+              isLoading={isLoadingEstablished}
+              error={errorEstablished}
             />
           </TabsContent>
         </Tabs>
