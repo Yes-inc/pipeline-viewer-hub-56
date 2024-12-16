@@ -33,22 +33,29 @@ const Index = () => {
     }
   });
 
-  // Query for Generated Leads with the correct table name
+  // Query for Generated Leads
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
-      console.log('Fetching generated leads...');
-      const { data, error } = await supabase
-        .from('Leads-Generated')
-        .select('*');
-      
-      console.log('Generated Leads Query Result:', { data, error });
-      
-      if (error) {
-        console.error('Generated Leads Error:', error);
-        throw error;
+      console.log('Fetching generated leads from Leads-Generated table...');
+      try {
+        const { data, error } = await supabase
+          .from('Leads-Generated')
+          .select('*');
+        
+        console.log('Generated Leads Query Response:', { data, error });
+        
+        if (error) {
+          console.error('Error fetching generated leads:', error);
+          throw error;
+        }
+        
+        console.log('Successfully fetched generated leads:', data);
+        return data || [];
+      } catch (err) {
+        console.error('Exception in generated leads query:', err);
+        throw err;
       }
-      return data || [];
     }
   });
 
