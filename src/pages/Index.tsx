@@ -3,37 +3,68 @@ import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "../components/DashboardLayout";
 import InfoCard from "../components/InfoCard";
 import { PipelineTable } from "../components/PipelineTable";
-import ConnectionsGraph from "../components/ConnectionsGraph";
 import { Users, Building2, UserCheck } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CombinedValueGraph from "../components/CombinedValueGraph";
 
 const Index = () => {
-  const { data: connections = [], isLoading, error } = useQuery({
-    queryKey: ['connections'],
+  // Query for Established Connections
+  const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery({
+    queryKey: ['established-connections'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('Established-Connection')
         .select('*');
-      
       if (error) throw error;
-      
-      return data.map((row, index) => ({
-        id: index.toString(),
-        name: row.Full_Name,
-        jobTitle: '',
-        company: row.Company,
-        linkedinUrl: row.LinkedIn_URL,
-        value: '',
-        status: '',
-        advisor: row.Advisor,
-        lastContactedDate: '',
-        initiatedContactDate: '',
-        profilePicUrl: ''
-      }));
+      return formatTableData(data);
     }
   });
 
-  const uniqueAdvisors = new Set(connections.map(conn => conn.advisor).filter(Boolean)).size;
-  const uniqueCompanies = new Set(connections.map(conn => conn.company).filter(Boolean)).size;
+  // Query for More Active Leads
+  const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery({
+    queryKey: ['active-leads'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('More-Active-Leads')
+        .select('*');
+      if (error) throw error;
+      return formatTableData(data);
+    }
+  });
+
+  // Query for Generated Leads
+  const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery({
+    queryKey: ['generated-leads'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Leads-Generated-[Introductions-Made]')
+        .select('*');
+      if (error) throw error;
+      return formatTableData(data);
+    }
+  });
+
+  // Helper function to format table data
+  const formatTableData = (data: any[]) => {
+    return data.map((row, index) => ({
+      id: index.toString(),
+      name: row.Full_Name,
+      jobTitle: '',
+      company: row.Company,
+      linkedinUrl: row.LinkedIn_URL,
+      value: '',
+      status: '',
+      advisor: row.Advisor,
+      lastContactedDate: '',
+      initiatedContactDate: '',
+      profilePicUrl: ''
+    }));
+  };
+
+  // Calculate combined metrics
+  const allConnections = [...establishedConnections, ...activeLeads, ...generatedLeads];
+  const uniqueAdvisors = new Set(allConnections.map(conn => conn.advisor).filter(Boolean)).size;
+  const uniqueCompanies = new Set(allConnections.map(conn => conn.company).filter(Boolean)).size;
 
   return (
     <DashboardLayout>
@@ -44,8 +75,8 @@ const Index = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
-            title="Total Connections"
-            value={connections.length.toString()}
+            title="Total Pipeline Size"
+            value={allConnections.length.toString()}
             icon={Users}
             trend="+12.5% from last month"
             trendUp={true}
@@ -66,16 +97,41 @@ const Index = () => {
           />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ConnectionsGraph data={connections} />
+        <div className="grid grid-cols-1 gap-6">
+          <CombinedValueGraph data={allConnections} />
         </div>
 
-        <PipelineTable 
-          title="Established Connections" 
-          data={connections}
-          isLoading={isLoading}
-          error={error}
-        />
+        <Tabs defaultValue="established" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="established">Established Connections</TabsTrigger>
+            <TabsTrigger value="active">More Active Leads</TabsTrigger>
+            <TabsTrigger value="generated">Generated Leads</TabsTrigger>
+          </TabsList>
+          <TabsContent value="established">
+            <PipelineTable 
+              title="Established Connections" 
+              data={establishedConnections}
+              isLoading={isLoadingEstablished}
+              error={errorEstablished}
+            />
+          </TabsContent>
+          <TabsContent value="active">
+            <PipelineTable 
+              title="More Active Leads" 
+              data={activeLeads}
+              isLoading={isLoadingActive}
+              error={errorActive}
+            />
+          </TabsContent>
+          <TabsContent value="generated">
+            <PipelineTable 
+              title="Generated Leads" 
+              data={generatedLeads}
+              isLoading={isLoadingGenerated}
+              error={errorGenerated}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </DashboardLayout>
   );

@@ -1,37 +1,57 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-const data = [
-  { month: 'Jan', value: 175000 },
-  { month: 'Feb', value: 225000 },
-  { month: 'Mar', value: 320000 },
-  { month: 'Apr', value: 450000 },
-  { month: 'May', value: 520000 },
-  { month: 'Jun', value: 625000 }
-];
+interface CombinedValueGraphProps {
+  data: any[];
+}
 
-const CombinedValueGraph = () => {
+const CombinedValueGraph = ({ data }: CombinedValueGraphProps) => {
+  // Process data to count connections by advisor across all tables
+  const advisorStats = data.reduce((acc: { [key: string]: any }, curr) => {
+    const advisor = curr.advisor || 'Unassigned';
+    if (!acc[advisor]) {
+      acc[advisor] = {
+        advisor,
+        totalConnections: 0,
+        companies: new Set(),
+      };
+    }
+    acc[advisor].totalConnections += 1;
+    if (curr.company) {
+      acc[advisor].companies.add(curr.company);
+    }
+    return acc;
+  }, {});
+
+  const chartData = Object.values(advisorStats).map((stat: any) => ({
+    advisor: stat.advisor,
+    totalConnections: stat.totalConnections,
+    uniqueCompanies: stat.companies.size,
+  }));
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
-      <h2 className="text-lg font-semibold mb-4">Combined Pipeline Value Over Time</h2>
-      <div className="h-[300px]">
+      <h2 className="text-lg font-semibold mb-4">Advisor Performance Overview</h2>
+      <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis 
-              tickFormatter={(value) => `$${(value / 1000)}k`}
+            <XAxis dataKey="advisor" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar 
+              dataKey="totalConnections" 
+              name="Total Connections"
+              fill="#6366f1"
+              radius={[4, 4, 0, 0]}
             />
-            <Tooltip 
-              formatter={(value) => [`$${value.toLocaleString()}`, 'Total Value']}
+            <Bar 
+              dataKey="uniqueCompanies" 
+              name="Unique Companies"
+              fill="#10b981"
+              radius={[4, 4, 0, 0]}
             />
-            <Line 
-              type="monotone" 
-              dataKey="value" 
-              stroke="#10b981" 
-              strokeWidth={2}
-              dot={{ fill: '#10b981' }}
-            />
-          </LineChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>

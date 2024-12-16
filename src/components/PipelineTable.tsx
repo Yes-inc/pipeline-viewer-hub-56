@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type PipelineRow } from "../utils/googleSheets";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserRound } from "lucide-react";
@@ -19,10 +19,18 @@ export const PipelineTable = ({
   error = null 
 }: PipelineTableProps) => {
   const [rowsToShow, setRowsToShow] = useState(10);
+  
+  // Reset rowsToShow when data changes
+  useEffect(() => {
+    setRowsToShow(10);
+  }, [data]);
 
   const handleShowMore = () => {
-    setRowsToShow(prev => Math.min(prev + 10, data.length));
+    setRowsToShow(prevRows => Math.min(prevRows + 10, data.length));
   };
+
+  const visibleData = data.slice(0, rowsToShow);
+  const hasMoreRows = rowsToShow < data.length;
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -53,8 +61,12 @@ export const PipelineTable = ({
                 <TableRow>
                   <TableCell colSpan={10} className="text-center text-red-500">Error loading data</TableCell>
                 </TableRow>
+              ) : visibleData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={10} className="text-center text-gray-900">No data available</TableCell>
+                </TableRow>
               ) : (
-                data.slice(0, rowsToShow).map((row: PipelineRow) => (
+                visibleData.map((row: PipelineRow) => (
                   <TableRow key={row.id}>
                     <TableCell>
                       <Avatar>
@@ -88,11 +100,11 @@ export const PipelineTable = ({
             </TableBody>
           </Table>
         </ScrollArea>
-        {rowsToShow < data.length && (
+        {hasMoreRows && (
           <div className="mt-4 text-center">
             <button
               onClick={handleShowMore}
-              className="text-primary hover:text-primary/80 font-medium"
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
             >
               Show More Rows
             </button>

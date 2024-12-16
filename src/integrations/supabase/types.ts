@@ -39,6 +39,66 @@ export type Database = {
         }
         Relationships: []
       }
+      "Leads-Generated-[Introductions-Made]": {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+        }
+        Relationships: []
+      }
+      "More-Active-Leads": {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
