@@ -90,8 +90,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -152,6 +150,8 @@ function toast({ ...props }: Toast) {
   dispatch({
     type: "ADD_TOAST",
     toast: {
+      variant: "destructive",
+      title: "Whoops, that didn't work! Please contact Ash@yes.inc if the problem is urgent. Sorry for the inconvenience.",
       ...props,
       id,
       open: true,
