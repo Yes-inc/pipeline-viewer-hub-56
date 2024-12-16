@@ -28,7 +28,7 @@ const PipelineBarChart = ({ establishedConnections, activeLeads, generatedLeads 
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up mt-6">
-      <h2 className="text-lg font-semibold mb-4">Pipeline Stage Overview</h2>
+      <h2 className="text-lg font-semibold mb-4 text-gray-900">Pipeline Stage Overview</h2>
       <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>

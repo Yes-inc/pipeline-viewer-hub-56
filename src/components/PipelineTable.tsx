@@ -114,7 +114,7 @@ export const PipelineTable = ({
           <div className="mt-4 text-center">
             <button
               onClick={handleShowMore}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+              className="px-4 py-2 bg-[#F1F0FB] text-gray-900 rounded-md hover:bg-[#E5DEFF] transition-colors"
             >
               Show More Rows
             </button>
