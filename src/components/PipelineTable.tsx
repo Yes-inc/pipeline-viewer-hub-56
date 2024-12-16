@@ -35,68 +35,72 @@ export const PipelineTable = ({
     <div className="bg-white rounded-lg shadow">
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
-        <ScrollArea className="relative w-full rounded-md border" style={{ height: '400px' }}>
-          <div className="min-w-[1200px]">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-gray-900 sticky left-0 bg-white z-20 w-[80px]">Profile</TableHead>
-                  <TableHead className="text-gray-900 min-w-[150px]">Full Name</TableHead>
-                  <TableHead className="text-gray-900 min-w-[150px]">First Name</TableHead>
-                  <TableHead className="text-gray-900 min-w-[150px]">Last Name</TableHead>
-                  <TableHead className="text-gray-900 min-w-[150px]">Company</TableHead>
-                  <TableHead className="text-gray-900 min-w-[200px]">LinkedIn URL</TableHead>
-                  <TableHead className="text-gray-900 min-w-[200px]">Email</TableHead>
-                  <TableHead className="text-gray-900 min-w-[150px]">Advisor</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center text-gray-900">Loading...</TableCell>
-                  </TableRow>
-                ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center text-red-500">Error loading data</TableCell>
-                  </TableRow>
-                ) : visibleData.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={8} className="text-center text-gray-900">No data available</TableCell>
-                  </TableRow>
-                ) : (
-                  visibleData.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="sticky left-0 bg-white z-10 w-[80px]">
-                        <Avatar>
-                          <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
-                          <AvatarFallback>
-                            <UserRound className="h-4 w-4" />
-                          </AvatarFallback>
-                        </Avatar>
-                      </TableCell>
-                      <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.First_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.Last_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.Company}</TableCell>
-                      <TableCell>
-                        <a 
-                          href={row.LinkedIn_URL} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 underline"
-                        >
-                          {row.LinkedIn_URL}
-                        </a>
-                      </TableCell>
-                      <TableCell className="text-gray-900">{row.Email}</TableCell>
-                      <TableCell className="text-gray-900">{row.Advisor}</TableCell>
+        <div className="relative rounded-md border">
+          <div className="overflow-hidden" style={{ height: '400px' }}>
+            <div className="overflow-auto" style={{ width: '100%', height: '100%' }}>
+              <div style={{ minWidth: '1200px' }}>
+                <Table>
+                  <TableHeader className="sticky top-0 z-20 bg-white">
+                    <TableRow>
+                      <TableHead className="sticky left-0 z-30 bg-white w-[80px]">Profile</TableHead>
+                      <TableHead className="min-w-[150px]">Full Name</TableHead>
+                      <TableHead className="min-w-[150px]">First Name</TableHead>
+                      <TableHead className="min-w-[150px]">Last Name</TableHead>
+                      <TableHead className="min-w-[150px]">Company</TableHead>
+                      <TableHead className="min-w-[200px]">LinkedIn URL</TableHead>
+                      <TableHead className="min-w-[200px]">Email</TableHead>
+                      <TableHead className="min-w-[150px]">Advisor</TableHead>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center">Loading...</TableCell>
+                      </TableRow>
+                    ) : error ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center text-red-500">Error loading data</TableCell>
+                      </TableRow>
+                    ) : visibleData.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center">No data available</TableCell>
+                      </TableRow>
+                    ) : (
+                      visibleData.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="sticky left-0 z-10 bg-white w-[80px]">
+                            <Avatar>
+                              <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
+                              <AvatarFallback>
+                                <UserRound className="h-4 w-4" />
+                              </AvatarFallback>
+                            </Avatar>
+                          </TableCell>
+                          <TableCell>{row.Full_Name}</TableCell>
+                          <TableCell>{row.First_Name}</TableCell>
+                          <TableCell>{row.Last_Name}</TableCell>
+                          <TableCell>{row.Company}</TableCell>
+                          <TableCell>
+                            <a 
+                              href={row.LinkedIn_URL} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 underline"
+                            >
+                              {row.LinkedIn_URL}
+                            </a>
+                          </TableCell>
+                          <TableCell>{row.Email}</TableCell>
+                          <TableCell>{row.Advisor}</TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
           </div>
-        </ScrollArea>
+        </div>
         {hasMoreRows && (
           <div className="mt-4 text-center">
             <button
