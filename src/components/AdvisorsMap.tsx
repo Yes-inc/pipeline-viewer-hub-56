@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import type { MapContainer as LeafletMap, TileLayer as LeafletTileLayer } from 'leaflet';
+import type { MapContainer as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
 import { useEffect, useRef } from "react";
 
 // Fix for default marker icon in react-leaflet
@@ -95,7 +93,8 @@ const AdvisorsMap = () => {
   }
 
   // Center the map on Portugal as a default location
-  const defaultCenter: L.LatLngExpression = [39.3999, -8.2245];
+  const center: L.LatLngExpression = [39.3999, -8.2245];
+  const zoom = 2;
 
   // Filter out advisors without valid locations
   const validAdvisors = advisors.filter(advisor => 
@@ -109,8 +108,8 @@ const AdvisorsMap = () => {
         <MapContainer
           ref={mapRef}
           className="h-full w-full"
-          defaultCenter={defaultCenter}
-          defaultZoom={2}
+          center={center}
+          zoom={zoom}
           scrollWheelZoom={false}
         >
           <TileLayer
