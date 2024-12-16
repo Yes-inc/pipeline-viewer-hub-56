@@ -106,16 +106,16 @@ const AdvisorsMap = () => {
       <h2 className="text-lg font-semibold mb-4 text-gray-900">Advisors Locations</h2>
       <div className="h-[400px] rounded-lg overflow-hidden">
         <MapContainer
-          ref={mapRef}
+          ref={(map) => { mapRef.current = map }}
           className="h-full w-full"
-          defaultCenter={defaultCenter}
+          center={defaultCenter}
           zoom={2}
           scrollWheelZoom={false}
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attributionUrl='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
