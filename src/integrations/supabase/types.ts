@@ -39,7 +39,7 @@ export type Database = {
         }
         Relationships: []
       }
-      "Leads-Generated-[Introductions-Made]": {
+      "Leads-Generated": {
         Row: {
           Advisor: string | null
           Company: string | null

@@ -33,13 +33,13 @@ const Index = () => {
     }
   });
 
-  // Query for Generated Leads - Fixed table name and proper error handling
+  // Query for Generated Leads with the correct table name
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
       console.log('Fetching generated leads...');
       const { data, error } = await supabase
-        .from('Leads-Generated-[Introductions-Made]')
+        .from('Leads-Generated')
         .select('*');
       
       console.log('Generated Leads Query Result:', { data, error });
