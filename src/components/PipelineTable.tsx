@@ -50,7 +50,7 @@ export const PipelineTable = ({
           <Table>
             <TableHeader className="sticky top-0 bg-white z-50 border-b">
               <TableRow>
-                <TableHead className="w-[70px] px-2 text-gray-900">Profile</TableHead>
+                <TableHead className="w-[70px] p-0 text-gray-900">Profile</TableHead>
                 <TableHead className="min-w-[130px] px-2 text-gray-900">Full Name</TableHead>
                 <TableHead className="min-w-[130px] px-2 text-gray-900">Company</TableHead>
                 <TableHead className="min-w-[180px] px-2 text-gray-900">LinkedIn URL</TableHead>
@@ -80,7 +80,7 @@ export const PipelineTable = ({
                       data-state={selectedRow === index ? 'selected' : undefined}
                       className="cursor-pointer"
                     >
-                      <TableCell className="w-[70px]">
+                      <TableCell className="w-[70px] p-0">
                         <Avatar>
                           <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
                           <AvatarFallback>
