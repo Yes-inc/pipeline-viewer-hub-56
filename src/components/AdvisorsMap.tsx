@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
 
 // Fix for default marker icon in react-leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -53,12 +54,29 @@ const AdvisorsMap = () => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
       <h2 className="text-lg font-semibold mb-4">Advisor Locations</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {validAdvisors.map((advisor, index) => (
+          <Card key={index} className="p-4 shadow-sm">
+            <div className="flex items-center space-x-3">
+              <Avatar>
+                <AvatarImage src={advisor.Picture || undefined} alt={advisor.Name} />
+                <AvatarFallback>{advisor.Name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div>
+                <span className="font-medium block">{advisor.Name}</span>
+                <span className="text-gray-500 text-sm">{advisor.Location}</span>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
       <div className="h-[400px] rounded-lg overflow-hidden">
         <MapContainer
           className="h-full w-full"
           center={defaultCenter}
           zoom={2}
           scrollWheelZoom={false}
+          style={{ height: '100%', width: '100%' }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -66,20 +84,8 @@ const AdvisorsMap = () => {
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
-            
             return (
-              <Marker key={index} position={position}>
-                <Popup>
-                  <div className="flex items-center space-x-3 p-2">
-                    <Avatar>
-                      <AvatarImage src={advisor.Picture || undefined} alt={advisor.Name} />
-                      <AvatarFallback>{advisor.Name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <span className="font-medium">{advisor.Name}</span>
-                    <span className="text-gray-500">({advisor.Location})</span>
-                  </div>
-                </Popup>
-              </Marker>
+              <Marker key={index} position={position} />
             );
           })}
         </MapContainer>
