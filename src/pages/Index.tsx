@@ -3,10 +3,11 @@ import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "../components/DashboardLayout";
 import InfoCard from "../components/InfoCard";
 import { PipelineTable } from "../components/PipelineTable";
-import { Users, Building2, UserCheck } from "lucide-react";
+import { Users, TrendingUp, ArrowUpRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CombinedValueGraph from "../components/CombinedValueGraph";
 import { PipelineRow } from "../utils/googleSheets";
+import FunnelChart from "../components/FunnelChart";
+import EngagementTrends from "../components/EngagementTrends";
 
 const Index = () => {
   // Query for Established Connections
@@ -37,62 +38,64 @@ const Index = () => {
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
-      console.log('Starting to fetch generated leads...');
-      
       const { data, error } = await supabase
         .from('Leads')
         .select('*');
-      
-      console.log('Generated leads response:', { data, error });
-      
-      if (error) {
-        console.error('Error fetching generated leads:', error);
-        throw error;
-      }
-      
-      console.log('Successfully fetched generated leads:', data);
+      if (error) throw error;
       return data;
     }
   });
 
-  // Calculate combined metrics
-  const allConnections = [...establishedConnections, ...activeLeads, ...generatedLeads];
-  const uniqueAdvisors = new Set(allConnections.map(conn => conn.Advisor).filter(Boolean)).size;
-  const uniqueCompanies = new Set(allConnections.map(conn => conn.Company).filter(Boolean)).size;
+  // Calculate metrics
+  const totalIntroductions = establishedConnections.length + activeLeads.length + generatedLeads.length;
+  const activeConversionRate = establishedConnections.length > 0 
+    ? ((activeLeads.length / establishedConnections.length) * 100).toFixed(1) 
+    : '0';
+  const generatedConversionRate = activeLeads.length > 0 
+    ? ((generatedLeads.length / activeLeads.length) * 100).toFixed(1) 
+    : '0';
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Pipeline Dashboard</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
-            title="Total Pipeline Size"
-            value={allConnections.length.toString()}
+            title="Total Introductions"
+            value={totalIntroductions.toString()}
             icon={Users}
-            trend="+12.5% from last month"
+            trend={`${totalIntroductions} total connections`}
             trendUp={true}
           />
           <InfoCard
-            title="Active Advisors"
-            value={uniqueAdvisors.toString()}
-            icon={UserCheck}
-            trend="+25% from last month"
+            title="Active Lead Conversion"
+            value={`${activeConversionRate}%`}
+            icon={TrendingUp}
+            trend="From established connections"
             trendUp={true}
           />
           <InfoCard
-            title="Companies Reached"
-            value={uniqueCompanies.toString()}
-            icon={Building2}
-            trend="+8.2% from last month"
+            title="Generated Lead Conversion"
+            value={`${generatedConversionRate}%`}
+            icon={ArrowUpRight}
+            trend="From active leads"
             trendUp={true}
           />
         </div>
-        
+
         <div className="grid grid-cols-1 gap-6">
-          <CombinedValueGraph data={allConnections} />
+          <FunnelChart 
+            establishedConnections={establishedConnections}
+            activeLeads={activeLeads}
+            generatedLeads={generatedLeads}
+          />
+          <EngagementTrends 
+            activeLeads={activeLeads}
+            generatedLeads={generatedLeads}
+          />
         </div>
 
         <Tabs defaultValue="established" className="w-full">
