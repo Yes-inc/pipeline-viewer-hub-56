@@ -1,10 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Puzzle, CreditCard } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Puzzle, CreditCard, LogOut } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/components/ui/use-toast";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   const isActive = (path: string) => location.pathname === path;
+  
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
+      });
+    } else {
+      navigate("/login");
+    }
+  };
   
   return (
     <div className="min-h-screen bg-gray-50">
@@ -50,6 +66,15 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   Billing
                 </Link>
               </div>
+            </div>
+            <div className="flex items-center">
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </button>
             </div>
           </div>
         </div>
