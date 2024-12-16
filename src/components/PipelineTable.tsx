@@ -41,8 +41,6 @@ export const PipelineTable = ({
                 <TableRow>
                   <TableHead className="sticky left-0 bg-white w-[80px] text-gray-900">Profile</TableHead>
                   <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
-                  <TableHead className="min-w-[150px] text-gray-900">First Name</TableHead>
-                  <TableHead className="min-w-[150px] text-gray-900">Last Name</TableHead>
                   <TableHead className="min-w-[150px] text-gray-900">Company</TableHead>
                   <TableHead className="min-w-[200px] text-gray-900">LinkedIn URL</TableHead>
                   <TableHead className="min-w-[200px] text-gray-900">Email</TableHead>
@@ -56,15 +54,15 @@ export const PipelineTable = ({
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={6} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={6} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={6} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -78,8 +76,6 @@ export const PipelineTable = ({
                         </Avatar>
                       </TableCell>
                       <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.First_Name}</TableCell>
-                      <TableCell className="text-gray-900">{row.Last_Name}</TableCell>
                       <TableCell className="text-gray-900">{row.Company}</TableCell>
                       <TableCell>
                         <a 
