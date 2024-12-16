@@ -39,16 +39,16 @@ export const PipelineTable = ({
             <div className="overflow-auto" style={{ width: '100%', height: '100%' }}>
               <div style={{ minWidth: '1200px' }}>
                 <Table>
-                  <TableHeader className="sticky top-0 z-20 bg-white">
+                  <TableHeader className="sticky top-0 z-20 bg-white shadow-sm">
                     <TableRow>
-                      <TableHead className="sticky left-0 z-30 bg-white w-[80px] text-gray-900">Profile</TableHead>
-                      <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
-                      <TableHead className="min-w-[150px] text-gray-900">First Name</TableHead>
-                      <TableHead className="min-w-[150px] text-gray-900">Last Name</TableHead>
-                      <TableHead className="min-w-[150px] text-gray-900">Company</TableHead>
-                      <TableHead className="min-w-[200px] text-gray-900">LinkedIn URL</TableHead>
-                      <TableHead className="min-w-[200px] text-gray-900">Email</TableHead>
-                      <TableHead className="min-w-[150px] text-gray-900">Advisor</TableHead>
+                      <TableHead className="sticky left-0 z-30 bg-white w-[80px] text-gray-900 !top-0">Profile</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900 !top-0">Full Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900 !top-0">First Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900 !top-0">Last Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900 !top-0">Company</TableHead>
+                      <TableHead className="min-w-[200px] text-gray-900 !top-0">LinkedIn URL</TableHead>
+                      <TableHead className="min-w-[200px] text-gray-900 !top-0">Email</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900 !top-0">Advisor</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
