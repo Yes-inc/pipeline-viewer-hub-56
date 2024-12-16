@@ -33,15 +33,22 @@ const Index = () => {
     }
   });
 
-  // Query for Generated Leads - using the same pattern as the other two queries
+  // Query for Generated Leads 
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
+      console.log('Starting to fetch generated leads...');
+      
       const { data, error } = await supabase
-        .from('Leads-Generated')
+        .from('Leads-Generated') // Ensure the table name matches exactly
         .select('*');
-      if (error) throw error;
-      return data;
+      
+      if (error) {
+        console.error('Error fetching generated leads:', error);
+        throw error; // Properly throw the error for React Query to handle
+      }
+      
+      return data; // Return the data fetched from Supabase
     }
   });
 
