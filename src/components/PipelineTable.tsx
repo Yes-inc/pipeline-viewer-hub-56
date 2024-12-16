@@ -41,14 +41,14 @@ export const PipelineTable = ({
                 <Table>
                   <TableHeader className="sticky top-0 z-20 bg-white">
                     <TableRow>
-                      <TableHead className="sticky left-0 z-30 bg-white w-[80px]">Profile</TableHead>
-                      <TableHead className="min-w-[150px]">Full Name</TableHead>
-                      <TableHead className="min-w-[150px]">First Name</TableHead>
-                      <TableHead className="min-w-[150px]">Last Name</TableHead>
-                      <TableHead className="min-w-[150px]">Company</TableHead>
-                      <TableHead className="min-w-[200px]">LinkedIn URL</TableHead>
-                      <TableHead className="min-w-[200px]">Email</TableHead>
-                      <TableHead className="min-w-[150px]">Advisor</TableHead>
+                      <TableHead className="sticky left-0 z-30 bg-white w-[80px] text-gray-900">Profile</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900">Full Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900">First Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900">Last Name</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900">Company</TableHead>
+                      <TableHead className="min-w-[200px] text-gray-900">LinkedIn URL</TableHead>
+                      <TableHead className="min-w-[200px] text-gray-900">Email</TableHead>
+                      <TableHead className="min-w-[150px] text-gray-900">Advisor</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
