@@ -16,15 +16,18 @@ const Index = () => {
       console.log('Starting to fetch generated leads...');
       
       const { data, error } = await supabase
-        .from('Leads-Generated') // Ensure the table name matches exactly
+        .from('Leads-Generated')
         .select('*');
+      
+      console.log('Generated leads response:', { data, error });
       
       if (error) {
         console.error('Error fetching generated leads:', error);
-        throw error; // Properly throw the error for React Query to handle
+        throw error;
       }
       
-      return data; // Return the data fetched from Supabase
+      console.log('Successfully fetched generated leads:', data);
+      return data;
     }
   });
 
