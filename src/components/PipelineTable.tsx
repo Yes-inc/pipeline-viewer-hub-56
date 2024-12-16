@@ -47,18 +47,18 @@ export const PipelineTable = ({
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
         <div className="relative rounded-md border">
-          <div className="max-h-[400px] overflow-auto">
-            <Table>
-              <TableHeader className="sticky top-0 z-10 bg-white border-b">
-                <TableRow>
-                  <TableHead className="sticky left-0 bg-white w-[70px] px-2 text-gray-900">Profile</TableHead>
-                  <TableHead className="min-w-[130px] px-2 text-gray-900">Full Name</TableHead>
-                  <TableHead className="min-w-[130px] px-2 text-gray-900">Company</TableHead>
-                  <TableHead className="min-w-[180px] px-2 text-gray-900">LinkedIn URL</TableHead>
-                  {showEmail && <TableHead className="min-w-[180px] px-2 text-gray-900">Email</TableHead>}
-                  <TableHead className="min-w-[130px] px-2 text-gray-900">Advisor</TableHead>
-                </TableRow>
-              </TableHeader>
+          <Table>
+            <TableHeader className="sticky top-0 bg-white z-50 border-b">
+              <TableRow>
+                <TableHead className="w-[70px] px-2 text-gray-900">Profile</TableHead>
+                <TableHead className="min-w-[130px] px-2 text-gray-900">Full Name</TableHead>
+                <TableHead className="min-w-[130px] px-2 text-gray-900">Company</TableHead>
+                <TableHead className="min-w-[180px] px-2 text-gray-900">LinkedIn URL</TableHead>
+                {showEmail && <TableHead className="min-w-[180px] px-2 text-gray-900">Email</TableHead>}
+                <TableHead className="min-w-[130px] px-2 text-gray-900">Advisor</TableHead>
+              </TableRow>
+            </TableHeader>
+            <div className="max-h-[400px] overflow-auto">
               <TableBody>
                 {isLoading ? (
                   <TableRow>
@@ -80,7 +80,7 @@ export const PipelineTable = ({
                       data-state={selectedRow === index ? 'selected' : undefined}
                       className="cursor-pointer"
                     >
-                      <TableCell className="sticky left-0 bg-white w-[70px]">
+                      <TableCell className="w-[70px]">
                         <Avatar>
                           <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
                           <AvatarFallback>
@@ -107,8 +107,8 @@ export const PipelineTable = ({
                   ))
                 )}
               </TableBody>
-            </Table>
-          </div>
+            </div>
+          </Table>
         </div>
         {hasMoreRows && (
           <div className="mt-4 text-center">
