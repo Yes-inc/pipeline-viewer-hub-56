@@ -64,7 +64,7 @@ const Index = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
-            title="Total Introductions"
+            title="Established Connections"
             value={totalIntroductions.toString()}
             icon={Users}
             trend={`${totalIntroductions} established connections`}

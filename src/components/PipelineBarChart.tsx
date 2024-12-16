@@ -1,4 +1,4 @@
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, LabelList } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, LabelList } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
 
 interface PipelineBarChartProps {
@@ -35,20 +35,6 @@ const PipelineBarChart = ({ establishedConnections, activeLeads, generatedLeads 
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload;
-                  return (
-                    <div className="bg-white p-2 border rounded shadow">
-                      <p className="font-semibold">{data.name}</p>
-                      <p>Total: {data.value}</p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
             <Bar dataKey="value">
               {data.map((entry, index) => (
                 <Cell key={index} fill={entry.fill} />
