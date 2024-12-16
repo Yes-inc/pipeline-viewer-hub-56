@@ -1,37 +1,10 @@
-import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
-
-export type PipelineRow = {
-  id: string;
-  name: string;
-  company: string;
-  linkedinUrl: string;
-  value: string;
-  status: string;
-  advisor: string;
-  profilePicUrl: string;
-  lastContactedDate: string;
-  initiatedContactDate: string;
-  jobTitle: string;
-};
-
-export const fetchSheetData = async (credentials: any, sheetId: string): Promise<PipelineRow[]> => {
-  const doc = new GoogleSpreadsheet(sheetId, credentials);
-  await doc.loadInfo();
-  
-  const sheet = doc.sheetsByIndex[0];
-  const rows = await sheet.getRows() as GoogleSpreadsheetRow[];
-  
-  return rows.map((row) => ({
-    id: row.get('id') || '',
-    name: row.get('name') || '',
-    company: row.get('company') || '',
-    linkedinUrl: row.get('linkedinUrl') || '',
-    value: row.get('value') || '',
-    status: row.get('status') || '',
-    advisor: row.get('advisor') || '',
-    profilePicUrl: row.get('profilePicUrl') || '',
-    lastContactedDate: row.get('lastContactedDate') || new Date().toLocaleDateString(),
-    initiatedContactDate: row.get('initiatedContactDate') || new Date().toLocaleDateString(),
-    jobTitle: row.get('jobTitle') || '',
-  }));
-};
+export interface PipelineRow {
+  Advisor: string | null;
+  Company: string | null;
+  Email: string | null;
+  First_Name: string | null;
+  Full_Name: string | null;
+  Last_Name: string | null;
+  LinkedIn_URL: string;
+  profilePicUrl?: string;
+}

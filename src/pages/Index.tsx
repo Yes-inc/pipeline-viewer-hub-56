@@ -6,10 +6,11 @@ import { PipelineTable } from "../components/PipelineTable";
 import { Users, Building2, UserCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CombinedValueGraph from "../components/CombinedValueGraph";
+import { PipelineRow } from "../utils/googleSheets";
 
 const Index = () => {
   // Query for Established Connections
-  const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery({
+  const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
     queryKey: ['established-connections'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -21,7 +22,7 @@ const Index = () => {
   });
 
   // Query for More Active Leads
-  const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery({
+  const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
     queryKey: ['active-leads'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -33,7 +34,7 @@ const Index = () => {
   });
 
   // Query for Generated Leads
-  const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery({
+  const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
       const { data, error } = await supabase
