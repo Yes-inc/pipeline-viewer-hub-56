@@ -5,6 +5,8 @@ import type { MapContainer as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect, useRef } from "react";
+import AdvisorPopup from "./AdvisorPopup";
+import { createRoot } from 'react-dom/client';
 
 // Fix for default marker icon in react-leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;

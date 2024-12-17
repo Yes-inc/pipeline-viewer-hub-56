@@ -11,16 +11,25 @@ export type Database = {
     Tables: {
       Advisors: {
         Row: {
+          Duration: number | null
+          Industry: string | null
+          LinkedIn: string | null
           Location: string | null
           Name: string
           Picture: string | null
         }
         Insert: {
+          Duration?: number | null
+          Industry?: string | null
+          LinkedIn?: string | null
           Location?: string | null
           Name?: string
           Picture?: string | null
         }
         Update: {
+          Duration?: number | null
+          Industry?: string | null
+          LinkedIn?: string | null
           Location?: string | null
           Name?: string
           Picture?: string | null
