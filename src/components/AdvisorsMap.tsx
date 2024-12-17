@@ -92,10 +92,6 @@ const AdvisorsMap = () => {
     return <div className="h-[400px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
   }
 
-  // Center the map on Portugal as a default location
-  const center: L.LatLngExpression = [39.3999, -8.2245];
-  const zoom = 2;
-
   // Filter out advisors without valid locations
   const validAdvisors = advisors.filter(advisor => 
     advisor.Location && locationCoordinates[advisor.Location]
@@ -108,18 +104,29 @@ const AdvisorsMap = () => {
         <MapContainer
           ref={mapRef}
           className="h-full w-full"
-          center={center}
-          zoom={zoom}
-          scrollWheelZoom={false}
+          center={[20, 0]}
+          zoom={2}
+          scrollWheelZoom={true}
+          minZoom={1}
+          maxBounds={[[-90, -180], [90, 180]]}
+          maxBoundsViscosity={1.0}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            noWrap={false}
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
             return (
-              <Marker key={index} position={position} />
+              <Marker key={index} position={position}>
+                <Popup>
+                  <div className="min-w-[200px]">
+                    <div className="font-medium">{advisor.Name}</div>
+                    <div className="text-sm text-gray-500">{advisor.Location}</div>
+                  </div>
+                </Popup>
+              </Marker>
             );
           })}
         </MapContainer>
