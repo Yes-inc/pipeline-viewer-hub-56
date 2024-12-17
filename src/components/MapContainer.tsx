@@ -3,7 +3,7 @@ import type { MapContainer as LeafletMap } from 'leaflet';
 import { ReactNode, forwardRef } from 'react';
 import type { MapContainerProps as LeafletMapProps } from 'react-leaflet';
 
-interface MapContainerProps extends Omit<LeafletMapProps, 'children'> {
+interface MapContainerProps extends Partial<LeafletMapProps> {
   children: ReactNode;
 }
 
