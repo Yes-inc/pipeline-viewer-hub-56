@@ -33,7 +33,7 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({ children, ...p
           transition: transform 0.2s ease;
         }
         .custom-advisor-marker:hover {
-          transform: scale(1.1);
+          transform: scale(1.05);
           z-index: 1000 !important;
         }
         .advisor-popup .leaflet-popup-content-wrapper {

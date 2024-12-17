@@ -1,6 +1,8 @@
 import { Linkedin } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AdvisorPopupProps {
   name: string;
@@ -20,6 +22,25 @@ const getDurationColor = (duration: number | null) => {
 };
 
 const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }: AdvisorPopupProps) => {
+  // Query for generated leads count and total pipeline
+  const { data: leadsData } = useQuery({
+    queryKey: ['advisor-leads', name],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Leads')
+        .select('potential_pipeline')
+        .eq('Advisor', name);
+      
+      if (error) throw error;
+      
+      const totalPipeline = data.reduce((sum, lead) => sum + (lead.potential_pipeline || 0), 0);
+      return {
+        count: data.length,
+        pipeline: totalPipeline
+      };
+    }
+  });
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg min-w-[280px]">
       <div className="flex flex-col items-center gap-3">
@@ -47,7 +68,7 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
             )}
           </div>
           <div className="text-sm text-gray-500 mb-3">{location}</div>
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-2 mb-3">
             {industry && (
               <Badge variant="secondary" className="text-xs">
                 {industry}
@@ -59,6 +80,14 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
               </Badge>
             )}
           </div>
+          {leadsData && (
+            <div className="text-sm">
+              <div className="font-medium">Generated Leads: {leadsData.count}</div>
+              <div className="text-green-600 font-medium">
+                Pipeline: ${leadsData.pipeline.toLocaleString()}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

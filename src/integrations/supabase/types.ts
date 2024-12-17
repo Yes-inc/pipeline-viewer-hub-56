@@ -45,6 +45,7 @@ export type Database = {
           Full_Name: string
           Last_Name: string | null
           LinkedIn_URL: string
+          potential_pipeline: number | null
         }
         Insert: {
           Advisor?: string | null
@@ -54,6 +55,7 @@ export type Database = {
           Full_Name: string
           Last_Name?: string | null
           LinkedIn_URL: string
+          potential_pipeline?: number | null
         }
         Update: {
           Advisor?: string | null
@@ -63,6 +65,7 @@ export type Database = {
           Full_Name?: string
           Last_Name?: string | null
           LinkedIn_URL?: string
+          potential_pipeline?: number | null
         }
         Relationships: []
       }
@@ -75,6 +78,7 @@ export type Database = {
           Full_Name: string | null
           Last_Name: string | null
           LinkedIn_URL: string
+          potential_pipeline: number | null
         }
         Insert: {
           Advisor?: string | null
@@ -84,6 +88,7 @@ export type Database = {
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL: string
+          potential_pipeline?: number | null
         }
         Update: {
           Advisor?: string | null
@@ -93,6 +98,7 @@ export type Database = {
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL?: string
+          potential_pipeline?: number | null
         }
         Relationships: []
       }
@@ -105,6 +111,7 @@ export type Database = {
           Full_Name: string | null
           Last_Name: string | null
           LinkedIn_URL: string
+          potential_pipeline: number | null
         }
         Insert: {
           Advisor?: string | null
@@ -114,6 +121,7 @@ export type Database = {
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL: string
+          potential_pipeline?: number | null
         }
         Update: {
           Advisor?: string | null
@@ -123,6 +131,7 @@ export type Database = {
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL?: string
+          potential_pipeline?: number | null
         }
         Relationships: []
       }
