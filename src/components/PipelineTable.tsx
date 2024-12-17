@@ -21,6 +21,16 @@ const shortenUrl = (url: string) => {
   }
 };
 
+const formatCurrency = (value: number | null) => {
+  if (value === null) return '-';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
 export const PipelineTable = ({ 
   title, 
   data = [], 
@@ -57,20 +67,21 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[180px] pl-4 text-gray-900">LinkedIn URL</TableHead>
                   {showEmail && <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>}
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
+                  <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 6 : 5} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -103,6 +114,9 @@ export const PipelineTable = ({
                       </TableCell>
                       {showEmail && <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>}
                       <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
+                      <TableCell className="pl-4 text-green-600 font-medium">
+                        {formatCurrency(row.potential_pipeline)}
+                      </TableCell>
                     </TableRow>
                   ))
                 )}
