@@ -1,5 +1,6 @@
 import { Linkedin } from 'lucide-react';
 import { Badge } from './ui/badge';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 
 interface AdvisorPopupProps {
   name: string;
@@ -20,20 +21,20 @@ const getDurationColor = (duration: number | null) => {
 
 const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }: AdvisorPopupProps) => {
   return (
-    <div className="bg-white p-3 rounded-lg shadow-lg min-w-[250px]">
-      <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+    <div className="bg-white p-4 rounded-lg shadow-lg min-w-[280px]">
+      <div className="flex flex-col items-center gap-3">
+        <Avatar className="w-16 h-16 border-2 border-white shadow-md">
           {picture ? (
-            <img src={picture} alt={name} className="w-full h-full object-cover" />
+            <AvatarImage src={picture} alt={name} />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-primary text-white">
+            <AvatarFallback className="bg-primary text-white text-lg">
               {name.charAt(0)}
-            </div>
+            </AvatarFallback>
           )}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-2">
-            <div className="font-medium truncate">{name}</div>
+        </Avatar>
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <h3 className="font-semibold text-lg">{name}</h3>
             {linkedIn && (
               <a 
                 href={linkedIn} 
@@ -45,8 +46,8 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
               </a>
             )}
           </div>
-          <div className="text-sm text-gray-500 mb-2">{location}</div>
-          <div className="flex flex-wrap gap-2">
+          <div className="text-sm text-gray-500 mb-3">{location}</div>
+          <div className="flex flex-wrap justify-center gap-2">
             {industry && (
               <Badge variant="secondary" className="text-xs">
                 {industry}
