@@ -15,7 +15,7 @@ const PipelineBarChart = ({ establishedConnections, activeLeads, generatedLeads 
       fill: '#3b82f6' // Blue
     },
     {
-      name: 'More Active Leads',
+      name: 'Engaged Prospects',
       value: activeLeads.length,
       fill: '#eab308' // Yellow
     },

@@ -28,7 +28,7 @@ const FunnelChart = ({ establishedConnections, activeLeads, generatedLeads }: Fu
       conversion: '100%'
     },
     {
-      name: 'More Active Leads',
+      name: 'Engaged Prospects',
       value: totalActive,
       fill: '#eab308', // Yellow
       conversion: `${activeConversionRate}%`

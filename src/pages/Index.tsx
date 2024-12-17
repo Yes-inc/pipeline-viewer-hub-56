@@ -23,7 +23,7 @@ const Index = () => {
     }
   });
 
-  // Query for More Active Leads
+  // Query for Engaged Prospects
   const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
     queryKey: ['active-leads'],
     queryFn: async () => {
@@ -114,7 +114,7 @@ const Index = () => {
               value="active"
               className="rounded-md text-gray-900 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm transition-all"
             >
-              More Active Leads
+              Engaged Prospects
             </TabsTrigger>
             <TabsTrigger 
               value="generated"
@@ -133,7 +133,7 @@ const Index = () => {
           </TabsContent>
           <TabsContent value="active">
             <PipelineTable 
-              title="More Active Leads" 
+              title="Engaged Prospects" 
               data={activeLeads}
               isLoading={isLoadingActive}
               error={errorActive}
