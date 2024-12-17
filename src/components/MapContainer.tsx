@@ -3,7 +3,7 @@ import type { MapContainer as LeafletMap } from 'leaflet';
 import { ReactNode, forwardRef } from 'react';
 import type { MapContainerProps as LeafletMapProps } from 'react-leaflet';
 
-interface MapContainerProps extends Partial<LeafletMapProps> {
+interface MapContainerProps extends LeafletMapProps {
   children: ReactNode;
 }
 
@@ -22,8 +22,8 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({ children, ...p
         {...props}
       >
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {children}
       </LeafletMapContainer>
