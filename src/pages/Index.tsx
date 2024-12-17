@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import DashboardLayout from "../components/DashboardLayout";
 import InfoCard from "../components/InfoCard";
 import { PipelineTable } from "../components/PipelineTable";
-import { Users, TrendingUp, ArrowUpRight } from "lucide-react";
+import { Users, TrendingUp, ArrowUpRight, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
 import PipelineBarChart from "../components/PipelineBarChart";
@@ -49,6 +49,7 @@ const Index = () => {
 
   // Calculate metrics
   const totalEstablished = establishedConnections.length;
+  const totalEngaged = activeLeads.length;
   const totalGenerated = generatedLeads.length;
   const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => sum + (lead.potential_pipeline || 0), 0);
 
@@ -67,12 +68,19 @@ const Index = () => {
           <h1 className="text-2xl font-bold text-gray-900">Pipeline Dashboard</h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <InfoCard
             title="Established Connections"
             value={totalEstablished.toString()}
             icon={Users}
             trend={`${totalEstablished} established connections`}
+            trendUp={true}
+          />
+          <InfoCard
+            title="Engaged Prospects"
+            value={totalEngaged.toString()}
+            icon={UserPlus}
+            trend={`${totalEngaged} engaged prospects`}
             trendUp={true}
           />
           <InfoCard
