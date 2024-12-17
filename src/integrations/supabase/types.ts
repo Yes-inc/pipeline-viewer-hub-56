@@ -83,6 +83,7 @@ export type Database = {
           Last_Name: string | null
           LinkedIn_URL: string
           potential_pipeline: number | null
+          Profile_Picture: string | null
         }
         Insert: {
           Advisor?: string | null
@@ -94,6 +95,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL: string
           potential_pipeline?: number | null
+          Profile_Picture?: string | null
         }
         Update: {
           Advisor?: string | null
@@ -105,6 +107,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           potential_pipeline?: number | null
+          Profile_Picture?: string | null
         }
         Relationships: []
       }
@@ -112,35 +115,41 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Website: string | null
           created_at: string | null
+          Deal_Size: string | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
           Last_Name: string | null
           LinkedIn_URL: string
-          potential_pipeline: number | null
+          Profile_Picture: string | null
         }
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Website?: string | null
           created_at?: string | null
+          Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL: string
-          potential_pipeline?: number | null
+          Profile_Picture?: string | null
         }
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Website?: string | null
           created_at?: string | null
+          Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL?: string
-          potential_pipeline?: number | null
+          Profile_Picture?: string | null
         }
         Relationships: []
       }

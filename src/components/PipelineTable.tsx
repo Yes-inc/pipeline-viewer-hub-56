@@ -14,10 +14,10 @@ interface PipelineTableProps {
 const shortenUrl = (url: string) => {
   try {
     const urlObj = new URL(url);
-    const path = urlObj.pathname;
-    return path.length > 15 ? `${path.substring(0, 15)}...` : path;
+    const domain = urlObj.hostname.replace('www.', '');
+    return domain.length > 20 ? `${domain.substring(0, 20)}...` : domain;
   } catch {
-    return url.substring(0, 15) + '...';
+    return url.length > 20 ? `${url.substring(0, 20)}...` : url;
   }
 };
 
@@ -51,6 +51,7 @@ export const PipelineTable = ({
   const visibleData = data?.slice(0, rowsToShow) || [];
   const hasMoreRows = rowsToShow < (data?.length || 0);
   const showEmail = title !== "Generated Leads";
+  const isEngagedProspects = title === "Engaged Prospects";
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -64,24 +65,32 @@ export const PipelineTable = ({
                   <TableHead className="w-[70px] pl-4 text-gray-900">Profile</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Full Name</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Company</TableHead>
-                  <TableHead className="min-w-[180px] pl-4 text-gray-900">LinkedIn URL</TableHead>
+                  <TableHead className="min-w-[130px] pl-4 text-gray-900">LinkedIn URL</TableHead>
                   {showEmail && <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>}
+                  {isEngagedProspects && (
+                    <>
+                      <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
+                      <TableHead className="min-w-[130px] pl-4 text-gray-900">Deal Size</TableHead>
+                    </>
+                  )}
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
-                  <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
+                  {!isEngagedProspects && (
+                    <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={showEmail ? 7 : 6} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -93,7 +102,7 @@ export const PipelineTable = ({
                     >
                       <TableCell className="pl-4">
                         <Avatar>
-                          <AvatarImage src={row.profilePicUrl} alt={row.Full_Name || ''} />
+                          <AvatarImage src={row.Profile_Picture || row.profilePicUrl} alt={row.Full_Name || ''} />
                           <AvatarFallback>
                             <UserRound className="h-4 w-4" />
                           </AvatarFallback>
@@ -113,10 +122,30 @@ export const PipelineTable = ({
                         </a>
                       </TableCell>
                       {showEmail && <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>}
+                      {isEngagedProspects && (
+                        <>
+                          <TableCell className="pl-4">
+                            {row.Company_Website && (
+                              <a 
+                                href={row.Company_Website} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:text-blue-800 underline"
+                                title={row.Company_Website}
+                              >
+                                {shortenUrl(row.Company_Website)}
+                              </a>
+                            )}
+                          </TableCell>
+                          <TableCell className="pl-4 text-gray-900">{row.Deal_Size}</TableCell>
+                        </>
+                      )}
                       <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
-                      <TableCell className="pl-4 text-green-600 font-medium">
-                        {formatCurrency(row.potential_pipeline)}
-                      </TableCell>
+                      {!isEngagedProspects && (
+                        <TableCell className="pl-4 text-green-600 font-medium">
+                          {formatCurrency(row.potential_pipeline)}
+                        </TableCell>
+                      )}
                     </TableRow>
                   ))
                 )}
