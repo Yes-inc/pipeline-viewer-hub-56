@@ -50,8 +50,8 @@ export const PipelineTable = ({
 
   const visibleData = data?.slice(0, rowsToShow) || [];
   const hasMoreRows = rowsToShow < (data?.length || 0);
-  const showEmail = title !== "Generated Leads";
   const isEngagedProspects = title === "Engaged Prospects";
+  const isGeneratedLeads = title === "Generated Leads";
 
   return (
     <div className="bg-white rounded-lg shadow">
@@ -66,8 +66,8 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Full Name</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Company</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">LinkedIn URL</TableHead>
-                  {showEmail && <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>}
-                  {isEngagedProspects && (
+                  <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>
+                  {(isEngagedProspects || isGeneratedLeads) && (
                     <>
                       <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
                       <TableHead className="min-w-[130px] pl-4 text-gray-900">Deal Size</TableHead>
@@ -82,15 +82,15 @@ export const PipelineTable = ({
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects ? 8 : 7} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -102,7 +102,7 @@ export const PipelineTable = ({
                     >
                       <TableCell className="pl-4">
                         <Avatar>
-                          <AvatarImage src={row.Profile_Picture || row.profilePicUrl} alt={row.Full_Name || ''} />
+                          <AvatarImage src={row.Profile_Picture} alt={row.Full_Name || ''} />
                           <AvatarFallback>
                             <UserRound className="h-4 w-4" />
                           </AvatarFallback>
@@ -121,8 +121,8 @@ export const PipelineTable = ({
                           {shortenUrl(row.LinkedIn_URL)}
                         </a>
                       </TableCell>
-                      {showEmail && <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>}
-                      {isEngagedProspects && (
+                      <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>
+                      {(isEngagedProspects || isGeneratedLeads) && (
                         <>
                           <TableCell className="pl-4">
                             {row.Company_Website && (
