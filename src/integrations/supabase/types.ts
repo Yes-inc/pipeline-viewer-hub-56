@@ -40,6 +40,7 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          created_at: string | null
           Email: string | null
           First_Name: string | null
           Full_Name: string
@@ -50,6 +51,7 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name: string
@@ -60,6 +62,7 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string
@@ -73,6 +76,7 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          created_at: string | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -83,6 +87,7 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -93,6 +98,7 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -106,6 +112,7 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          created_at: string | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -116,6 +123,7 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -126,6 +134,7 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          created_at?: string | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null

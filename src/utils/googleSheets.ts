@@ -7,4 +7,5 @@ export interface PipelineRow {
   Email?: string;
   Company?: string;
   potential_pipeline?: number;
+  created_at?: string;
 }
