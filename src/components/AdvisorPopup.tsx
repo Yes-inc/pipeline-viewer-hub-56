@@ -1,4 +1,4 @@
-import { LinkedIn } from 'lucide-react';
+import { Linkedin } from 'lucide-react';
 import { Badge } from './ui/badge';
 
 interface AdvisorPopupProps {
@@ -41,7 +41,7 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800"
               >
-                <LinkedIn className="w-5 h-5" />
+                <Linkedin className="w-5 h-5" />
               </a>
             )}
           </div>

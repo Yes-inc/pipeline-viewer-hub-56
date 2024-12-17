@@ -20,13 +20,18 @@ interface Advisor {
   Name: string;
   Location: string | null;
   Picture: string | null;
+  Industry: string | null;
+  Duration: number | null;
+  LinkedIn: string | null;
 }
 
 // Map of country/location names to their coordinates
 const locationCoordinates: { [key: string]: L.LatLngExpression } = {
   'Portugal': [39.3999, -8.2245],
   'Bangladesh': [23.6850, 90.3563],
-  'Brazil': [-14.2350, -51.9253]
+  'Brazil': [-14.2350, -51.9253],
+  'Dubai': [25.2048, 55.2708],
+  'Namibia': [-22.9576, 18.4904]
 };
 
 const AdvisorsMap = () => {
@@ -59,22 +64,19 @@ const AdvisorsMap = () => {
         .filter(advisor => advisor.Location && locationCoordinates[advisor.Location])
         .forEach((advisor) => {
           const position = locationCoordinates[advisor.Location!];
-          const cardContent = `
-            <div class="bg-white p-3 rounded-lg shadow-lg min-w-[200px]">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                  ${advisor.Picture 
-                    ? `<img src="${advisor.Picture}" alt="${advisor.Name}" class="w-full h-full object-cover" />`
-                    : `<div class="w-full h-full flex items-center justify-center bg-primary text-white">${advisor.Name.charAt(0)}</div>`
-                  }
-                </div>
-                <div>
-                  <div class="font-medium">${advisor.Name}</div>
-                  <div class="text-sm text-gray-500">${advisor.Location}</div>
-                </div>
-              </div>
-            </div>
-          `;
+          const cardContent = document.createElement('div');
+          const root = createRoot(cardContent);
+          
+          root.render(
+            <AdvisorPopup
+              name={advisor.Name}
+              location={advisor.Location!}
+              picture={advisor.Picture}
+              industry={advisor.Industry}
+              duration={advisor.Duration}
+              linkedIn={advisor.LinkedIn}
+            />
+          );
 
           L.popup({
             closeButton: false,
@@ -106,27 +108,30 @@ const AdvisorsMap = () => {
         <MapContainer
           ref={mapRef}
           className="h-full w-full"
-          center={[20, 0] as L.LatLngExpression}
+          center={[20, 0]}
           zoom={2}
           scrollWheelZoom={true}
           minZoom={1}
-          maxBounds={[[-90, -180], [90, 180]] as L.LatLngBoundsExpression}
+          maxBounds={[[-90, -180], [90, 180]]}
           maxBoundsViscosity={1.0}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            noWrap={false}
           />
           {validAdvisors.map((advisor, index) => {
             const position = locationCoordinates[advisor.Location!];
             return (
               <Marker key={index} position={position}>
                 <Popup>
-                  <div className="min-w-[200px]">
-                    <div className="font-medium">{advisor.Name}</div>
-                    <div className="text-sm text-gray-500">{advisor.Location}</div>
-                  </div>
+                  <AdvisorPopup
+                    name={advisor.Name}
+                    location={advisor.Location!}
+                    picture={advisor.Picture}
+                    industry={advisor.Industry}
+                    duration={advisor.Duration}
+                    linkedIn={advisor.LinkedIn}
+                  />
                 </Popup>
               </Marker>
             );
