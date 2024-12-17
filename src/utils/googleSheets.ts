@@ -1,10 +1,10 @@
 export interface PipelineRow {
-  Advisor: string | null;
-  Company: string | null;
-  Email: string | null;
-  First_Name: string | null;
-  Full_Name: string | null;
-  Last_Name: string | null;
+  Advisor?: string;
   LinkedIn_URL: string;
-  profilePicUrl?: string;
+  Full_Name?: string;
+  First_Name?: string;
+  Last_Name?: string;
+  Email?: string;
+  Company?: string;
+  potential_pipeline?: number;
 }

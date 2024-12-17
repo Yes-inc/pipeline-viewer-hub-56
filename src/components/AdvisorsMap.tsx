@@ -35,20 +35,26 @@ const AdvisorsMap = () => {
     return <div className="h-[500px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
   }
 
-  // Filter out advisors without valid locations
-  const validAdvisors = advisors.filter(advisor => 
-    advisor.Location && locationCoordinates[advisor.Location]
-  );
+  // Group advisors by location
+  const advisorsByLocation = advisors.reduce((acc: { [key: string]: Advisor[] }, advisor) => {
+    if (advisor.Location && locationCoordinates[advisor.Location]) {
+      if (!acc[advisor.Location]) {
+        acc[advisor.Location] = [];
+      }
+      acc[advisor.Location].push(advisor);
+    }
+    return acc;
+  }, {});
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">
       <h2 className="text-lg font-semibold text-gray-900">Advisor Locations</h2>
       <MapContainer ref={mapRef}>
-        {validAdvisors.map((advisor, index) => (
+        {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
           <AdvisorMarker
-            key={index}
-            advisor={advisor}
-            position={locationCoordinates[advisor.Location!]}
+            key={location}
+            advisors={locationAdvisors}
+            position={locationCoordinates[location]}
           />
         ))}
       </MapContainer>

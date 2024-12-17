@@ -7,6 +7,7 @@ import { Users, TrendingUp, ArrowUpRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
 import PipelineBarChart from "../components/PipelineBarChart";
+import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import AdvisorsMap from "../components/AdvisorsMap";
 
 const Index = () => {
@@ -90,14 +91,16 @@ const Index = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AdvisorsMap />
-          <PipelineBarChart 
-            establishedConnections={establishedConnections}
-            activeLeads={activeLeads}
-            generatedLeads={generatedLeads}
-          />
+          <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
+
+        <PipelineBarChart 
+          establishedConnections={establishedConnections}
+          activeLeads={activeLeads}
+          generatedLeads={generatedLeads}
+        />
 
         <Tabs defaultValue="generated" className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">
