@@ -49,16 +49,16 @@ const Index = () => {
 
   // Calculate metrics
   const totalEstablished = establishedConnections.length;
-  const totalActive = activeLeads.length;
   const totalGenerated = generatedLeads.length;
+  const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => sum + (lead.potential_pipeline || 0), 0);
 
-  // Calculate conversion rates
-  const activeConversionRate = totalEstablished > 0 
-    ? ((totalActive / totalEstablished) * 100).toFixed(1) 
-    : '0';
-  const generatedConversionRate = totalActive > 0 
-    ? ((totalGenerated / totalActive) * 100).toFixed(1) 
-    : '0';
+  // Format the total pipeline value
+  const formattedPipeline = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(totalPotentialPipeline);
 
   return (
     <DashboardLayout>
@@ -76,17 +76,17 @@ const Index = () => {
             trendUp={true}
           />
           <InfoCard
-            title="Active Lead Conversion"
-            value={`${activeConversionRate}%`}
+            title="Total Potential Pipeline"
+            value={formattedPipeline}
             icon={TrendingUp}
-            trend="From established connections"
+            trend="Total pipeline value"
             trendUp={true}
           />
           <InfoCard
-            title="Generated Lead Conversion"
-            value={`${generatedConversionRate}%`}
+            title="Generated Leads"
+            value={totalGenerated.toString()}
             icon={ArrowUpRight}
-            trend="From active leads"
+            trend={`${totalGenerated} generated leads`}
             trendUp={true}
           />
         </div>
