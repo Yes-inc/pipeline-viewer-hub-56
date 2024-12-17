@@ -1,55 +1,30 @@
-import { MapContainer as LeafletMapContainer, TileLayer } from 'react-leaflet';
-import type { MapContainer as LeafletMap } from 'leaflet';
-import { ReactNode, forwardRef } from 'react';
-import type { MapContainerProps as LeafletMapProps } from 'react-leaflet';
+import { MapContainer as LeafletMapContainer, TileLayer, useMap } from 'react-leaflet';
+import { LatLngBounds, LatLngBoundsExpression } from 'leaflet';
+import type { ReactNode } from 'react';
+import 'leaflet/dist/leaflet.css';
 
-interface MapContainerProps extends LeafletMapProps {
+interface MapContainerProps {
   children: ReactNode;
+  bounds?: LatLngBoundsExpression;
+  className?: string;
 }
 
-const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({ children, ...props }, ref) => {
+const MapContainer = ({ children, bounds, className = '' }: MapContainerProps) => {
+  const defaultBounds = new LatLngBounds([25, -130], [50, -65]); // USA bounds
+
   return (
-    <div className="h-[600px] rounded-lg overflow-hidden">
-      <LeafletMapContainer
-        ref={ref}
-        className="h-full w-full"
-        center={[20, 0]}
-        zoom={2}
-        scrollWheelZoom={false}
-        minZoom={2}
-        maxBounds={[[-90, -180], [90, 180]]}
-        maxBoundsViscosity={1.0}
-        {...props}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {children}
-      </LeafletMapContainer>
-
-      <style>
-        {`
-          .custom-advisor-marker {
-            transition: transform 0.2s ease;
-          }
-          .custom-advisor-marker:hover {
-            transform: scale(1.05);
-            z-index: 1000 !important;
-          }
-          .advisor-popup .leaflet-popup-content-wrapper {
-            padding: 0;
-            overflow: hidden;
-          }
-          .advisor-popup .leaflet-popup-content {
-            margin: 0;
-          }
-        `}
-      </style>
-    </div>
+    <LeafletMapContainer
+      bounds={bounds || defaultBounds}
+      className={`w-full h-full ${className}`}
+      style={{ minHeight: '300px' }}
+      zoomControl={true}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {children}
+    </LeafletMapContainer>
   );
-});
-
-MapContainer.displayName = 'MapContainer';
+};
 
 export default MapContainer;

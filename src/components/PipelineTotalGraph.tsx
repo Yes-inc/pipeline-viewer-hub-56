@@ -7,11 +7,18 @@ interface PipelineTotalGraphProps {
 }
 
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
-  // Process data to aggregate pipeline by date
-  const dailyPipelines = generatedLeads.reduce((acc: { [key: string]: number }, curr) => {
+  // Process data to aggregate pipeline by date and calculate cumulative total
+  const sortedLeads = [...generatedLeads].sort((a, b) => {
+    if (!a.created_at || !b.created_at) return 0;
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  });
+
+  let cumulativeTotal = 0;
+  const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
     if (!curr.created_at) return acc;
     const date = format(parseISO(curr.created_at), 'MMM dd');
-    acc[date] = (acc[date] || 0) + (curr.potential_pipeline || 0);
+    cumulativeTotal += (curr.potential_pipeline || 0);
+    acc[date] = cumulativeTotal;
     return acc;
   }, {});
 
@@ -19,8 +26,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
     .map(([date, pipeline]) => ({
       date,
       pipeline
-    }))
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    }));
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -33,7 +39,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
-      <h2 className="text-lg font-semibold mb-4">Total Pipeline Over Time</h2>
+      <h2 className="text-lg font-semibold mb-4">Cumulative Pipeline Generated</h2>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>

@@ -8,4 +8,5 @@ export interface PipelineRow {
   Company?: string;
   potential_pipeline?: number;
   created_at?: string;
+  profilePicUrl?: string;
 }
