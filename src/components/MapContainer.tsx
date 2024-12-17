@@ -28,22 +28,24 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({ children, ...p
         {children}
       </LeafletMapContainer>
 
-      <style jsx global>{`
-        .custom-advisor-marker {
-          transition: transform 0.2s ease;
-        }
-        .custom-advisor-marker:hover {
-          transform: scale(1.05);
-          z-index: 1000 !important;
-        }
-        .advisor-popup .leaflet-popup-content-wrapper {
-          padding: 0;
-          overflow: hidden;
-        }
-        .advisor-popup .leaflet-popup-content {
-          margin: 0;
-        }
-      `}</style>
+      <style>
+        {`
+          .custom-advisor-marker {
+            transition: transform 0.2s ease;
+          }
+          .custom-advisor-marker:hover {
+            transform: scale(1.05);
+            z-index: 1000 !important;
+          }
+          .advisor-popup .leaflet-popup-content-wrapper {
+            padding: 0;
+            overflow: hidden;
+          }
+          .advisor-popup .leaflet-popup-content {
+            margin: 0;
+          }
+        `}
+      </style>
     </div>
   );
 });

@@ -4,7 +4,6 @@ import type { LatLngExpression } from 'leaflet';
 import AdvisorPopup from './AdvisorPopup';
 import type { Advisor } from '../types/advisor';
 import { useState } from 'react';
-import { Badge } from './ui/badge';
 
 interface AdvisorMarkerProps {
   advisor: Advisor;
@@ -67,11 +66,11 @@ const AdvisorMarker = ({ advisor, position }: AdvisorMarkerProps) => {
     container.appendChild(infoContainer);
     iconHtml.appendChild(container);
 
-    return L.divIcon({
+    return new L.DivIcon({
       html: iconHtml,
       className: 'custom-advisor-marker',
-      iconSize: [160, isOpen ? 80 : 140],
-      iconAnchor: [80, isOpen ? 40 : 140],
+      iconSize: L.point(160, isOpen ? 80 : 140),
+      iconAnchor: L.point(80, isOpen ? 40 : 140),
     });
   };
 
@@ -92,9 +91,8 @@ const AdvisorMarker = ({ advisor, position }: AdvisorMarkerProps) => {
       }}
     >
       <Popup
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
         className="advisor-popup"
+        onClose={() => setIsOpen(false)}
       >
         <AdvisorPopup
           name={advisor.Name}
