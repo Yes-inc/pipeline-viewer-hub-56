@@ -104,11 +104,11 @@ const AdvisorsMap = () => {
         <MapContainer
           ref={mapRef}
           className="h-full w-full"
-          center={[20, 0]}
+          center={[20, 0] as L.LatLngExpression}
           zoom={2}
           scrollWheelZoom={true}
           minZoom={1}
-          maxBounds={[[-90, -180], [90, 180]]}
+          maxBounds={[[-90, -180], [90, 180]] as L.LatLngBoundsExpression}
           maxBoundsViscosity={1.0}
         >
           <TileLayer
