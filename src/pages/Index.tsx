@@ -6,8 +6,8 @@ import { PipelineTable } from "../components/PipelineTable";
 import { Users, TrendingUp, ArrowUpRight, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
-import DealSizeDistribution from "../components/DealSizeDistribution";
 import AdvisorsMap from "../components/AdvisorsMap";
+import PipelineTotalGraph from "../components/PipelineTotalGraph";
 
 const Index = () => {
   const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
@@ -112,7 +112,7 @@ const Index = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AdvisorsMap />
-          <DealSizeDistribution generatedLeads={generatedLeads} />
+          <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
 
         <Tabs defaultValue="generated" className="w-full">
