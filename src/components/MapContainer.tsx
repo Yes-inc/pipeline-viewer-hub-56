@@ -22,12 +22,12 @@ const MapContainer = forwardRef<any, MapContainerProps>(({
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
       // Using bounds prop instead of maxBounds
-      minZoom={2}
-      maxZoom={18}
+      zoom={2}
+      maxBounds={bounds}
+      maxBoundsViscosity={1.0}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        // Remove noWrap prop as it's not supported
       />
       {children}
     </LeafletMapContainer>

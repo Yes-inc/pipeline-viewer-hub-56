@@ -68,7 +68,7 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     
     iconHtml.appendChild(container);
 
-    return L.divIcon({
+    return new L.DivIcon({
       html: iconHtml.outerHTML,
       className: 'custom-advisor-marker',
       iconSize: L.point(120, 80),
@@ -85,10 +85,7 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       }}
     >
       <Popup
-        // Remove className prop as it's not supported
-        eventHandlers={{
-          close: () => setIsOpen(false),
-        }}
+        onClose={() => setIsOpen(false)}
       >
         <div className="space-y-4">
           {advisors.map((advisor, index) => (
