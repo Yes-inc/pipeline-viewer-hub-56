@@ -1,43 +1,35 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
 }
 
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
-  // First, let's sort the leads by date
-  const sortedLeads = [...generatedLeads].sort((a, b) => {
-    const getDate = (lead: PipelineRow) => {
-      const timestamp = lead.Timestamp?.created_at || lead.created_at;
-      return timestamp ? new Date(timestamp) : new Date(0);
-    };
-    return getDate(a).getTime() - getDate(b).getTime();
-  });
-
-  // Create a map to store cumulative totals by date
-  const dailyPipelines = new Map<string, number>();
-  let runningTotal = 0;
-
-  // Process each lead and calculate cumulative totals
-  sortedLeads.forEach(lead => {
+  // Create data points for the chart
+  const dataPoints = generatedLeads.map(lead => {
     const timestamp = lead.Timestamp?.created_at || lead.created_at;
-    if (!timestamp) return;
-
-    const date = format(new Date(timestamp), 'MMM dd');
+    const date = timestamp ? format(new Date(timestamp), 'MMM dd') : '';
     const dealSize = lead.Deal_Size || '0';
-    const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
-    
-    runningTotal += numericValue;
-    dailyPipelines.set(date, runningTotal);
+    const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    return { date, value };
   });
 
-  // Convert the map to an array of data points for the chart
-  const chartData = Array.from(dailyPipelines.entries()).map(([date, total]) => ({
-    date,
-    pipeline: total
-  }));
+  // Sort data points by date
+  dataPoints.sort((a, b) => {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  });
+
+  // Calculate cumulative totals
+  let runningTotal = 0;
+  const chartData = dataPoints.map(point => {
+    runningTotal += point.value;
+    return {
+      date: point.date,
+      pipeline: runningTotal
+    };
+  });
 
   console.log('Pipeline Chart Data:', chartData);
 
@@ -74,7 +66,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
               labelFormatter={(label) => `Date: ${label}`}
               contentStyle={{ 
                 backgroundColor: 'white', 
-                border: '1px solid #E5DEFF', 
+                border: '1px solid #E5DEFF',
                 color: '#1A1F2C',
                 padding: '8px'
               }}

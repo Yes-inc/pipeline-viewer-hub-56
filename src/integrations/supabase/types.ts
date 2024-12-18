@@ -62,7 +62,6 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
-          created_at: string | null
           Deal_Size: string | null
           Email: string | null
           First_Name: string | null
@@ -70,12 +69,12 @@ export type Database = {
           Last_Name: string | null
           LinkedIn_URL: string
           "Profile Picture": string | null
+          TimeStamp: string | null
         }
         Insert: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -83,12 +82,12 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL: string
           "Profile Picture"?: string | null
+          TimeStamp?: string | null
         }
         Update: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -96,6 +95,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           "Profile Picture"?: string | null
+          TimeStamp?: string | null
         }
         Relationships: []
       }
@@ -104,7 +104,6 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
-          created_at: string | null
           Deal_Size: string | null
           Email: string | null
           First_Name: string | null
@@ -112,13 +111,12 @@ export type Database = {
           Last_Name: string | null
           LinkedIn_URL: string
           Profile_Picture: string | null
-          Timestamp: Json | null
+          Time_Stamp: string | null
         }
         Insert: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -126,13 +124,12 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL: string
           Profile_Picture?: string | null
-          Timestamp?: Json | null
+          Time_Stamp?: string | null
         }
         Update: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -140,7 +137,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
-          Timestamp?: Json | null
+          Time_Stamp?: string | null
         }
         Relationships: []
       }
@@ -149,7 +146,6 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
-          created_at: string | null
           Deal_Size: string | null
           Email: string | null
           First_Name: string | null
@@ -157,12 +153,12 @@ export type Database = {
           Last_Name: string | null
           LinkedIn_URL: string
           Profile_Picture: string | null
+          Time_Stamp: string | null
         }
         Insert: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -170,12 +166,12 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL: string
           Profile_Picture?: string | null
+          Time_Stamp?: string | null
         }
         Update: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          created_at?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -183,6 +179,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
+          Time_Stamp?: string | null
         }
         Relationships: []
       }
