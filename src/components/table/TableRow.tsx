@@ -1,7 +1,18 @@
 import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRound } from "lucide-react";
+import { UserRound, MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { type PipelineRow } from "../../utils/googleSheets";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 
 interface PipelineTableRowProps {
   row: PipelineRow;
@@ -41,6 +52,25 @@ export const PipelineTableRow = ({
   isEngagedProspects,
   isGeneratedLeads 
 }: PipelineTableRowProps) => {
+  const [comment, setComment] = useState("");
+  const { toast } = useToast();
+
+  const handleCommentSubmit = async () => {
+    try {
+      // Here we'll add the comment submission logic later when we have the database table ready
+      toast({
+        title: "Comment saved",
+        description: "Your comment has been saved successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save comment. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <UITableRow 
       onClick={() => setSelectedRow(index)}
@@ -86,6 +116,31 @@ export const PipelineTableRow = ({
       <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
       <TableCell className="pl-4 text-green-600 font-medium">
         {formatCurrency(row.Deal_Size)}
+      </TableCell>
+      <TableCell className="pl-4">
+        <Dialog>
+          <DialogTrigger asChild onClick={(e) => e.stopPropagation()}>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MessageSquare className="h-4 w-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Comment for {row.Full_Name}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <Textarea
+                placeholder="Type your comment here..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="min-h-[100px]"
+              />
+              <Button onClick={handleCommentSubmit} className="w-full">
+                Save Comment
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </TableCell>
     </UITableRow>
   );

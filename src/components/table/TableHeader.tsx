@@ -18,6 +18,7 @@ export const PipelineTableHeader = ({ isEngagedProspects, isGeneratedLeads }: Ta
         )}
         <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
         <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
+        <TableHead className="w-[70px] pl-4 text-gray-900">Comment</TableHead>
       </TableRow>
     </TableHeader>
   );
