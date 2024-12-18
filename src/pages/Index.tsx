@@ -6,7 +6,6 @@ import { PipelineTable } from "../components/PipelineTable";
 import { Users, TrendingUp, ArrowUpRight, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
-import PipelineBarChart from "../components/PipelineBarChart";
 import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import AdvisorsMap from "../components/AdvisorsMap";
 
@@ -84,17 +83,17 @@ const Index = () => {
             trendUp={true}
           />
           <InfoCard
-            title="Total Potential Pipeline"
-            value={formattedPipeline}
-            icon={TrendingUp}
-            trend="Total pipeline value"
-            trendUp={true}
-          />
-          <InfoCard
             title="Generated Leads"
             value={totalGenerated.toString()}
             icon={ArrowUpRight}
             trend={`${totalGenerated} generated leads`}
+            trendUp={true}
+          />
+          <InfoCard
+            title="Total Potential Pipeline"
+            value={formattedPipeline}
+            icon={TrendingUp}
+            trend="Total pipeline value"
             trendUp={true}
           />
         </div>
@@ -103,12 +102,6 @@ const Index = () => {
           <AdvisorsMap />
           <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
-
-        <PipelineBarChart 
-          establishedConnections={establishedConnections}
-          activeLeads={activeLeads}
-          generatedLeads={generatedLeads}
-        />
 
         <Tabs defaultValue="generated" className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">

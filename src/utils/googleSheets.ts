@@ -8,7 +8,6 @@ export interface PipelineRow {
   Company?: string;
   potential_pipeline?: number;
   created_at?: string;
-  profilePicUrl?: string;
   Profile_Picture?: string;
   Company_Website?: string;
   Deal_Size?: string;
