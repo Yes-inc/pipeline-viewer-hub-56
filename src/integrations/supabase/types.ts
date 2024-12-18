@@ -36,6 +36,27 @@ export type Database = {
         }
         Relationships: []
       }
+      comments: {
+        Row: {
+          comment: string
+          created_at: string
+          id: string
+          lead_linkedin_url: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          id?: string
+          lead_linkedin_url: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: string
+          lead_linkedin_url?: string
+        }
+        Relationships: []
+      }
       "Established-Connection": {
         Row: {
           Advisor: string | null

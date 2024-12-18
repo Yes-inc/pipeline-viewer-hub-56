@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
@@ -9,16 +9,15 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    if (!a.Timestamp || !b.Timestamp) return 0;
-    const aDate = new Date(a.Timestamp.created_at);
-    const bDate = new Date(b.Timestamp.created_at);
-    return aDate.getTime() - bDate.getTime();
+    if (!a.created_at || !b.created_at) return 0;
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   });
 
   let cumulativeTotal = 0;
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
-    if (!curr.Timestamp?.created_at) return acc;
-    const date = format(new Date(curr.Timestamp.created_at), 'MMM dd');
+    if (!curr.created_at) return acc;
+    
+    const date = format(parseISO(curr.created_at), 'MMM dd');
     const dealSize = curr.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     cumulativeTotal += numericValue;
@@ -55,7 +54,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
             />
             <YAxis 
               tickFormatter={formatCurrency}
-              tick={{ fontSize: 8, fill: "#1A1F2C" }}
+              tick={{ fontSize: 12, fill: "#1A1F2C" }}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
