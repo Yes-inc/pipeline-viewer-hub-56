@@ -17,11 +17,10 @@ const Index = () => {
         .from('Established-Connection')
         .select('*');
       if (error) throw error;
-      return data;
+      return data as PipelineRow[];
     }
   });
 
-  // Query for Engaged Prospects
   const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
     queryKey: ['active-leads'],
     queryFn: async () => {
@@ -29,11 +28,10 @@ const Index = () => {
         .from('More-Active-Leads')
         .select('*');
       if (error) throw error;
-      return data;
+      return data as PipelineRow[];
     }
   });
 
-  // Query for Generated Leads 
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
     queryKey: ['generated-leads'],
     queryFn: async () => {
@@ -41,7 +39,7 @@ const Index = () => {
         .from('Leads')
         .select('*');
       if (error) throw error;
-      return data;
+      return data as PipelineRow[];
     }
   });
 
