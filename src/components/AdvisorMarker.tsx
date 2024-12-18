@@ -85,7 +85,7 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       }}
     >
       <Popup
-        className="custom-popup"
+        // Remove className prop as it's not supported
         eventHandlers={{
           close: () => setIsOpen(false),
         }}
