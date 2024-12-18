@@ -9,10 +9,19 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Create data points for the chart
   const dataPoints = generatedLeads.map(lead => {
-    const timestamp = lead.Timestamp?.created_at || lead.created_at;
+    // Handle different timestamp field names from different tables
+    const timestamp = lead.Time_Stamp || lead.TimeStamp;
     const date = timestamp ? format(new Date(timestamp), 'MMM dd') : '';
     const dealSize = lead.Deal_Size || '0';
     const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    
+    console.log('Processing lead:', {
+      timestamp,
+      date,
+      dealSize,
+      value
+    });
+    
     return { date, value };
   });
 
