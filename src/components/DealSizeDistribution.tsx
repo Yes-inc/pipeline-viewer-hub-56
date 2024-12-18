@@ -49,66 +49,67 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
   };
 
   return (
-    <div className="bg-[#F6F6F7] p-8 rounded-xl shadow-sm animate-fade-up">
-      <h2 className="text-xl font-semibold mb-6 text-[#1A1F2C]">Deal Size Distribution by Company</h2>
-      <div className="h-[500px] w-full"> {/* Increased height further for better label spacing */}
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            layout="vertical"
-            margin={{ top: 20, right: 40, left: 140, bottom: 20 }} // Increased left margin for labels
-          >
-            <CartesianGrid 
-              strokeDasharray="3 3" 
-              horizontal={true}
-              vertical={false}
-              stroke="#E5DEFF"
-            />
-            <XAxis 
-              type="number" 
-              tickFormatter={formatCurrency}
-              tick={{ fill: '#403E43', fontSize: 12 }}
-              axisLine={{ stroke: '#E5DEFF' }}
-            />
-            <YAxis 
-              type="category" 
-              dataKey="company" 
-              tick={{ 
-                fill: '#403E43', 
-                fontSize: 13,
-                lineHeight: 1.4, // Improved line height
-                width: 120, // Control text wrapping width
-              }}
-              width={130} // Increased width for labels
-              axisLine={{ stroke: '#E5DEFF' }}
-              tickMargin={8} // Added margin between text and axis line
-            />
-            <Tooltip 
-              formatter={(value: number) => formatCurrency(value)}
-              labelFormatter={(label) => `Company: ${label}`}
-              contentStyle={{ 
-                backgroundColor: 'white', 
-                border: '1px solid #E5DEFF',
-                borderRadius: '8px',
-                padding: '12px'
-              }}
-              cursor={{ fill: '#F1F0FB' }}
-            />
-            <Bar 
-              dataKey="value" 
-              radius={[0, 4, 4, 0]}
-              barSize={25} // Slightly reduced bar thickness for better spacing
+    <div className="flex items-center justify-center w-full">
+      <div className="bg-[#F6F6F7] p-8 rounded-xl shadow-sm animate-fade-up max-w-5xl w-full">
+        <h2 className="text-xl font-semibold mb-6 text-[#1A1F2C] text-center">Deal Size Distribution by Company</h2>
+        <div className="h-[500px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={data}
+              layout="vertical"
+              margin={{ top: 20, right: 40, left: 140, bottom: 20 }}
             >
-              {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={colors[index % colors.length]}
-                  style={{ filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.05))' }}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+              <CartesianGrid 
+                strokeDasharray="3 3" 
+                horizontal={true}
+                vertical={false}
+                stroke="#E5DEFF"
+              />
+              <XAxis 
+                type="number" 
+                tickFormatter={formatCurrency}
+                tick={{ fill: '#403E43', fontSize: 12 }}
+                axisLine={{ stroke: '#E5DEFF' }}
+              />
+              <YAxis 
+                type="category" 
+                dataKey="company" 
+                tick={{ 
+                  fill: '#403E43', 
+                  fontSize: 13,
+                  width: 120,
+                }}
+                width={130}
+                axisLine={{ stroke: '#E5DEFF' }}
+                tickMargin={8}
+              />
+              <Tooltip 
+                formatter={(value: number) => formatCurrency(value)}
+                labelFormatter={(label) => `Company: ${label}`}
+                contentStyle={{ 
+                  backgroundColor: 'white', 
+                  border: '1px solid #E5DEFF',
+                  borderRadius: '8px',
+                  padding: '12px'
+                }}
+                cursor={{ fill: '#F1F0FB' }}
+              />
+              <Bar 
+                dataKey="value" 
+                radius={[0, 4, 4, 0]}
+                barSize={25}
+              >
+                {data.map((entry, index) => (
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={colors[index % colors.length]}
+                    style={{ filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.05))' }}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
