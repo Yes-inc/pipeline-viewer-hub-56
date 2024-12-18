@@ -55,7 +55,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
             />
             <YAxis 
               tickFormatter={formatCurrency}
-              tick={{ fontSize: 10, fill: "#1A1F2C" }}
+              tick={{ fontSize: 8, fill: "#1A1F2C" }}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
