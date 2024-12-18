@@ -21,14 +21,15 @@ const shortenUrl = (url: string) => {
   }
 };
 
-const formatCurrency = (value: number | null) => {
-  if (value === null) return '-';
+const formatCurrency = (value: string | null) => {
+  if (!value) return '-';
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''), 10);
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(numericValue || 0);
 };
 
 export const PipelineTable = ({ 
@@ -68,29 +69,24 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">LinkedIn URL</TableHead>
                   <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>
                   {(isEngagedProspects || isGeneratedLeads) && (
-                    <>
-                      <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
-                      <TableHead className="min-w-[130px] pl-4 text-gray-900">Deal Size</TableHead>
-                    </>
+                    <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
                   )}
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
-                  {!isEngagedProspects && (
-                    <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
-                  )}
+                  <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={8} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={8} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={isEngagedProspects || isGeneratedLeads ? 8 : 7} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={8} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -123,29 +119,24 @@ export const PipelineTable = ({
                       </TableCell>
                       <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>
                       {(isEngagedProspects || isGeneratedLeads) && (
-                        <>
-                          <TableCell className="pl-4">
-                            {row.Company_Website && (
-                              <a 
-                                href={row.Company_Website} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-800 underline"
-                                title={row.Company_Website}
-                              >
-                                {shortenUrl(row.Company_Website)}
-                              </a>
-                            )}
-                          </TableCell>
-                          <TableCell className="pl-4 text-gray-900">{row.Deal_Size}</TableCell>
-                        </>
-                      )}
-                      <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
-                      {!isEngagedProspects && (
-                        <TableCell className="pl-4 text-green-600 font-medium">
-                          {formatCurrency(row.potential_pipeline)}
+                        <TableCell className="pl-4">
+                          {row.Company_Website && (
+                            <a 
+                              href={row.Company_Website} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 underline"
+                              title={row.Company_Website}
+                            >
+                              {shortenUrl(row.Company_Website)}
+                            </a>
+                          )}
                         </TableCell>
                       )}
+                      <TableCell className="pl-4 text-gray-900">{row.Advisor}</TableCell>
+                      <TableCell className="pl-4 text-green-600 font-medium">
+                        {formatCurrency(row.Deal_Size)}
+                      </TableCell>
                     </TableRow>
                   ))
                 )}

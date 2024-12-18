@@ -6,7 +6,6 @@ export interface PipelineRow {
   Last_Name?: string;
   Email?: string;
   Company?: string;
-  potential_pipeline?: number;
   created_at?: string;
   Profile_Picture?: string;
   Company_Website?: string;

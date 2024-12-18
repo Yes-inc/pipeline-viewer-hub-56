@@ -28,12 +28,17 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
     queryFn: async () => {
       const { data, error } = await supabase
         .from('Leads')
-        .select('potential_pipeline')
+        .select('Deal_Size')
         .eq('Advisor', name);
       
       if (error) throw error;
       
-      const totalPipeline = data.reduce((sum, lead) => sum + (lead.potential_pipeline || 0), 0);
+      const totalPipeline = data.reduce((sum, lead) => {
+        const dealSize = lead.Deal_Size || '0';
+        const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+        return sum + numericValue;
+      }, 0);
+
       return {
         count: data.length,
         pipeline: totalPipeline
