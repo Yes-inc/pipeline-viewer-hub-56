@@ -20,86 +20,66 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     const container = document.createElement('div');
     container.className = 'flex flex-col items-center';
     
-    if (!isOpen) {
-      if (advisors.length === 1) {
-        // Single advisor avatar
-        const avatar = document.createElement('div');
-        avatar.className = 'w-10 h-10 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white mb-1';
-        
-        if (advisors[0].Picture) {
-          const img = document.createElement('img');
-          img.src = advisors[0].Picture;
-          img.className = 'w-full h-full object-cover';
-          avatar.appendChild(img);
-        } else {
-          avatar.innerHTML = `<div class="w-full h-full bg-primary flex items-center justify-center text-white font-semibold">
-            ${advisors[0].Name.charAt(0)}
-          </div>`;
-        }
-        container.appendChild(avatar);
-      } else {
-        // Multiple advisors stack
-        const avatarStack = document.createElement('div');
-        avatarStack.className = 'relative flex items-center justify-center mb-1';
-        
-        advisors.slice(0, 2).forEach((advisor, index) => {
-          const avatar = document.createElement('div');
-          avatar.className = `w-8 h-8 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white ${
-            index === 1 ? 'relative -ml-4' : ''
-          }`;
-          
-          if (advisor.Picture) {
-            const img = document.createElement('img');
-            img.src = advisor.Picture;
-            img.className = 'w-full h-full object-cover';
-            avatar.appendChild(img);
-          } else {
-            avatar.innerHTML = `<div class="w-full h-full bg-primary flex items-center justify-center text-white font-semibold">
-              ${advisor.Name.charAt(0)}
-            </div>`;
-          }
-          avatarStack.appendChild(avatar);
-        });
-
-        if (advisors.length > 2) {
-          const counter = document.createElement('div');
-          counter.className = 'w-8 h-8 rounded-full border-2 border-white shadow-lg bg-gray-100 -ml-4 flex items-center justify-center text-sm font-medium text-gray-600';
-          counter.textContent = `+${advisors.length - 2}`;
-          avatarStack.appendChild(counter);
-        }
-        
-        container.appendChild(avatarStack);
+    // Avatar stack container
+    const avatarStack = document.createElement('div');
+    avatarStack.className = 'relative flex items-center justify-center mb-1';
+    
+    // Add avatars (limit to 3 visible avatars)
+    advisors.slice(0, 3).forEach((advisor, index) => {
+      const avatar = document.createElement('div');
+      avatar.className = `w-12 h-12 rounded-full border-2 border-white shadow-lg overflow-hidden bg-white ${
+        index > 0 ? 'absolute' : ''
+      }`;
+      
+      // Position overlapping avatars
+      if (index > 0) {
+        avatar.style.transform = `translateX(${index * 20}px)`;
+        avatar.style.zIndex = `${10 - index}`;
       }
+      
+      if (advisor.Picture) {
+        const img = document.createElement('img');
+        img.src = advisor.Picture;
+        img.className = 'w-full h-full object-cover';
+        avatar.appendChild(img);
+      } else {
+        avatar.innerHTML = `<div class="w-full h-full bg-primary flex items-center justify-center text-white font-semibold">
+          ${advisor.Name.charAt(0)}
+        </div>`;
+      }
+      avatarStack.appendChild(avatar);
+    });
+
+    // Add count badge if there are more advisors
+    if (advisors.length > 3) {
+      const counter = document.createElement('div');
+      counter.className = 'absolute -right-2 -top-2 w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center border-2 border-white font-medium';
+      counter.textContent = `+${advisors.length - 3}`;
+      avatarStack.appendChild(counter);
     }
+    
+    container.appendChild(avatarStack);
     
     // Location info
     const infoContainer = document.createElement('div');
-    infoContainer.className = 'bg-white p-2 rounded-lg shadow-lg text-center min-w-[120px]';
-    
-    const locationName = document.createElement('div');
-    locationName.className = 'font-semibold text-sm mb-1';
-    locationName.textContent = advisors[0].Location || 'Unknown';
-    infoContainer.appendChild(locationName);
-    
-    const advisorCount = document.createElement('div');
-    advisorCount.className = 'text-xs bg-gray-100 rounded px-2 py-0.5';
-    advisorCount.textContent = `${advisors.length} ${advisors.length === 1 ? 'Advisor' : 'Advisors'}`;
-    infoContainer.appendChild(advisorCount);
-    
+    infoContainer.className = 'bg-white px-3 py-1.5 rounded-full shadow-lg text-center text-sm font-medium';
+    infoContainer.textContent = advisors[0].Location || 'Unknown';
     container.appendChild(infoContainer);
+    
     iconHtml.appendChild(container);
 
     return L.divIcon({
       html: iconHtml,
       className: 'custom-advisor-marker',
-      iconSize: L.point(160, isOpen ? 80 : 140),
-      iconAnchor: L.point(80, isOpen ? 40 : 140),
+      iconSize: L.point(120, 80),
+      iconAnchor: L.point(60, 80),
     });
   };
 
   return (
     <Marker 
       position={position}
+      icon={createCustomIcon()}
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
