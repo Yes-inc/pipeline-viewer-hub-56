@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
@@ -63,7 +63,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
             <Line 
               type="monotone" 
               dataKey="pipeline" 
-              stroke="#22c55e"
+              stroke="#1e3a8a"
               strokeWidth={2}
               dot={false}
             />
