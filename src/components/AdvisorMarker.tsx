@@ -60,16 +60,16 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     
     container.appendChild(avatarStack);
     
-    // Location info
+    // Location info with black text
     const infoContainer = document.createElement('div');
-    infoContainer.className = 'bg-white px-3 py-1.5 rounded-full shadow-lg text-center text-sm font-medium';
+    infoContainer.className = 'bg-white px-3 py-1.5 rounded-full shadow-lg text-center text-sm font-medium text-black';
     infoContainer.textContent = advisors[0].Location || 'Unknown';
     container.appendChild(infoContainer);
     
     iconHtml.appendChild(container);
 
     return L.divIcon({
-      html: iconHtml,
+      html: iconHtml.outerHTML,
       className: 'custom-advisor-marker',
       iconSize: L.point(120, 80),
       iconAnchor: L.point(60, 80),
@@ -85,6 +85,7 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       }}
     >
       <Popup
+        className="custom-popup"
         eventHandlers={{
           close: () => setIsOpen(false),
         }}

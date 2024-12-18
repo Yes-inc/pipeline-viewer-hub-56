@@ -21,9 +21,12 @@ const MapContainer = forwardRef<any, MapContainerProps>(({
       bounds={bounds}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
+      maxBounds={[[-90, -180], [90, 180]]} // Restrict map bounds
+      maxBoundsViscosity={1.0} // Make the bounds "solid"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        noWrap={true} // Prevent infinite scrolling
       />
       {children}
     </LeafletMapContainer>
