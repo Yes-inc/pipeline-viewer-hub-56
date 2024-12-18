@@ -9,16 +9,16 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    if (!a.Timestamp || !b.Timestamp) return 0;
-    const aDate = new Date((a.Timestamp as { created_at: string }).created_at);
-    const bDate = new Date((b.Timestamp as { created_at: string }).created_at);
+    if (!a.created_at || !b.created_at) return 0;
+    const aDate = new Date(a.created_at);
+    const bDate = new Date(b.created_at);
     return aDate.getTime() - bDate.getTime();
   });
 
   let cumulativeTotal = 0;
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
-    if (!curr.Timestamp) return acc;
-    const date = format(new Date((curr.Timestamp as { created_at: string }).created_at), 'MMM dd');
+    if (!curr.created_at) return acc;
+    const date = format(new Date(curr.created_at), 'MMM dd');
     const dealSize = curr.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     cumulativeTotal += numericValue;
@@ -44,9 +44,9 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
       <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Cumulative Pipeline Generated</h2>
-      <div className="h-[300px]">
+      <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
+          <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="date" 
