@@ -43,6 +43,17 @@ const Index = () => {
     }
   });
 
+  const { data: uncertainLeads = [], isLoading: isLoadingUncertain, error: errorUncertain } = useQuery<PipelineRow[]>({
+    queryKey: ['uncertain-leads'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('Uncertain Leads')
+        .select('*');
+      if (error) throw error;
+      return data as PipelineRow[];
+    }
+  });
+
   // Calculate metrics
   const totalEstablished = establishedConnections.length;
   const totalEngaged = activeLeads.length;
@@ -105,7 +116,7 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="generated" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">
+          <TabsList className="grid w-full grid-cols-4 bg-gray-100/80 p-1 rounded-lg">
             <TabsTrigger 
               value="established" 
               className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
@@ -123,6 +134,12 @@ const Index = () => {
               className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
             >
               Generated Leads
+            </TabsTrigger>
+            <TabsTrigger 
+              value="uncertain"
+              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
+            >
+              Unverified Leads
             </TabsTrigger>
           </TabsList>
           <TabsContent value="established">
@@ -147,6 +164,14 @@ const Index = () => {
               data={generatedLeads}
               isLoading={isLoadingGenerated}
               error={errorGenerated}
+            />
+          </TabsContent>
+          <TabsContent value="uncertain">
+            <PipelineTable 
+              title="Unverified Leads" 
+              data={uncertainLeads}
+              isLoading={isLoadingUncertain}
+              error={errorUncertain}
             />
           </TabsContent>
         </Tabs>

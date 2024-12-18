@@ -192,6 +192,39 @@ export type Database = {
         }
         Relationships: []
       }
+      "Uncertain Leads": {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Website: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
