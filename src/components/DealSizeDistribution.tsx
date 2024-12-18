@@ -23,19 +23,20 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
       value
     }))
     .sort((a, b) => b.value - a.value)
-    .slice(0, 10); // Show top 10 companies by deal size
+    .slice(0, 10);
 
+  // Updated color palette using softer, more visually appealing colors
   const colors = [
-    '#0ea5e9', // sky-500
-    '#0284c7', // sky-600
-    '#0369a1', // sky-700
-    '#075985', // sky-800
-    '#0c4a6e', // sky-900
-    '#1e40af', // blue-800
-    '#1e3a8a', // blue-900
-    '#312e81', // indigo-900
-    '#3730a3', // indigo-800
-    '#4338ca', // indigo-700
+    '#9b87f5', // Primary Purple
+    '#7E69AB', // Secondary Purple
+    '#6E59A5', // Tertiary Purple
+    '#D6BCFA', // Light Purple
+    '#E5DEFF', // Soft Purple
+    '#D3E4FD', // Soft Blue
+    '#FDE1D3', // Soft Peach
+    '#FFDEE2', // Soft Pink
+    '#FEC6A1', // Soft Orange
+    '#F2FCE2', // Soft Green
   ];
 
   const formatCurrency = (value: number) => {
@@ -48,31 +49,56 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
-      <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Deal Size Distribution by Company</h2>
-      <div className="h-[300px] w-full">
+    <div className="bg-[#F6F6F7] p-8 rounded-xl shadow-sm animate-fade-up">
+      <h2 className="text-xl font-semibold mb-6 text-[#1A1F2C]">Deal Size Distribution by Company</h2>
+      <div className="h-[400px] w-full"> {/* Increased height for better spacing */}
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+            margin={{ top: 20, right: 40, left: 120, bottom: 20 }} // Increased margins
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" tickFormatter={formatCurrency} />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              horizontal={true}
+              vertical={false}
+              stroke="#E5DEFF"
+            />
+            <XAxis 
+              type="number" 
+              tickFormatter={formatCurrency}
+              tick={{ fill: '#403E43', fontSize: 12 }}
+              axisLine={{ stroke: '#E5DEFF' }}
+            />
             <YAxis 
               type="category" 
               dataKey="company" 
-              tick={{ fontSize: 12 }}
-              width={90}
+              tick={{ fill: '#403E43', fontSize: 13 }}
+              width={110}
+              axisLine={{ stroke: '#E5DEFF' }}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               labelFormatter={(label) => `Company: ${label}`}
-              contentStyle={{ backgroundColor: 'white', border: '1px solid #E5DEFF' }}
+              contentStyle={{ 
+                backgroundColor: 'white', 
+                border: '1px solid #E5DEFF',
+                borderRadius: '8px',
+                padding: '12px'
+              }}
+              cursor={{ fill: '#F1F0FB' }}
             />
-            <Bar dataKey="value" fill="#0ea5e9">
+            <Bar 
+              dataKey="value" 
+              radius={[0, 4, 4, 0]} // Rounded corners on the right side
+              barSize={30} // Adjusted bar thickness
+            >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={colors[index % colors.length]}
+                  style={{ filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.05))' }}
+                />
               ))}
             </Bar>
           </BarChart>
