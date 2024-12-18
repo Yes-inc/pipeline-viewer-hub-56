@@ -51,12 +51,12 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
   return (
     <div className="bg-[#F6F6F7] p-8 rounded-xl shadow-sm animate-fade-up">
       <h2 className="text-xl font-semibold mb-6 text-[#1A1F2C]">Deal Size Distribution by Company</h2>
-      <div className="h-[400px] w-full"> {/* Increased height for better spacing */}
+      <div className="h-[500px] w-full"> {/* Increased height further for better label spacing */}
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 20, right: 40, left: 120, bottom: 20 }} // Increased margins
+            margin={{ top: 20, right: 40, left: 140, bottom: 20 }} // Increased left margin for labels
           >
             <CartesianGrid 
               strokeDasharray="3 3" 
@@ -73,9 +73,15 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
             <YAxis 
               type="category" 
               dataKey="company" 
-              tick={{ fill: '#403E43', fontSize: 13 }}
-              width={110}
+              tick={{ 
+                fill: '#403E43', 
+                fontSize: 13,
+                lineHeight: 1.4, // Improved line height
+                width: 120, // Control text wrapping width
+              }}
+              width={130} // Increased width for labels
               axisLine={{ stroke: '#E5DEFF' }}
+              tickMargin={8} // Added margin between text and axis line
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
@@ -90,8 +96,8 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
             />
             <Bar 
               dataKey="value" 
-              radius={[0, 4, 4, 0]} // Rounded corners on the right side
-              barSize={30} // Adjusted bar thickness
+              radius={[0, 4, 4, 0]}
+              barSize={25} // Slightly reduced bar thickness for better spacing
             >
               {data.map((entry, index) => (
                 <Cell 
