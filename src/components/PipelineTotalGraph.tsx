@@ -9,16 +9,16 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    if (!a.created_at || !b.created_at) return 0;
-    const aDate = new Date(a.created_at);
-    const bDate = new Date(b.created_at);
+    if (!a.Timestamp || !b.Timestamp) return 0;
+    const aDate = new Date(a.Timestamp as string);
+    const bDate = new Date(b.Timestamp as string);
     return aDate.getTime() - bDate.getTime();
   });
 
   let cumulativeTotal = 0;
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
-    if (!curr.created_at) return acc;
-    const date = format(new Date(curr.created_at), 'MMM dd');
+    if (!curr.Timestamp) return acc;
+    const date = format(new Date(curr.Timestamp as string), 'MMM dd');
     const dealSize = curr.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     cumulativeTotal += numericValue;
