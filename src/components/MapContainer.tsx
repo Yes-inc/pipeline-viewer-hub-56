@@ -12,7 +12,7 @@ interface MapContainerProps {
 
 const MapContainer = forwardRef<any, MapContainerProps>(({ 
   children, 
-  bounds = [[25, -130], [50, -65]], // USA bounds as default
+  bounds = [[0, -180], [75, -15]], // Expanded bounds for a more zoomed out view
   className = '' 
 }, ref) => {
   return (
