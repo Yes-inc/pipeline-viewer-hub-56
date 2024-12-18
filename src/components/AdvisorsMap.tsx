@@ -32,7 +32,7 @@ const AdvisorsMap = () => {
   });
 
   if (isLoading) {
-    return <div className="h-[500px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
+    return <div className="h-[400px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
   }
 
   // Group advisors by location
@@ -48,16 +48,18 @@ const AdvisorsMap = () => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">
-      <h2 className="text-lg font-semibold text-gray-900">Advisor Locations</h2>
-      <MapContainer ref={mapRef}>
-        {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
-          <AdvisorMarker
-            key={location}
-            advisors={locationAdvisors}
-            position={locationCoordinates[location]}
-          />
-        ))}
-      </MapContainer>
+      <h2 className="text-lg font-semibold text-[#1A1F2C]">Advisor Locations</h2>
+      <div className="h-[400px]"> {/* Added fixed height container */}
+        <MapContainer ref={mapRef}>
+          {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
+            <AdvisorMarker
+              key={location}
+              advisors={locationAdvisors}
+              position={locationCoordinates[location]}
+            />
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 };
