@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
@@ -8,25 +8,25 @@ interface PipelineTotalGraphProps {
 
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Create data points for the chart
-  const dataPoints = generatedLeads.map(lead => {
-    const timestamp = lead.Time_Stamp;
-    const date = timestamp ? format(new Date(timestamp), 'MMM dd') : '';
-    const dealSize = lead.Deal_Size || '0';
-    const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
-    
-    console.log('Processing lead:', {
-      timestamp,
-      date,
-      dealSize,
-      value
+  const dataPoints = generatedLeads
+    .filter(lead => lead.Time_Stamp) // Filter out leads without timestamps
+    .map(lead => {
+      const timestamp = lead.Time_Stamp;
+      const date = timestamp ? format(parseISO(timestamp), 'MMM dd') : '';
+      const dealSize = lead.Deal_Size || '0';
+      const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+      
+      return {
+        timestamp: timestamp,
+        date,
+        value
+      };
     });
-    
-    return { date, value };
-  });
 
-  // Sort data points by date
+  // Sort data points by timestamp
   dataPoints.sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
+    if (!a.timestamp || !b.timestamp) return 0;
+    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   });
 
   // Calculate cumulative totals
