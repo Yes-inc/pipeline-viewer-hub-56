@@ -17,7 +17,9 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
     if (!curr.created_at) return acc;
     const date = format(parseISO(curr.created_at), 'MMM dd');
-    cumulativeTotal += (curr.potential_pipeline || 0);
+    const dealSize = curr.Deal_Size || '0';
+    const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    cumulativeTotal += numericValue;
     acc[date] = cumulativeTotal;
     return acc;
   }, {});

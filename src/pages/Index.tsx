@@ -50,7 +50,11 @@ const Index = () => {
   const totalEstablished = establishedConnections.length;
   const totalEngaged = activeLeads.length;
   const totalGenerated = generatedLeads.length;
-  const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => sum + (lead.potential_pipeline || 0), 0);
+  const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => {
+    const dealSize = lead.Deal_Size || '0';
+    const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    return sum + numericValue;
+  }, 0);
 
   // Format the total pipeline value
   const formattedPipeline = new Intl.NumberFormat('en-US', {

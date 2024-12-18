@@ -1,5 +1,6 @@
-import { MapContainer as LeafletMapContainer, TileLayer, useMap } from 'react-leaflet';
-import { LatLngBounds, LatLngBoundsExpression } from 'leaflet';
+import { forwardRef } from 'react';
+import { MapContainer as LeafletMapContainer, TileLayer } from 'react-leaflet';
+import { LatLngBoundsExpression } from 'leaflet';
 import type { ReactNode } from 'react';
 import 'leaflet/dist/leaflet.css';
 
@@ -9,15 +10,17 @@ interface MapContainerProps {
   className?: string;
 }
 
-const MapContainer = ({ children, bounds, className = '' }: MapContainerProps) => {
-  const defaultBounds = new LatLngBounds([25, -130], [50, -65]); // USA bounds
-
+const MapContainer = forwardRef<any, MapContainerProps>(({ 
+  children, 
+  bounds = [[25, -130], [50, -65]], // USA bounds as default
+  className = '' 
+}, ref) => {
   return (
     <LeafletMapContainer
-      bounds={bounds || defaultBounds}
+      ref={ref}
+      bounds={bounds}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
-      zoomControl={true}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -25,6 +28,8 @@ const MapContainer = ({ children, bounds, className = '' }: MapContainerProps) =
       {children}
     </LeafletMapContainer>
   );
-};
+});
+
+MapContainer.displayName = 'MapContainer';
 
 export default MapContainer;
