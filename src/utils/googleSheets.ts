@@ -10,4 +10,7 @@ export interface PipelineRow {
   Profile_Picture?: string | null;
   Company_Website?: string | null;
   Deal_Size?: string | null;
+  Timestamp?: {
+    created_at: string;
+  } | null;
 }
