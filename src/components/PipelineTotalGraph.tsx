@@ -1,47 +1,45 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
 }
 
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
-  // Process data to aggregate pipeline by date and calculate cumulative total
+  // First, let's sort the leads by date
   const sortedLeads = [...generatedLeads].sort((a, b) => {
     const getDate = (lead: PipelineRow) => {
-      if (lead.Timestamp?.created_at) {
-        return new Date(lead.Timestamp.created_at);
-      }
-      return lead.created_at ? new Date(lead.created_at) : new Date(0);
+      const timestamp = lead.Timestamp?.created_at || lead.created_at;
+      return timestamp ? new Date(timestamp) : new Date(0);
     };
-    
     return getDate(a).getTime() - getDate(b).getTime();
   });
 
-  // Group leads by date and calculate cumulative totals
-  const dailyPipelines: { [key: string]: number } = {};
+  // Create a map to store cumulative totals by date
+  const dailyPipelines = new Map<string, number>();
   let runningTotal = 0;
 
+  // Process each lead and calculate cumulative totals
   sortedLeads.forEach(lead => {
     const timestamp = lead.Timestamp?.created_at || lead.created_at;
     if (!timestamp) return;
-    
+
     const date = format(new Date(timestamp), 'MMM dd');
     const dealSize = lead.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     
     runningTotal += numericValue;
-    dailyPipelines[date] = runningTotal; // Store cumulative total for each date
+    dailyPipelines.set(date, runningTotal);
   });
 
-  const chartData = Object.entries(dailyPipelines)
-    .map(([date, pipeline]) => ({
-      date,
-      pipeline
-    }));
+  // Convert the map to an array of data points for the chart
+  const chartData = Array.from(dailyPipelines.entries()).map(([date, total]) => ({
+    date,
+    pipeline: total
+  }));
 
-  console.log('Chart Data:', chartData); // Debug log to see processed data
+  console.log('Pipeline Chart Data:', chartData);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -57,7 +55,10 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
       <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Cumulative Pipeline Generated</h2>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <LineChart 
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="date" 
@@ -71,7 +72,12 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               labelFormatter={(label) => `Date: ${label}`}
-              contentStyle={{ backgroundColor: 'white', border: '1px solid #E5DEFF', color: '#1A1F2C' }}
+              contentStyle={{ 
+                backgroundColor: 'white', 
+                border: '1px solid #E5DEFF', 
+                color: '#1A1F2C',
+                padding: '8px'
+              }}
             />
             <defs>
               <linearGradient id="pipelineGradient" x1="0" y1="0" x2="0" y2="1">
