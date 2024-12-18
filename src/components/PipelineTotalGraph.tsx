@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from 'recharts';
 import { type PipelineRow } from "../utils/googleSheets";
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 interface PipelineTotalGraphProps {
   generatedLeads: PipelineRow[];
@@ -9,7 +9,6 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    // Get timestamp from either the JSONB Timestamp column or the regular created_at column
     const getDate = (lead: PipelineRow) => {
       if (lead.Timestamp?.created_at) {
         return new Date(lead.Timestamp.created_at);
@@ -20,9 +19,9 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
     return getDate(a).getTime() - getDate(b).getTime();
   });
 
-  // Group leads by date and calculate daily totals
+  // Group leads by date and calculate cumulative totals
   const dailyPipelines: { [key: string]: number } = {};
-  let cumulativeTotal = 0;
+  let runningTotal = 0;
 
   sortedLeads.forEach(lead => {
     const timestamp = lead.Timestamp?.created_at || lead.created_at;
@@ -32,9 +31,8 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
     const dealSize = lead.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     
-    // Add to daily total
-    dailyPipelines[date] = (dailyPipelines[date] || 0) + numericValue;
-    cumulativeTotal += numericValue;
+    runningTotal += numericValue;
+    dailyPipelines[date] = runningTotal; // Store cumulative total for each date
   });
 
   const chartData = Object.entries(dailyPipelines)
