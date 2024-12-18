@@ -49,7 +49,7 @@ export const PipelineTableRow = ({
     >
       <TableCell className="pl-4">
         <Avatar>
-          <AvatarImage src={row.Profile_Picture} alt={row.Full_Name || ''} />
+          <AvatarImage src={row["Profile Picture"] || row.Profile_Picture} alt={row.Full_Name || ''} />
           <AvatarFallback>
             <UserRound className="h-4 w-4" />
           </AvatarFallback>
