@@ -57,17 +57,19 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 
             data={chartData}
-            margin={{ top: 5, right: 30, left: 60, bottom: 5 }}
+            margin={{ top: 5, right: 30, left: 60, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="date" 
               tick={{ fontSize: 12, fill: "#1A1F2C" }}
               interval="preserveStartEnd"
+              dy={10}
             />
             <YAxis 
               tickFormatter={formatCurrency}
               tick={{ fontSize: 12, fill: "#1A1F2C" }}
+              dx={-10}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
