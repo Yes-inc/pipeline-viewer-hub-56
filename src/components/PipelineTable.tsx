@@ -67,7 +67,6 @@ export const PipelineTable = ({
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Full Name</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">Company</TableHead>
                   <TableHead className="min-w-[130px] pl-4 text-gray-900">LinkedIn URL</TableHead>
-                  <TableHead className="min-w-[180px] pl-4 text-gray-900">Email</TableHead>
                   {(isEngagedProspects || isGeneratedLeads) && (
                     <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
                   )}
@@ -78,15 +77,15 @@ export const PipelineTable = ({
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={7} className="text-center">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center text-red-500">Error loading data</TableCell>
+                    <TableCell colSpan={7} className="text-center text-red-500">Error loading data</TableCell>
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={7} className="text-center">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -117,7 +116,6 @@ export const PipelineTable = ({
                           {shortenUrl(row.LinkedIn_URL)}
                         </a>
                       </TableCell>
-                      <TableCell className="pl-4 text-gray-900">{row.Email}</TableCell>
                       {(isEngagedProspects || isGeneratedLeads) && (
                         <TableCell className="pl-4">
                           {row.Company_Website && (
