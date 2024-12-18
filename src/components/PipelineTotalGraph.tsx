@@ -9,15 +9,21 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    if (!a.created_at || !b.created_at) return 0;
-    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    // Try to get timestamp from either Timestamp.created_at or created_at
+    const aDate = a.Timestamp?.created_at ? new Date(a.Timestamp.created_at) : 
+                 a.created_at ? new Date(a.created_at) : new Date(0);
+    const bDate = b.Timestamp?.created_at ? new Date(b.Timestamp.created_at) : 
+                 b.created_at ? new Date(b.created_at) : new Date(0);
+    return aDate.getTime() - bDate.getTime();
   });
 
   let cumulativeTotal = 0;
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
-    if (!curr.created_at) return acc;
+    // Get the date from either Timestamp.created_at or created_at
+    const timestamp = curr.Timestamp?.created_at || curr.created_at;
+    if (!timestamp) return acc;
     
-    const date = format(parseISO(curr.created_at), 'MMM dd');
+    const date = format(new Date(timestamp), 'MMM dd');
     const dealSize = curr.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     cumulativeTotal += numericValue;
@@ -30,6 +36,8 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
       date,
       pipeline
     }));
+
+  console.log('Chart Data:', chartData); // Debug log to see processed data
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -73,13 +81,14 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
               stroke="#1e3a8a"
               fillOpacity={1}
               fill="url(#pipelineGradient)"
+              dot={{ stroke: '#1e3a8a', strokeWidth: 2 }}  // Added dots for each data point
             />
             <Line 
               type="monotone" 
               dataKey="pipeline" 
               stroke="#1e3a8a"
               strokeWidth={2}
-              dot={false}
+              dot={{ stroke: '#1e3a8a', strokeWidth: 2 }}  // Added dots for each data point
             />
           </LineChart>
         </ResponsiveContainer>
