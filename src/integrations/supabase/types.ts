@@ -91,6 +91,7 @@ export type Database = {
           Last_Name: string | null
           LinkedIn_URL: string
           Profile_Picture: string | null
+          Timestamp: Json | null
         }
         Insert: {
           Advisor?: string | null
@@ -104,6 +105,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL: string
           Profile_Picture?: string | null
+          Timestamp?: Json | null
         }
         Update: {
           Advisor?: string | null
@@ -117,6 +119,7 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
+          Timestamp?: Json | null
         }
         Relationships: []
       }
