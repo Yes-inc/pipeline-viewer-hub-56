@@ -43,22 +43,24 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
-      <h2 className="text-lg font-semibold mb-4">Cumulative Pipeline Generated</h2>
+      <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Cumulative Pipeline Generated</h2>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="date" 
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 12, fill: "#1A1F2C" }}
               interval="preserveStartEnd"
             />
             <YAxis 
               tickFormatter={formatCurrency}
+              tick={{ fill: "#1A1F2C" }}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               labelFormatter={(label) => `Date: ${label}`}
+              contentStyle={{ backgroundColor: 'white', border: '1px solid #E5DEFF', color: '#1A1F2C' }}
             />
             <Line 
               type="monotone" 

@@ -36,7 +36,7 @@ export const PipelineTable = ({
   return (
     <div className="bg-white rounded-lg shadow">
       <div className="p-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
+        <h2 className="text-xl font-semibold mb-4 text-[#1A1F2C]">{title}</h2>
         <div className="relative border rounded-md overflow-hidden">
           <div className="max-h-[600px] overflow-y-auto">
             <Table>
@@ -47,7 +47,7 @@ export const PipelineTable = ({
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center">Loading...</TableCell>
+                    <TableCell colSpan={7} className="text-center text-[#1A1F2C]">Loading...</TableCell>
                   </TableRow>
                 ) : error ? (
                   <TableRow>
@@ -55,7 +55,7 @@ export const PipelineTable = ({
                   </TableRow>
                 ) : visibleData.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center">No data available</TableCell>
+                    <TableCell colSpan={7} className="text-center text-[#1A1F2C]">No data available</TableCell>
                   </TableRow>
                 ) : (
                   visibleData.map((row, index) => (
@@ -78,7 +78,7 @@ export const PipelineTable = ({
           <div className="mt-4 text-center">
             <button
               onClick={handleShowMore}
-              className="px-4 py-2 bg-[#F1F0FB] text-gray-900 rounded-md hover:bg-[#E5DEFF] transition-colors"
+              className="px-4 py-2 bg-[#F1F0FB] text-[#1A1F2C] rounded-md hover:bg-[#E5DEFF] transition-colors"
             >
               Show More Rows
             </button>

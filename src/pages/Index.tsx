@@ -10,7 +10,6 @@ import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import AdvisorsMap from "../components/AdvisorsMap";
 
 const Index = () => {
-  // Query for Established Connections
   const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
     queryKey: ['established-connections'],
     queryFn: async () => {
@@ -68,7 +67,7 @@ const Index = () => {
     <DashboardLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Pipeline Dashboard</h1>
+          <h1 className="text-2xl font-bold text-[#1A1F2C]">Pipeline Dashboard</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -111,19 +110,19 @@ const Index = () => {
           <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 p-1 rounded-lg">
             <TabsTrigger 
               value="established" 
-              className="rounded-md text-gray-900 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm transition-all"
+              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
             >
               Established Connections
             </TabsTrigger>
             <TabsTrigger 
               value="active"
-              className="rounded-md text-gray-900 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm transition-all"
+              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
             >
               Engaged Prospects
             </TabsTrigger>
             <TabsTrigger 
               value="generated"
-              className="rounded-md text-gray-900 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm transition-all"
+              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all"
             >
               Generated Leads
             </TabsTrigger>
