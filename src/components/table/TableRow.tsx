@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserRound, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type PipelineRow } from "../../utils/googleSheets";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PipelineTableRowProps {
   row: PipelineRow;
@@ -53,15 +55,52 @@ export const PipelineTableRow = ({
   isGeneratedLeads 
 }: PipelineTableRowProps) => {
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<{ id: string; comment: string; created_at: string }[]>([]);
+  const [hasComments, setHasComments] = useState(false);
   const { toast } = useToast();
 
+  useEffect(() => {
+    fetchComments();
+  }, [row.LinkedIn_URL]);
+
+  const fetchComments = async () => {
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('lead_linkedin_url', row.LinkedIn_URL)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching comments:', error);
+      return;
+    }
+
+    setComments(data);
+    setHasComments(data.length > 0);
+  };
+
   const handleCommentSubmit = async () => {
+    if (!comment.trim()) return;
+
     try {
-      // Here we'll add the comment submission logic later when we have the database table ready
+      const { error } = await supabase
+        .from('comments')
+        .insert([
+          {
+            lead_linkedin_url: row.LinkedIn_URL,
+            comment: comment.trim()
+          }
+        ]);
+
+      if (error) throw error;
+
       toast({
         title: "Comment saved",
         description: "Your comment has been saved successfully.",
       });
+      
+      setComment("");
+      fetchComments();
     } catch (error) {
       toast({
         title: "Error",
@@ -120,15 +159,32 @@ export const PipelineTableRow = ({
       <TableCell className="pl-4">
         <Dialog>
           <DialogTrigger asChild onClick={(e) => e.stopPropagation()}>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button variant="ghost" size="icon" className="h-8 w-8 relative">
               <MessageSquare className="h-4 w-4" />
+              {hasComments && (
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+              )}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add Comment for {row.Full_Name}</DialogTitle>
+              <DialogTitle>Comments for {row.Full_Name}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-4">
+              {comments.length > 0 && (
+                <ScrollArea className="h-[200px] rounded-md border p-4">
+                  <div className="space-y-4">
+                    {comments.map((comment) => (
+                      <div key={comment.id} className="space-y-1">
+                        <p className="text-sm text-gray-500">
+                          {new Date(comment.created_at).toLocaleString()}
+                        </p>
+                        <p className="text-sm">{comment.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              )}
               <Textarea
                 placeholder="Type your comment here..."
                 value={comment}
