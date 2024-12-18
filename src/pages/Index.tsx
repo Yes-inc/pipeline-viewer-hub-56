@@ -6,7 +6,7 @@ import { PipelineTable } from "../components/PipelineTable";
 import { Users, TrendingUp, ArrowUpRight, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
-import PipelineTotalGraph from "../components/PipelineTotalGraph";
+import DealSizeDistribution from "../components/DealSizeDistribution";
 import AdvisorsMap from "../components/AdvisorsMap";
 
 const Index = () => {
@@ -112,7 +112,7 @@ const Index = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AdvisorsMap />
-          <PipelineTotalGraph generatedLeads={generatedLeads} />
+          <DealSizeDistribution generatedLeads={generatedLeads} />
         </div>
 
         <Tabs defaultValue="generated" className="w-full">
