@@ -9,14 +9,16 @@ interface PipelineTotalGraphProps {
 const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
   // Process data to aggregate pipeline by date and calculate cumulative total
   const sortedLeads = [...generatedLeads].sort((a, b) => {
-    if (!a.created_at || !b.created_at) return 0;
-    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    if (!a.Timestamp || !b.Timestamp) return 0;
+    const aDate = new Date((a.Timestamp as { created_at: string }).created_at);
+    const bDate = new Date((b.Timestamp as { created_at: string }).created_at);
+    return aDate.getTime() - bDate.getTime();
   });
 
   let cumulativeTotal = 0;
   const dailyPipelines = sortedLeads.reduce((acc: { [key: string]: number }, curr) => {
-    if (!curr.created_at) return acc;
-    const date = format(parseISO(curr.created_at), 'MMM dd');
+    if (!curr.Timestamp) return acc;
+    const date = format(new Date((curr.Timestamp as { created_at: string }).created_at), 'MMM dd');
     const dealSize = curr.Deal_Size || '0';
     const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
     cumulativeTotal += numericValue;
@@ -45,19 +47,15 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
-            <defs>
-              <linearGradient id="pipelineGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#22c55e" stopOpacity={0.1}/>
-              </linearGradient>
-            </defs>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="date" 
               tick={{ fontSize: 12 }}
               interval="preserveStartEnd"
             />
-            <YAxis tickFormatter={formatCurrency} />
+            <YAxis 
+              tickFormatter={formatCurrency}
+            />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
               labelFormatter={(label) => `Date: ${label}`}
@@ -68,7 +66,6 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
               stroke="#22c55e"
               strokeWidth={2}
               dot={false}
-              fill="url(#pipelineGradient)"
             />
           </LineChart>
         </ResponsiveContainer>
