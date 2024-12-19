@@ -25,10 +25,10 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       </div>
     `;
     
-    return L.divIcon({
+    return new L.DivIcon({
       html,
       className: '',
-      iconSize: L.point(size, size),
+      iconSize: [size, size],
       iconAnchor: [size/2, size/2]
     });
   };
@@ -43,8 +43,8 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     >
       {isOpen && (
         <Popup
-          offset={[0, -20]}
-          autoPan={true}
+          closeButton={true}
+          closeOnClick={false}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
