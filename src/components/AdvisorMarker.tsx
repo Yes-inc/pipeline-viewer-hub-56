@@ -39,10 +39,11 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
-      icon={createCustomIcon()}
     >
       {isOpen && (
         <Popup
+          closeButton={true}
+          closeOnClick={false}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">

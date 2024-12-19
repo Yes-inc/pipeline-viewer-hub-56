@@ -26,13 +26,19 @@ interface Comment {
 interface PipelineTableRowProps {
   row: PipelineRow;
   index: number;
-  isGeneratedLeads?: boolean;
+  selectedRow: number | null;
+  setSelectedRow: (index: number | null) => void;
+  isEngagedProspects: boolean;
+  isGeneratedLeads: boolean;
 }
 
-export const TableRow = ({
+export const PipelineTableRow = ({
   row,
   index,
-  isGeneratedLeads = false,
+  selectedRow,
+  setSelectedRow,
+  isEngagedProspects,
+  isGeneratedLeads,
 }: PipelineTableRowProps) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
@@ -114,7 +120,11 @@ export const TableRow = ({
   };
 
   return (
-    <UITableRow key={index}>
+    <UITableRow 
+      key={index}
+      data-state={selectedRow === index ? "selected" : undefined}
+      onClick={() => setSelectedRow(selectedRow === index ? null : index)}
+    >
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar>
@@ -126,16 +136,25 @@ export const TableRow = ({
               </AvatarFallback>
             )}
           </Avatar>
-          <div>
-            <div className="font-medium">{row.Full_Name}</div>
-            <div className="text-sm text-gray-500">{row.Company}</div>
-          </div>
         </div>
       </TableCell>
-      {isGeneratedLeads && (
-        <TableCell className="text-right">{row.Deal_Size}</TableCell>
+      <TableCell>{row.Full_Name}</TableCell>
+      <TableCell>{row.Company}</TableCell>
+      <TableCell>
+        <a href={row.LinkedIn_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+          Profile
+        </a>
+      </TableCell>
+      {(isEngagedProspects || isGeneratedLeads) && (
+        <TableCell>
+          <a href={row.Company_Website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+            Website
+          </a>
+        </TableCell>
       )}
-      <TableCell className="text-right">
+      <TableCell>{row.Advisor}</TableCell>
+      <TableCell>{row.Deal_Size}</TableCell>
+      <TableCell>
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">

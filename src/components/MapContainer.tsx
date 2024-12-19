@@ -22,9 +22,6 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({
       bounds={bounds}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
-      zoom={3}
-      minZoom={2}
-      maxZoom={10}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
