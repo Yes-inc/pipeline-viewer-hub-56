@@ -10,32 +10,47 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        handleAuthSuccess(session);
+    const checkSession = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) throw sessionError;
+        
+        if (session) {
+          await handleAuthSuccess(session);
+        }
+      } catch (error) {
+        console.error('Session check error:', error);
+        toast({
+          title: "Session Error",
+          description: "There was a problem checking your session. Please try logging in again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    });
+    };
 
-    // Listen for auth changes
+    checkSession();
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
-        handleAuthSuccess(session);
+        await handleAuthSuccess(session);
       }
       if (event === 'SIGNED_OUT') {
         navigate('/login');
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleAuthSuccess = async (session: any) => {
     try {
-      // Check if user has an organization
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('organization_id')
@@ -48,21 +63,21 @@ const Login = () => {
       if (profile?.organization_id) {
         navigate("/");
       } else {
-        console.error("User not associated with an organization");
         await supabase.auth.signOut();
         toast({
-          title: "Error",
+          title: "Access Denied",
           description: "Your account is not associated with an organization. Please contact support.",
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Auth error:', error);
       toast({
         title: "Authentication Error",
-        description: "There was a problem signing you in. Please try again.",
+        description: error.message || "There was a problem signing you in. Please try again.",
         variant: "destructive",
       });
+      await supabase.auth.signOut();
     }
   };
 
