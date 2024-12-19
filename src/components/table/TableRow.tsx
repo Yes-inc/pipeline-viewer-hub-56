@@ -62,8 +62,8 @@ export const PipelineTableRow = ({
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar>
-            {row.Profile_Picture ? (
-              <AvatarImage src={row.Profile_Picture} alt={row.Full_Name || ""} />
+            {row["Profile Picture"] ? (
+              <AvatarImage src={row["Profile Picture"]} alt={row.Full_Name || ""} />
             ) : (
               <AvatarFallback>
                 <UserRound className="h-4 w-4" />

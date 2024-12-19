@@ -6,7 +6,6 @@ export interface PipelineRow {
   Last_Name: string | null;
   Email: string | null;
   Company: string | null;
-  Profile_Picture?: string | null;
   "Profile Picture"?: string | null;
   Company_Website: string | null;
   Deal_Size: string | null;
