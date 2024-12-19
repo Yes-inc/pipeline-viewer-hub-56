@@ -79,14 +79,11 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
   return (
     <Marker 
       position={position}
-      icon={createCustomIcon()}
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
     >
-      <Popup
-        open={isOpen}
-      >
+      <Popup>
         <div className="space-y-4">
           {advisors.map((advisor, index) => (
             <AdvisorPopup

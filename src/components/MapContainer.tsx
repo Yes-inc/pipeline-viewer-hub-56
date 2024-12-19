@@ -21,9 +21,8 @@ const MapContainer = forwardRef<any, MapContainerProps>(({
       bounds={bounds}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
-      minZoom={2}
-      maxBounds={bounds}
-      maxBoundsViscosity={1.0}
+      center={[20, 0]}
+      zoom={2}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
