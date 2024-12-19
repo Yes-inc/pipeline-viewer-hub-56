@@ -115,7 +115,7 @@ const Index = () => {
           <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-12">
           <Tabs defaultValue="generated" className="w-full">
             <TabsList className="w-full flex flex-wrap justify-start gap-2 bg-gray-100/80 p-2 rounded-lg">
               <TabsTrigger 
@@ -143,7 +143,7 @@ const Index = () => {
                 Unverified
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="established" className="mt-6">
+            <TabsContent value="established" className="mt-12">
               <PipelineTable 
                 title="Established Connections" 
                 data={establishedConnections}
@@ -151,7 +151,7 @@ const Index = () => {
                 error={errorEstablished}
               />
             </TabsContent>
-            <TabsContent value="active" className="mt-6">
+            <TabsContent value="active" className="mt-12">
               <PipelineTable 
                 title="Engaged Prospects" 
                 data={activeLeads}
@@ -159,7 +159,7 @@ const Index = () => {
                 error={errorActive}
               />
             </TabsContent>
-            <TabsContent value="generated" className="mt-6">
+            <TabsContent value="generated" className="mt-12">
               <PipelineTable 
                 title="Generated Leads" 
                 data={generatedLeads}
@@ -167,7 +167,7 @@ const Index = () => {
                 error={errorGenerated}
               />
             </TabsContent>
-            <TabsContent value="uncertain" className="mt-6">
+            <TabsContent value="uncertain" className="mt-12">
               <PipelineTable 
                 title="Unverified Leads" 
                 data={uncertainLeads}
