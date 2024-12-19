@@ -71,7 +71,7 @@ For manual deployment, you can use the following commands:
 ```sh
 npm run build
 ```
-This will create a `dist` directory with your built application.
+This will create a `dist/client` directory with your built application.
 
 ## I want to use a custom domain - is that possible?
 
