@@ -34,6 +34,9 @@ npm i
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
+
+# Step 5: To build for production
+npm run build
 ```
 
 **Edit a file directly in GitHub**
@@ -52,7 +55,7 @@ npm run dev
 
 ## What technologies are used for this project?
 
-This project is built with .
+This project is built with:
 
 - Vite
 - TypeScript
@@ -63,6 +66,12 @@ This project is built with .
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/f4d6a428-4b73-49ed-a696-6c237e0b8e8f) and click on Share -> Publish.
+
+For manual deployment, you can use the following commands:
+```sh
+npm run build
+```
+This will create a `dist` directory with your built application.
 
 ## I want to use a custom domain - is that possible?
 
