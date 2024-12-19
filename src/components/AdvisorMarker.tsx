@@ -43,12 +43,15 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     >
       {isOpen && (
         <Popup
+          closeButton={true}
+          closeOnClick={false}
+          closeOnEscapeKey={true}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
-            {advisors.map((advisor, index) => (
+            {advisors.map((advisor) => (
               <AdvisorPopup
-                key={`${advisor.Name}-${index}`}
+                key={advisor.Name}
                 advisor={advisor}
               />
             ))}

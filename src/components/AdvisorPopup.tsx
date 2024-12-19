@@ -3,14 +3,10 @@ import { Badge } from './ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import type { Advisor } from '../types/advisor';
 
 interface AdvisorPopupProps {
-  name: string;
-  location: string;
-  picture: string | null;
-  industry: string | null;
-  duration: number | null;
-  linkedIn: string | null;
+  advisor: Advisor;
 }
 
 const getDurationColor = (duration: number | null) => {
@@ -21,15 +17,15 @@ const getDurationColor = (duration: number | null) => {
   return 'bg-red-500';
 };
 
-const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }: AdvisorPopupProps) => {
+const AdvisorPopup = ({ advisor }: AdvisorPopupProps) => {
   // Query for generated leads count and total pipeline
   const { data: leadsData } = useQuery({
-    queryKey: ['advisor-leads', name],
+    queryKey: ['advisor-leads', advisor.Name],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('Leads')
         .select('Deal_Size')
-        .eq('Advisor', name);
+        .eq('Advisor', advisor.Name);
       
       if (error) throw error;
       
@@ -50,20 +46,20 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
     <div className="bg-white p-4 rounded-lg shadow-lg min-w-[280px]">
       <div className="flex flex-col items-center gap-3">
         <Avatar className="w-16 h-16 border-2 border-white shadow-md">
-          {picture ? (
-            <AvatarImage src={picture} alt={name} />
+          {advisor.Picture ? (
+            <AvatarImage src={advisor.Picture} alt={advisor.Name} />
           ) : (
             <AvatarFallback className="bg-primary text-white text-lg">
-              {name.charAt(0)}
+              {advisor.Name.charAt(0)}
             </AvatarFallback>
           )}
         </Avatar>
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-1">
-            <h3 className="font-semibold text-lg">{name}</h3>
-            {linkedIn && (
+            <h3 className="font-semibold text-lg">{advisor.Name}</h3>
+            {advisor.LinkedIn && (
               <a 
-                href={linkedIn} 
+                href={advisor.LinkedIn} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800"
@@ -72,16 +68,16 @@ const AdvisorPopup = ({ name, location, picture, industry, duration, linkedIn }:
               </a>
             )}
           </div>
-          <div className="text-sm text-gray-500 mb-3">{location}</div>
+          <div className="text-sm text-gray-500 mb-3">{advisor.Location}</div>
           <div className="flex flex-wrap justify-center gap-2 mb-3">
-            {industry && (
+            {advisor.Industry && (
               <Badge variant="secondary" className="text-xs">
-                {industry}
+                {advisor.Industry}
               </Badge>
             )}
-            {duration !== null && (
-              <Badge className={`text-xs ${getDurationColor(duration)}`}>
-                {duration} {duration === 1 ? 'month' : 'months'}
+            {advisor.Duration !== null && (
+              <Badge className={`text-xs ${getDurationColor(advisor.Duration)}`}>
+                {advisor.Duration} {advisor.Duration === 1 ? 'month' : 'months'}
               </Badge>
             )}
           </div>
