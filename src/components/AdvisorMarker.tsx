@@ -39,11 +39,12 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
+      icon={createCustomIcon()}
     >
       {isOpen && (
         <Popup
-          closeButton={true}
-          closeOnClick={false}
+          offset={[0, -20]}
+          autoPan={true}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
