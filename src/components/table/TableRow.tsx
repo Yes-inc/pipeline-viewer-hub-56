@@ -1,6 +1,6 @@
 import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRound, MessageSquare } from "lucide-react";
+import { UserRound, MessageSquare, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type PipelineRow } from "../../utils/googleSheets";
 import { useState, useEffect } from "react";
@@ -15,6 +15,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface Comment {
+  id: string;
+  comment: string;
+  created_at: string;
+}
 
 interface PipelineTableRowProps {
   row: PipelineRow;
@@ -55,7 +61,7 @@ export const PipelineTableRow = ({
   isGeneratedLeads 
 }: PipelineTableRowProps) => {
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<{ id: string; comment: string; created_at: string }[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
   const { toast } = useToast();
 
@@ -105,6 +111,30 @@ export const PipelineTableRow = ({
       toast({
         title: "Error",
         description: "Failed to save comment. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      const { error } = await supabase
+        .from('comments')
+        .delete()
+        .eq('id', commentId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Comment deleted",
+        description: "Your comment has been deleted successfully.",
+      });
+      
+      fetchComments();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete comment. Please try again.",
         variant: "destructive",
       });
     }
@@ -175,11 +205,21 @@ export const PipelineTableRow = ({
                 <ScrollArea className="h-[200px] rounded-md border p-4">
                   <div className="space-y-4">
                     {comments.map((comment) => (
-                      <div key={comment.id} className="space-y-1">
-                        <p className="text-sm text-gray-500">
-                          {new Date(comment.created_at).toLocaleString()}
-                        </p>
-                        <p className="text-sm">{comment.comment}</p>
+                      <div key={comment.id} className="space-y-1 flex justify-between items-start">
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-500">
+                            {new Date(comment.created_at).toLocaleString()}
+                          </p>
+                          <p className="text-sm">{comment.comment}</p>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className="h-8 w-8 hover:bg-red-100"
+                        >
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </Button>
                       </div>
                     ))}
                   </div>
