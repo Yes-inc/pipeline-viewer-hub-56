@@ -43,9 +43,8 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     >
       {isOpen && (
         <Popup
-          closeButton={true}
-          closeOnClick={false}
-          closeOnEscapeKey={true}
+          offset={[0, -10]}
+          autoPan={true}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
