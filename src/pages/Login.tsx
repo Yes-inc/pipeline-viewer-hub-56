@@ -8,10 +8,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
-        navigate("/");
+        // Check if user has an organization
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('organization_id')
+          .single();
+
+        if (profile?.organization_id) {
+          navigate("/");
+        } else {
+          // Handle users without organization (optional)
+          console.error("User not associated with an organization");
+          await supabase.auth.signOut();
+        }
       }
     });
   }, [navigate]);
@@ -25,7 +36,7 @@ const Login = () => {
           className="mx-auto h-24 w-auto mb-8"
         />
         <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">
-          Yes.inc Client Dashboard
+          Client Dashboard Login
         </h1>
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <Auth

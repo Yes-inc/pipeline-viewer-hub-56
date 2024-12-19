@@ -2,10 +2,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Puzzle, CreditCard, LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
+import { useOrganization } from "@/contexts/OrganizationContext";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { organization } = useOrganization();
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -30,11 +32,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
                 <img
-                  src="/lovable-uploads/14960bfa-ea4b-4001-8a83-63355d968fad.png"
-                  alt="Yes.inc Logo"
+                  src={organization?.logo_url || "/lovable-uploads/14960bfa-ea4b-4001-8a83-63355d968fad.png"}
+                  alt={`${organization?.name || 'Yes.inc'} Logo`}
                   className="h-10 w-auto mr-3"
                 />
-                <h1 className="text-xl font-bold text-gray-900">Yes.inc Client</h1>
+                <h1 className="text-xl font-bold text-gray-900">
+                  {organization?.name || 'Yes.inc'} Client
+                </h1>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 <Link
@@ -44,6 +48,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       ? "border-primary text-gray-900"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                  style={{
+                    borderColor: isActive("/") ? (organization?.theme_color || '#6366f1') : undefined,
+                    color: isActive("/") ? (organization?.theme_color || '#6366f1') : undefined
+                  }}
                 >
                   <LayoutDashboard className="w-4 h-4 mr-2" />
                   Dashboard
@@ -55,6 +63,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       ? "border-primary text-gray-900"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                  style={{
+                    borderColor: isActive("/integrations") ? (organization?.theme_color || '#6366f1') : undefined,
+                    color: isActive("/integrations") ? (organization?.theme_color || '#6366f1') : undefined
+                  }}
                 >
                   <Puzzle className="w-4 h-4 mr-2" />
                   Integrations
@@ -66,6 +78,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       ? "border-primary text-gray-900"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                   } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                  style={{
+                    borderColor: isActive("/billing") ? (organization?.theme_color || '#6366f1') : undefined,
+                    color: isActive("/billing") ? (organization?.theme_color || '#6366f1') : undefined
+                  }}
                 >
                   <CreditCard className="w-4 h-4 mr-2" />
                   Billing

@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { OrganizationProvider } from "./contexts/OrganizationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Integrations from "./pages/Integrations";
@@ -23,7 +24,9 @@ const App = () => (
             path="/"
             element={
               <ProtectedRoute>
-                <Index />
+                <OrganizationProvider>
+                  <Index />
+                </OrganizationProvider>
               </ProtectedRoute>
             }
           />
@@ -31,7 +34,9 @@ const App = () => (
             path="/integrations"
             element={
               <ProtectedRoute>
-                <Integrations />
+                <OrganizationProvider>
+                  <Integrations />
+                </OrganizationProvider>
               </ProtectedRoute>
             }
           />
@@ -39,7 +44,9 @@ const App = () => (
             path="/billing"
             element={
               <ProtectedRoute>
-                <Billing />
+                <OrganizationProvider>
+                  <Billing />
+                </OrganizationProvider>
               </ProtectedRoute>
             }
           />
