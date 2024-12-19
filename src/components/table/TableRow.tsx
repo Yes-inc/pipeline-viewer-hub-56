@@ -1,21 +1,10 @@
 import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRound, MessageSquare, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { UserRound } from "lucide-react";
 import { type PipelineRow } from "../../utils/googleSheets";
 import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { CommentDialog } from "./CommentDialog";
 
 interface Comment {
   id: string;
@@ -40,10 +29,8 @@ export const PipelineTableRow = ({
   isEngagedProspects,
   isGeneratedLeads,
 }: PipelineTableRowProps) => {
-  const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
-  const { toast } = useToast();
 
   const fetchComments = async () => {
     try {
@@ -66,59 +53,6 @@ export const PipelineTableRow = ({
     fetchComments();
   }, [row.LinkedIn_URL]);
 
-  const handleSubmitComment = async () => {
-    if (!comment.trim()) return;
-
-    try {
-      const { error } = await supabase.from("comments").insert([
-        {
-          lead_linkedin_url: row.LinkedIn_URL,
-          comment: comment.trim(),
-        },
-      ]);
-
-      if (error) throw error;
-
-      setComment("");
-      fetchComments();
-      toast({
-        title: "Comment saved",
-        description: "Your comment has been saved successfully.",
-      });
-    } catch (error) {
-      console.error("Error saving comment:", error);
-      toast({
-        title: "Error",
-        description: "Failed to save comment. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleDeleteComment = async (commentId: string) => {
-    try {
-      const { error } = await supabase
-        .from('comments')
-        .delete()
-        .eq('id', commentId);
-
-      if (error) throw error;
-
-      toast({
-        title: "Comment deleted",
-        description: "Your comment has been deleted successfully.",
-      });
-      
-      fetchComments();
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to delete comment. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <UITableRow 
       key={index}
@@ -138,8 +72,8 @@ export const PipelineTableRow = ({
           </Avatar>
         </div>
       </TableCell>
-      <TableCell>{row.Full_Name}</TableCell>
-      <TableCell>{row.Company}</TableCell>
+      <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
+      <TableCell className="text-gray-900">{row.Company}</TableCell>
       <TableCell>
         <a href={row.LinkedIn_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
           Profile
@@ -152,60 +86,15 @@ export const PipelineTableRow = ({
           </a>
         </TableCell>
       )}
-      <TableCell>{row.Advisor}</TableCell>
-      <TableCell>{row.Deal_Size}</TableCell>
+      <TableCell className="text-gray-900">{row.Advisor}</TableCell>
+      <TableCell className="text-gray-900">{row.Deal_Size}</TableCell>
       <TableCell>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
-              <MessageSquare className="h-4 w-4" />
-              {hasComments && (
-                <div className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-blue-500" />
-              )}
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Comments</DialogTitle>
-              <DialogDescription>
-                Add or view comments for this lead
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <ScrollArea className="h-[200px] rounded-md border p-4">
-                <div className="space-y-4">
-                  {comments.map((comment) => (
-                    <div key={comment.id} className="space-y-1 flex justify-between items-start">
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-500">
-                          {new Date(comment.created_at).toLocaleString()}
-                        </p>
-                        <p className="text-sm">{comment.comment}</p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDeleteComment(comment.id)}
-                        className="h-8 w-8 hover:bg-red-100"
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-              <div className="flex gap-3">
-                <Textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Add a comment..."
-                  className="flex-1"
-                />
-                <Button onClick={handleSubmitComment}>Add</Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <CommentDialog
+          linkedinUrl={row.LinkedIn_URL}
+          hasComments={hasComments}
+          comments={comments}
+          onCommentsUpdate={fetchComments}
+        />
       </TableCell>
     </UITableRow>
   );
