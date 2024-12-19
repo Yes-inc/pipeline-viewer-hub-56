@@ -14,18 +14,32 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const createCustomIcon = () => {
-    const count = advisors.length;
-    const size = count > 99 ? 40 : count > 9 ? 35 : 30;
-    const fontSize = count > 99 ? '14px' : '12px';
+    const advisor = advisors[0]; // Use the first advisor's picture for the marker
+    const size = 40;
     
-    const html = `
-      <div class="flex items-center justify-center bg-indigo-600 text-white rounded-full border-2 border-white shadow-lg" 
-           style="width: ${size}px; height: ${size}px; font-size: ${fontSize};">
-        ${count}
-      </div>
-    `;
+    const html = advisor.Picture 
+      ? `
+        <div class="flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
+          <img 
+            src="${advisor.Picture}" 
+            alt="${advisor.Name}"
+            class="w-full h-full rounded-full border-2 border-white shadow-lg object-cover"
+          />
+          ${advisors.length > 1 ? `
+            <div class="absolute -bottom-2 -right-2 bg-indigo-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center border-2 border-white shadow-md">
+              +${advisors.length - 1}
+            </div>
+          ` : ''}
+        </div>
+      `
+      : `
+        <div class="flex items-center justify-center bg-indigo-600 text-white rounded-full border-2 border-white shadow-lg" 
+             style="width: ${size}px; height: ${size}px; font-size: 14px;">
+          ${advisors.length}
+        </div>
+      `;
     
-    return new L.DivIcon({
+    return L.divIcon({
       html,
       className: '',
       iconSize: [size, size],
