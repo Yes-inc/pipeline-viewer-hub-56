@@ -21,8 +21,7 @@ const MapContainer = forwardRef<any, MapContainerProps>(({
       bounds={bounds}
       className={`w-full h-full ${className}`}
       style={{ minHeight: '300px' }}
-      // Using bounds prop instead of maxBounds
-      zoom={2}
+      minZoom={2}
       maxBounds={bounds}
       maxBoundsViscosity={1.0}
     >
