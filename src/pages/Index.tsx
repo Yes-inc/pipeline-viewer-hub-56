@@ -115,66 +115,68 @@ const Index = () => {
           <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
 
-        <Tabs defaultValue="generated" className="w-full">
-          <TabsList className="w-full flex flex-wrap justify-start gap-2 bg-gray-100/80 p-2 rounded-lg">
-            <TabsTrigger 
-              value="established" 
-              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-            >
-              Established
-            </TabsTrigger>
-            <TabsTrigger 
-              value="active"
-              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-            >
-              Engaged
-            </TabsTrigger>
-            <TabsTrigger 
-              value="generated"
-              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-            >
-              Generated
-            </TabsTrigger>
-            <TabsTrigger 
-              value="uncertain"
-              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-            >
-              Unverified
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="established">
-            <PipelineTable 
-              title="Established Connections" 
-              data={establishedConnections}
-              isLoading={isLoadingEstablished}
-              error={errorEstablished}
-            />
-          </TabsContent>
-          <TabsContent value="active">
-            <PipelineTable 
-              title="Engaged Prospects" 
-              data={activeLeads}
-              isLoading={isLoadingActive}
-              error={errorActive}
-            />
-          </TabsContent>
-          <TabsContent value="generated">
-            <PipelineTable 
-              title="Generated Leads" 
-              data={generatedLeads}
-              isLoading={isLoadingGenerated}
-              error={errorGenerated}
-            />
-          </TabsContent>
-          <TabsContent value="uncertain">
-            <PipelineTable 
-              title="Unverified Leads" 
-              data={uncertainLeads}
-              isLoading={isLoadingUncertain}
-              error={errorUncertain}
-            />
-          </TabsContent>
-        </Tabs>
+        <div className="space-y-8">
+          <Tabs defaultValue="generated" className="w-full">
+            <TabsList className="w-full flex flex-wrap justify-start gap-2 bg-gray-100/80 p-2 rounded-lg">
+              <TabsTrigger 
+                value="established" 
+                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
+              >
+                Established
+              </TabsTrigger>
+              <TabsTrigger 
+                value="active"
+                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
+              >
+                Engaged
+              </TabsTrigger>
+              <TabsTrigger 
+                value="generated"
+                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
+              >
+                Generated
+              </TabsTrigger>
+              <TabsTrigger 
+                value="uncertain"
+                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
+              >
+                Unverified
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="established" className="mt-6">
+              <PipelineTable 
+                title="Established Connections" 
+                data={establishedConnections}
+                isLoading={isLoadingEstablished}
+                error={errorEstablished}
+              />
+            </TabsContent>
+            <TabsContent value="active" className="mt-6">
+              <PipelineTable 
+                title="Engaged Prospects" 
+                data={activeLeads}
+                isLoading={isLoadingActive}
+                error={errorActive}
+              />
+            </TabsContent>
+            <TabsContent value="generated" className="mt-6">
+              <PipelineTable 
+                title="Generated Leads" 
+                data={generatedLeads}
+                isLoading={isLoadingGenerated}
+                error={errorGenerated}
+              />
+            </TabsContent>
+            <TabsContent value="uncertain" className="mt-6">
+              <PipelineTable 
+                title="Unverified Leads" 
+                data={uncertainLeads}
+                isLoading={isLoadingUncertain}
+                error={errorUncertain}
+              />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </DashboardLayout>
   );
