@@ -116,28 +116,28 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="generated" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-gray-100/80 p-1 rounded-lg gap-1">
+          <TabsList className="w-full flex flex-wrap justify-start gap-2 bg-gray-100/80 p-2 rounded-lg">
             <TabsTrigger 
               value="established" 
-              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-xs md:text-sm whitespace-nowrap px-2 md:px-4"
+              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
             >
               Established
             </TabsTrigger>
             <TabsTrigger 
               value="active"
-              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-xs md:text-sm whitespace-nowrap px-2 md:px-4"
+              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
             >
               Engaged
             </TabsTrigger>
             <TabsTrigger 
               value="generated"
-              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-xs md:text-sm whitespace-nowrap px-2 md:px-4"
+              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
             >
               Generated
             </TabsTrigger>
             <TabsTrigger 
               value="uncertain"
-              className="rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-xs md:text-sm whitespace-nowrap px-2 md:px-4"
+              className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
             >
               Unverified
             </TabsTrigger>
