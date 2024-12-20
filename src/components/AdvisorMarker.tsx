@@ -4,7 +4,6 @@ import L from "leaflet";
 import { Advisor } from "@/types/advisor";
 import AdvisorPopup from "./AdvisorPopup";
 
-// Define the coordinates mapping
 const locationCoordinates: { [key: string]: [number, number] } = {
   "Dubai": [25.2048, 55.2708],
   "Amsterdam": [52.3676, 4.9041],
@@ -14,7 +13,6 @@ const locationCoordinates: { [key: string]: [number, number] } = {
   "Namibia": [-22.9576, 18.4904],
 };
 
-// Create a custom icon
 const createCustomIcon = (imageUrl: string) => {
   return L.divIcon({
     html: `<img src="${imageUrl}" class="w-10 h-10 rounded-full border-2 border-white shadow-lg" />`,
@@ -45,10 +43,10 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
       eventHandlers={{
         click: () => setIsPopupOpen(true),
       }}
-      icon={customIcon}
+      icon={customIcon as L.DivIcon}
     >
       <Popup
-        offset={[0, -20]}
+        className="custom-popup"
         eventHandlers={{
           remove: () => setIsPopupOpen(false),
         }}

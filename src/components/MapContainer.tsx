@@ -9,16 +9,13 @@ interface MapContainerProps {
 }
 
 const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }, ref) => {
-  const defaultCenter: [number, number] = [20, 0];
-  const defaultZoom = 2;
-
   return (
     <div ref={ref} className="h-full w-full">
       <LeafletMapContainer
-        center={defaultCenter}
-        zoom={defaultZoom}
+        className="h-full w-full"
+        center={[20, 0] as [number, number]}
+        zoom={2}
         scrollWheelZoom={false}
-        style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
