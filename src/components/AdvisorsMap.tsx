@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useRef } from "react";
-import type { MapContainer as LeafletMap } from 'leaflet';
+import type { Map as LeafletMap } from 'leaflet';
 import { locationCoordinates } from '../utils/locationData';
 import MapContainer from './MapContainer';
 import AdvisorMarker from './AdvisorMarker';
@@ -61,14 +61,18 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">
       <h2 className="text-lg font-semibold text-[#1A1F2C]">Advisors Locations</h2>
       <div className="h-[400px]">
-        <MapContainer ref={mapRef}>
+        <MapContainer>
           {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
-            <AdvisorMarker
-              key={location}
-              advisors={locationAdvisors}
-              position={locationCoordinates[location]}
-              companyPrefix={companyPrefix}
-            />
+            locationAdvisors.map((advisor, index) => (
+              <AdvisorMarker
+                key={`${location}-${index}`}
+                advisor={advisor}
+                position={locationCoordinates[location]}
+                onMarkerClick={() => {
+                  console.log('Marker clicked:', advisor);
+                }}
+              />
+            ))
           ))}
         </MapContainer>
       </div>

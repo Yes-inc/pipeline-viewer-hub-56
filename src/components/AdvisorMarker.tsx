@@ -4,16 +4,10 @@ import type { LatLngExpression } from 'leaflet';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { UserRound } from 'lucide-react';
+import type { Advisor } from '../types/advisor';
 
 interface AdvisorMarkerProps {
-  advisor: {
-    Name: string;
-    Location: string;
-    Picture?: string;
-    Industry?: string;
-    Duration?: number;
-    LinkedIn?: string;
-  };
+  advisor: Advisor;
   position: LatLngExpression;
   onMarkerClick: () => void;
 }
@@ -56,42 +50,45 @@ const AdvisorMarker = ({ advisor, position, onMarkerClick }: AdvisorMarkerProps)
       }}
       icon={customIcon}
     >
-      <Popup
-        onClose={() => setIsOpen(false)}
-        className="advisor-popup"
-      >
-        <div className="flex items-start space-x-4 p-2">
-          <Avatar className="h-12 w-12">
-            {advisor.Picture ? (
-              <AvatarImage src={advisor.Picture} alt={advisor.Name} />
-            ) : (
-              <AvatarFallback>
-                <UserRound className="h-6 w-6" />
-              </AvatarFallback>
-            )}
-          </Avatar>
-          <div>
-            <h3 className="font-semibold">{advisor.Name}</h3>
-            <p className="text-sm text-gray-500">{advisor.Location}</p>
-            {advisor.Industry && (
-              <p className="text-sm text-gray-500">{advisor.Industry}</p>
-            )}
-            {advisor.Duration && (
-              <p className="text-sm text-gray-500">{advisor.Duration} years</p>
-            )}
-            {advisor.LinkedIn && (
-              <a
-                href={advisor.LinkedIn}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-600 hover:underline mt-2 inline-block"
-              >
-                LinkedIn Profile
-              </a>
-            )}
+      {isOpen && (
+        <Popup
+          closeButton={true}
+          closeOnClick={false}
+          className="advisor-popup"
+        >
+          <div className="flex items-start space-x-4 p-2">
+            <Avatar className="h-12 w-12">
+              {advisor.Picture ? (
+                <AvatarImage src={advisor.Picture} alt={advisor.Name} />
+              ) : (
+                <AvatarFallback>
+                  <UserRound className="h-6 w-6" />
+                </AvatarFallback>
+              )}
+            </Avatar>
+            <div>
+              <h3 className="font-semibold">{advisor.Name}</h3>
+              <p className="text-sm text-gray-500">{advisor.Location}</p>
+              {advisor.Industry && (
+                <p className="text-sm text-gray-500">{advisor.Industry}</p>
+              )}
+              {advisor.Duration && (
+                <p className="text-sm text-gray-500">{advisor.Duration} years</p>
+              )}
+              {advisor.LinkedIn && (
+                <a
+                  href={advisor.LinkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-600 hover:underline mt-2 inline-block"
+                >
+                  LinkedIn Profile
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-      </Popup>
+        </Popup>
+      )}
     </Marker>
   );
 };
