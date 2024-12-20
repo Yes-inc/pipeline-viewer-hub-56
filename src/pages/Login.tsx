@@ -39,9 +39,6 @@ const Login = () => {
       if (event === 'SIGNED_IN' && session) {
         await handleAuthSuccess(session);
       }
-      if (event === 'SIGNED_OUT') {
-        navigate('/login');
-      }
     });
 
     return () => {

@@ -34,8 +34,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        navigate("/login");
+      } else if (!session && !isLoading) {
         navigate("/login");
       }
     });
@@ -43,7 +45,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, [navigate, isLoading]);
 
   if (isLoading) {
     return (

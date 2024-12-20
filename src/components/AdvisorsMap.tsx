@@ -40,7 +40,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   return (
     <Card className="bg-white shadow-none border-0">
       <CardHeader className="bg-white border-0">
-        <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
+        <CardTitle className="text-gray-900">Advisors Locations</CardTitle>
       </CardHeader>
       <CardContent className="h-[400px] bg-white border-0">
         {isLoading ? (
