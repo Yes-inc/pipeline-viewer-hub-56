@@ -91,7 +91,7 @@ export const PipelineTableRow = ({
       )}
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Advisor}</TableCell>
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Deal_Size}</TableCell>
-      <TableCell className="w-[100px] pl-4 pr-6">
+      <TableCell className="w-[120px] pl-4 pr-4">
         <CommentDialog
           linkedinUrl={row.LinkedIn_URL}
           hasComments={hasComments}
