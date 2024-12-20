@@ -9,21 +9,20 @@ interface MapContainerProps {
 }
 
 const MapContainer = forwardRef<any, MapContainerProps>(({ advisors }, ref) => {
-  // Default center coordinates (adjust as needed)
-  const defaultCenter = [20, 0];
+  const defaultCenter: [number, number] = [20, 0];
   const defaultZoom = 2;
 
   return (
     <LeafletMapContainer
       ref={ref}
-      style={{ height: "100%", width: "100%" }}
-      center={defaultCenter as [number, number]}
+      className="h-full w-full"
+      center={defaultCenter}
       zoom={defaultZoom}
       scrollWheelZoom={false}
     >
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {advisors.map((advisor, index) => (
         <AdvisorMarker key={index} advisor={advisor} />

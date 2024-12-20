@@ -14,7 +14,7 @@ import DashboardTitle from "../components/DashboardTitle";
 import { useOrganization } from "@/contexts/OrganizationContext";
 
 const Index = () => {
-  const [companyPrefix, setCompanyPrefix] = useState<"Mitigram" | "ToExceed" | null>(null);
+  const [companyPrefix, setCompanyPrefix] = useState<"Mitigram" | "ToExceed" | "Gimi" | null>(null);
   const { organization } = useOrganization();
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -144,7 +144,7 @@ const Index = () => {
       <div className="space-y-6">
         {isAdmin && (
           <CompanySelector
-            onCompanyChange={setCompanyPrefix}
+            onCompanyChange={(company) => setCompanyPrefix(company)}
             currentCompany={companyPrefix}
           />
         )}
