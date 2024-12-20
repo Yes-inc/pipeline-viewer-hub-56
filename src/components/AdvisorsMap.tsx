@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import MapContainer from "./MapContainer";
-import AdvisorMarker from "./AdvisorMarker";
 import { Advisor } from "@/types/advisor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -17,7 +16,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
       console.log('Fetching advisors for:', companyPrefix);
       
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Advisors` as "Mitigram_Advisors" | "ToExceed_Advisors" | "Gimi_Advisors")
+        .from(`${companyPrefix}_Advisors`)
         .select('*');
       
       if (error) {
@@ -33,11 +32,11 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white shadow-none">
-        <CardHeader className="bg-white">
+      <Card className="bg-white shadow-none border-0">
+        <CardHeader className="bg-white border-0">
           <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
         </CardHeader>
-        <CardContent className="h-[400px] flex items-center justify-center">
+        <CardContent className="h-[400px] flex items-center justify-center border-0">
           <p className="text-gray-900">Loading advisors...</p>
         </CardContent>
       </Card>
@@ -46,11 +45,11 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
 
   if (!advisors?.length) {
     return (
-      <Card className="bg-white shadow-none">
-        <CardHeader className="bg-white">
+      <Card className="bg-white shadow-none border-0">
+        <CardHeader className="bg-white border-0">
           <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
         </CardHeader>
-        <CardContent className="h-[400px] flex items-center justify-center">
+        <CardContent className="h-[400px] flex items-center justify-center border-0">
           <p className="text-gray-900">No advisors found for {companyPrefix}</p>
         </CardContent>
       </Card>
@@ -58,11 +57,11 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   }
 
   return (
-    <Card className="bg-white shadow-none">
-      <CardHeader className="bg-white">
+    <Card className="bg-white shadow-none border-0">
+      <CardHeader className="bg-white border-0">
         <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
       </CardHeader>
-      <CardContent className="h-[400px] bg-white">
+      <CardContent className="h-[400px] bg-white border-0">
         <MapContainer advisors={advisors} />
       </CardContent>
     </Card>
