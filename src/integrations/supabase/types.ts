@@ -512,7 +512,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Toexceed_Advisors: {
+      ToExceed_Advisors: {
         Row: {
           Duration: number | null
           Industry: string | null
@@ -539,7 +539,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Toexceed_Comments: {
+      ToExceed_Comments: {
         Row: {
           comment: string
           created_at: string
@@ -560,7 +560,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Toexceed_Established_Connections: {
+      ToExceed_Established_Connections: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -602,7 +602,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Toexceed_Leads: {
+      ToExceed_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -644,7 +644,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Toexceed_Uncertain_Leads: {
+      ToExceed_Uncertain_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null

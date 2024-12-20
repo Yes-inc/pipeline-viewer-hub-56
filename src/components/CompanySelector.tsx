@@ -18,12 +18,12 @@ const CompanySelector = ({ onCompanyChange, currentCompany }: CompanySelectorPro
         value={currentCompany || undefined}
         onValueChange={(value: "Mitigram" | "ToExceed") => onCompanyChange(value)}
       >
-        <SelectTrigger className="w-[280px]">
+        <SelectTrigger className="w-[280px] bg-white border-gray-200 text-gray-900">
           <SelectValue placeholder="Select company" />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="Mitigram">Mitigram</SelectItem>
-          <SelectItem value="ToExceed">ToExceed</SelectItem>
+        <SelectContent className="bg-white border-gray-200">
+          <SelectItem value="Mitigram" className="text-gray-900 hover:bg-gray-50">Mitigram</SelectItem>
+          <SelectItem value="ToExceed" className="text-gray-900 hover:bg-gray-50">ToExceed</SelectItem>
         </SelectContent>
       </Select>
     </div>

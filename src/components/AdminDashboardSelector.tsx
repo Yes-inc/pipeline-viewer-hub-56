@@ -34,12 +34,16 @@ const AdminDashboardSelector = ({ onOrganizationChange, currentOrganizationId }:
         value={currentOrganizationId || undefined}
         onValueChange={onOrganizationChange}
       >
-        <SelectTrigger className="w-[280px]">
+        <SelectTrigger className="w-[280px] bg-white border-gray-200 text-gray-900">
           <SelectValue placeholder="Select organization" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-white border-gray-200">
           {organizations?.map((org) => (
-            <SelectItem key={org.id} value={org.id}>
+            <SelectItem 
+              key={org.id} 
+              value={org.id}
+              className="text-gray-900 hover:bg-gray-50"
+            >
               <div className="flex items-center gap-2">
                 {org.logo_url && (
                   <img
