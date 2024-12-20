@@ -20,7 +20,7 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
     
     const html = advisor.Picture 
       ? `
-        <div class="flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
+        <div class="relative" style="width: ${size}px; height: ${size}px;">
           <img 
             src="${advisor.Picture}" 
             alt="${advisor.Name || ''}"
@@ -42,7 +42,7 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
     
     return L.divIcon({
       html,
-      className: '',
+      className: 'custom-marker',
       iconSize: [size, size],
       iconAnchor: [size/2, size/2]
     });
@@ -51,6 +51,7 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
   return (
     <Marker 
       position={position}
+      icon={createCustomIcon()}
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
