@@ -9,7 +9,49 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Advisors: {
+      Mitigram_Active_Leads: {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Website: string | null
+          Deal_Size: string | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+          Time_Stamp: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Relationships: []
+      }
+      Mitigram_Advisors: {
         Row: {
           Duration: number | null
           Industry: string | null
@@ -36,7 +78,7 @@ export type Database = {
         }
         Relationships: []
       }
-      comments: {
+      Mitigram_Comments: {
         Row: {
           comment: string
           created_at: string
@@ -57,7 +99,7 @@ export type Database = {
         }
         Relationships: []
       }
-      "Established-Connection": {
+      Mitigram_Established_Connections: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -99,7 +141,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Leads: {
+      Mitigram_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -141,45 +183,36 @@ export type Database = {
         }
         Relationships: []
       }
-      "More-Active-Leads": {
+      Mitigram_Uncertain_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
-          Deal_Size: string | null
-          Email: string | null
           First_Name: string | null
           Full_Name: string | null
           Last_Name: string | null
           LinkedIn_URL: string
           Profile_Picture: string | null
-          Time_Stamp: string | null
         }
         Insert: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
-          Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL: string
           Profile_Picture?: string | null
-          Time_Stamp?: string | null
         }
         Update: {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
-          Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
-          Time_Stamp?: string | null
         }
         Relationships: []
       }
@@ -210,6 +243,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          Company: string | null
           created_at: string
           email: string | null
           full_name: string | null
@@ -219,6 +253,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          Company?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
@@ -228,6 +263,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          Company?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
@@ -245,7 +281,160 @@ export type Database = {
           },
         ]
       }
-      "Uncertain Leads": {
+      ToExceed_Active_Leads: {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Website: string | null
+          Deal_Size: string | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+          Time_Stamp: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: string | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Relationships: []
+      }
+      ToExceed_Advisors: {
+        Row: {
+          Duration: number | null
+          Industry: string | null
+          LinkedIn: string
+          Location: string | null
+          Name: string | null
+          Picture: string | null
+        }
+        Insert: {
+          Duration?: number | null
+          Industry?: string | null
+          LinkedIn: string
+          Location?: string | null
+          Name?: string | null
+          Picture?: string | null
+        }
+        Update: {
+          Duration?: number | null
+          Industry?: string | null
+          LinkedIn?: string
+          Location?: string | null
+          Name?: string | null
+          Picture?: string | null
+        }
+        Relationships: []
+      }
+      ToExceed_Established_Connections: {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Website: string | null
+          Deal_Size: number | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+          Time_Stamp: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Relationships: []
+      }
+      ToExceed_Leads: {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Website: string | null
+          Deal_Size: number | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+          Time_Stamp: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Website?: string | null
+          Deal_Size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Relationships: []
+      }
+      ToExceed_Uncertian_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
