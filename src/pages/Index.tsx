@@ -9,7 +9,6 @@ import { PipelineRow } from "../utils/googleSheets";
 import AdvisorsMap from "../components/AdvisorsMap";
 import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import { useEffect, useState } from "react";
-import AdminDashboardSelector from "../components/AdminDashboardSelector";
 import CompanySelector from "../components/CompanySelector";
 import DashboardTitle from "../components/DashboardTitle";
 import { useOrganization } from "@/contexts/OrganizationContext";
@@ -144,18 +143,10 @@ const Index = () => {
     <DashboardLayout>
       <div className="space-y-6">
         {isAdmin && (
-          <div className="space-y-6">
-            <AdminDashboardSelector
-              onOrganizationChange={(orgId) => {
-                console.log("Selected organization:", orgId);
-              }}
-              currentOrganizationId={organization?.id || null}
-            />
-            <CompanySelector
-              onCompanyChange={setCompanyPrefix}
-              currentCompany={companyPrefix}
-            />
-          </div>
+          <CompanySelector
+            onCompanyChange={setCompanyPrefix}
+            currentCompany={companyPrefix}
+          />
         )}
         
         <div className="flex justify-between items-center">

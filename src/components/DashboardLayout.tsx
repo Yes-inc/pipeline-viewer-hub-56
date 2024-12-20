@@ -31,13 +31,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <img
-                  src={organization?.logo_url || "/lovable-uploads/14960bfa-ea4b-4001-8a83-63355d968fad.png"}
-                  alt={`${organization?.name || 'Yes.inc'} Logo`}
-                  className="h-10 w-auto mr-3"
-                />
                 <h1 className="text-xl font-bold text-gray-900">
-                  {organization?.name || 'Yes.inc'} Client
+                  Pipeline Dashboard
                 </h1>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
