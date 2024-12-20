@@ -51,10 +51,10 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
   return (
     <Marker 
       position={position}
-      icon={createCustomIcon()}
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
+      icon={createCustomIcon()}
     >
       {isOpen && (
         <Popup
