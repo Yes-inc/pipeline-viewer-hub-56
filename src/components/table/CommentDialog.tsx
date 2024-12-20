@@ -24,7 +24,7 @@ interface CommentDialogProps {
 export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUpdate, companyPrefix }: CommentDialogProps) => {
   const [comment, setComment] = useState("");
   const { toast } = useToast();
-  const commentsTable = companyPrefix === "Mitigram" ? "Mitigram_Comments" : "toexceed_comments";
+  const commentsTable = `${companyPrefix}_Comments`;
 
   const handleSubmitComment = async () => {
     if (!comment.trim()) return;
@@ -60,7 +60,7 @@ export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUp
   const handleDeleteComment = async (commentId: string) => {
     try {
       const { error } = await supabase
-        .from(`${companyPrefix}_Comments`)
+        .from(commentsTable)
         .delete()
         .eq('id', commentId);
 

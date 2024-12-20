@@ -78,7 +78,7 @@ const Index = () => {
     queryFn: async () => {
       if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Uncertain_Leads`)
+        .from(`${companyPrefix}_Uncertian_Leads`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
@@ -116,8 +116,6 @@ const Index = () => {
       </DashboardLayout>
     );
   }
-
-  // ... keep existing code (rest of the JSX for the dashboard)
 
   return (
     <DashboardLayout>

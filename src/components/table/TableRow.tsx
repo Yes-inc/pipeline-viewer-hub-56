@@ -33,7 +33,7 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
-  const commentsTable = companyPrefix === "Mitigram" ? "Mitigram_Comments" : "toexceed_comments";
+  const commentsTable = `${companyPrefix}_Comments`;
 
   const fetchComments = async () => {
     try {
