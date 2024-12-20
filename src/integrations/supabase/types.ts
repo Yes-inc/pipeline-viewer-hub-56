@@ -350,7 +350,7 @@ export type Database = {
         }
         Relationships: []
       }
-      toexceed_comments: {
+      ToExceed_Comments: {
         Row: {
           comment: string
           created_at: string

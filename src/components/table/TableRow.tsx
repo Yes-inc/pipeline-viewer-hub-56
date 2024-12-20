@@ -33,11 +33,12 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
+  const commentsTable = companyPrefix === "Mitigram" ? "Mitigram_Comments" : "toexceed_comments";
 
   const fetchComments = async () => {
     try {
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Comments`)
+        .from(commentsTable)
         .select("*")
         .eq("lead_linkedin_url", row.LinkedIn_URL)
         .order("created_at", { ascending: false });

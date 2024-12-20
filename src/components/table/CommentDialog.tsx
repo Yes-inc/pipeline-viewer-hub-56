@@ -24,13 +24,14 @@ interface CommentDialogProps {
 export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUpdate, companyPrefix }: CommentDialogProps) => {
   const [comment, setComment] = useState("");
   const { toast } = useToast();
+  const commentsTable = companyPrefix === "Mitigram" ? "Mitigram_Comments" : "toexceed_comments";
 
   const handleSubmitComment = async () => {
     if (!comment.trim()) return;
 
     try {
       const { error } = await supabase
-        .from(`${companyPrefix}_Comments`)
+        .from(commentsTable)
         .insert([
           {
             lead_linkedin_url: linkedinUrl,
