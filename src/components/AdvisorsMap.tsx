@@ -17,7 +17,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
       console.log('Fetching advisors for:', companyPrefix);
       
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Advisors`)
+        .from(`${companyPrefix}_Advisors` as "Mitigram_Advisors" | "ToExceed_Advisors" | "Gimi_Advisors")
         .select('*');
       
       if (error) {
@@ -33,7 +33,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white">
+      <Card className="bg-white shadow-none">
         <CardHeader className="bg-white">
           <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
         </CardHeader>
@@ -46,7 +46,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
 
   if (!advisors?.length) {
     return (
-      <Card className="bg-white">
+      <Card className="bg-white shadow-none">
         <CardHeader className="bg-white">
           <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
         </CardHeader>
@@ -58,7 +58,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   }
 
   return (
-    <Card className="bg-white">
+    <Card className="bg-white shadow-none">
       <CardHeader className="bg-white">
         <CardTitle className="text-gray-900">Advisor Locations</CardTitle>
       </CardHeader>
