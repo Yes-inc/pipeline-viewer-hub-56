@@ -162,7 +162,7 @@ export type Database = {
         }
         Relationships: []
       }
-      Gimi_Uncertian_Leads: {
+      Gimi_Uncertain_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -641,7 +641,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Uncertian_Leads: {
+      ToExceed_Uncertain_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null

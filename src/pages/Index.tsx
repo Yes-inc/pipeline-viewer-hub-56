@@ -78,7 +78,7 @@ const Index = () => {
     queryFn: async () => {
       if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Uncertian_Leads`)
+        .from(`${companyPrefix}_Uncertain_Leads`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
