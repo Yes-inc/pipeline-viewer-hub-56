@@ -19,7 +19,7 @@ const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }
         center={defaultCenter}
         zoom={2}
         scrollWheelZoom={false}
-        key={advisors.length} // Force re-render when advisors change
+        key={advisors.length}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer

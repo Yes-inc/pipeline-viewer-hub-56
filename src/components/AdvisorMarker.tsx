@@ -14,7 +14,7 @@ const locationCoordinates: { [key: string]: [number, number] } = {
 };
 
 const createCustomIcon = (imageUrl: string) => {
-  return L.divIcon({
+  return new L.DivIcon({
     html: `<div class="advisor-marker">
             <img src="${imageUrl}" class="w-10 h-10 rounded-full border-2 border-white shadow-lg" />
           </div>`,

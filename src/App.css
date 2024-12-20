@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.advisor-marker img {
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.custom-div-icon {
+  background: none;
+  border: none;
+}
