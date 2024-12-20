@@ -512,7 +512,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Advisors: {
+      Toexceed_Advisors: {
         Row: {
           Duration: number | null
           Industry: string | null
@@ -644,7 +644,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Uncertain_Leads: {
+      Toexceed_Uncertain_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null

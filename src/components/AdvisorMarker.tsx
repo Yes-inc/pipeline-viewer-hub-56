@@ -5,14 +5,16 @@ import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { UserRound } from 'lucide-react';
 import type { Advisor } from '../types/advisor';
+import AdvisorPopup from './AdvisorPopup';
 
 interface AdvisorMarkerProps {
   advisor: Advisor;
   position: LatLngExpression;
   onMarkerClick: () => void;
+  companyPrefix: "Mitigram" | "ToExceed";
 }
 
-const AdvisorMarker = ({ advisor, position, onMarkerClick }: AdvisorMarkerProps) => {
+const AdvisorMarker = ({ advisor, position, onMarkerClick, companyPrefix }: AdvisorMarkerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const customIcon = L.divIcon({
@@ -52,40 +54,13 @@ const AdvisorMarker = ({ advisor, position, onMarkerClick }: AdvisorMarkerProps)
     >
       {isOpen && (
         <Popup
-          onClose={() => setIsOpen(false)}
-          autoPan={true}
+          className="custom-popup"
+          closeOnClick={false}
+          eventHandlers={{
+            remove: () => setIsOpen(false),
+          }}
         >
-          <div className="flex items-start space-x-4 p-2">
-            <Avatar className="h-12 w-12">
-              {advisor.Picture ? (
-                <AvatarImage src={advisor.Picture} alt={advisor.Name} />
-              ) : (
-                <AvatarFallback>
-                  <UserRound className="h-6 w-6" />
-                </AvatarFallback>
-              )}
-            </Avatar>
-            <div>
-              <h3 className="font-semibold">{advisor.Name}</h3>
-              <p className="text-sm text-gray-500">{advisor.Location}</p>
-              {advisor.Industry && (
-                <p className="text-sm text-gray-500">{advisor.Industry}</p>
-              )}
-              {advisor.Duration && (
-                <p className="text-sm text-gray-500">{advisor.Duration} years</p>
-              )}
-              {advisor.LinkedIn && (
-                <a
-                  href={advisor.LinkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-blue-600 hover:underline mt-2 inline-block"
-                >
-                  LinkedIn Profile
-                </a>
-              )}
-            </div>
-          </div>
+          <AdvisorPopup advisors={[advisor]} companyPrefix={companyPrefix} />
         </Popup>
       )}
     </Marker>

@@ -71,6 +71,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
                 onMarkerClick={() => {
                   console.log('Marker clicked:', advisor);
                 }}
+                companyPrefix={companyPrefix}
               />
             ))
           ))}
