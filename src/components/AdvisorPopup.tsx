@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Advisor } from "../types/advisor";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface AdvisorPopupProps {
   advisors: Advisor[];
@@ -36,28 +38,42 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
   }).format(totalPipeline);
 
   return (
-    <div className="p-2">
+    <div className="min-w-[280px] p-1">
       {advisors.map((advisor) => (
-        <div key={advisor.Name || advisor.LinkedIn} className="mb-4 last:mb-0">
-          <div className="flex items-center gap-3 mb-2">
-            {advisor.Picture && (
-              <img
-                src={advisor.Picture}
-                alt={advisor.Name || ''}
-                className="w-10 h-10 rounded-full object-cover"
+        <Card key={advisor.Name || advisor.LinkedIn} className="bg-white shadow-lg mb-2 last:mb-0">
+          <CardHeader className="flex items-center justify-center p-4 pb-2">
+            <Avatar className="w-16 h-16">
+              <AvatarImage
+                src={advisor.Picture || ''}
+                alt={advisor.Name || 'Advisor'}
+                className="object-cover"
               />
-            )}
-            <div>
-              <h3 className="font-semibold">{advisor.Name || 'Unknown'}</h3>
-              <p className="text-sm text-gray-600">{advisor.Industry || 'N/A'}</p>
+              <AvatarFallback className="bg-primary/10 text-primary">
+                {advisor.Name?.slice(0, 2).toUpperCase() || 'AD'}
+              </AvatarFallback>
+            </Avatar>
+          </CardHeader>
+          <CardContent className="p-4 pt-2 space-y-2">
+            <div className="text-center">
+              <h3 className="font-semibold text-lg">{advisor.Name || 'Unknown'}</h3>
+              <p className="text-sm text-muted-foreground">{advisor.Industry || 'N/A'}</p>
             </div>
-          </div>
-          <div className="text-sm">
-            <p>Duration: {advisor.Duration || 0} years</p>
-            <p>Pipeline: {formattedPipeline}</p>
-            <p>Leads: {leads.filter(l => l.Advisor === advisor.Name).length}</p>
-          </div>
-        </div>
+            <div className="space-y-1 text-sm border-t pt-2 mt-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Duration:</span>
+                <span className="font-medium">{advisor.Duration || 0} years</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Pipeline:</span>
+                <span className="font-medium">{formattedPipeline}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Leads:</span>
+                <span className="font-medium">{leads.filter(l => l.Advisor === advisor.Name).length}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
