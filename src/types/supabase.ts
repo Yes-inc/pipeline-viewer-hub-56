@@ -11,7 +11,14 @@ export type TableNames =
   | "ToExceed_Advisors"
   | "ToExceed_Established_Connections"
   | "ToExceed_Leads"
-  | "ToExceed_Uncertian_Leads";
+  | "ToExceed_Uncertian_Leads"
+  | "Gimi_Active_Leads"
+  | "Gimi_Advisors"
+  | "Gimi_Established_Connections"
+  | "Gimi_Leads"
+  | "Gimi_Uncertain_Leads";
+
+export type AdvisorTableNames = "Mitigram_Advisors" | "ToExceed_Advisors" | "Gimi_Advisors";
 
 export const getCommentsTable = (companyPrefix: "Mitigram" | "ToExceed") => {
   return companyPrefix === "Mitigram" ? "Mitigram_Comments" : "ToExceed_Comments";

@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import MapContainer from "./MapContainer";
 import { Advisor } from "@/types/advisor";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AdvisorTableNames } from "@/types/supabase";
 
 interface AdvisorsMapProps {
   companyPrefix: string | null;
@@ -15,8 +16,9 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
       if (!companyPrefix) return [];
       console.log('Fetching advisors for:', companyPrefix);
       
+      const tableName = `${companyPrefix}_Advisors` as AdvisorTableNames;
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Advisors`)
+        .from(tableName)
         .select('*');
       
       if (error) {
