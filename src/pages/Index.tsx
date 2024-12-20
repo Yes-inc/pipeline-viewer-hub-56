@@ -9,9 +9,33 @@ import { PipelineRow } from "../utils/googleSheets";
 import AdvisorsMap from "../components/AdvisorsMap";
 import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import { useEffect, useState } from "react";
+import AdminDashboardSelector from "../components/AdminDashboardSelector";
+import DashboardTitle from "../components/DashboardTitle";
+import { useOrganization } from "@/contexts/OrganizationContext";
 
 const Index = () => {
   const [companyPrefix, setCompanyPrefix] = useState<"Mitigram" | "ToExceed" | null>(null);
+  const { organization } = useOrganization();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check if user is admin
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('id', user.id)
+          .single();
+        
+        // Add admin emails here
+        const adminEmails = ['admin@example.com']; // Replace with actual admin emails
+        setIsAdmin(profile?.email ? adminEmails.includes(profile.email) : false);
+      }
+    };
+    checkAdminStatus();
+  }, []);
 
   // Fetch user's company information
   useEffect(() => {
@@ -120,8 +144,18 @@ const Index = () => {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {isAdmin && (
+          <AdminDashboardSelector
+            onOrganizationChange={(orgId) => {
+              // Handle organization change
+              console.log("Selected organization:", orgId);
+            }}
+            currentOrganizationId={organization?.id || null}
+          />
+        )}
+        
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-[#1A1F2C]">Pipeline Dashboard</h1>
+          <DashboardTitle organization={organization} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
