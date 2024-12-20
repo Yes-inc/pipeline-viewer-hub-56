@@ -10,8 +10,12 @@ const DealSizeDistribution = ({ generatedLeads }: DealSizeDistributionProps) => 
   const dealsByCompany = generatedLeads.reduce((acc: { [key: string]: number }, lead) => {
     if (!lead.Company || !lead.Deal_Size) return acc;
     
-    const dealSize = lead.Deal_Size || '0';
-    const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    let numericValue = 0;
+    if (typeof lead.Deal_Size === 'string') {
+      numericValue = parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0;
+    } else if (typeof lead.Deal_Size === 'number') {
+      numericValue = lead.Deal_Size;
+    }
     
     acc[lead.Company] = (acc[lead.Company] || 0) + numericValue;
     return acc;
