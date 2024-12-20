@@ -43,7 +43,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
   return (
     <Marker 
       position={coordinates}
-      icon={customIcon}
+      icon={customIcon as L.DivIcon}
       eventHandlers={{
         click: () => setIsPopupOpen(true),
       }}
