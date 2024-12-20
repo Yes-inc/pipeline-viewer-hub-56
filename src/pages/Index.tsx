@@ -18,20 +18,18 @@ const Index = () => {
   const { organization } = useOrganization();
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Check if user is admin
+  // Check if user is admin by looking at the Type column in profiles
   useEffect(() => {
     const checkAdminStatus = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('email')
+          .select('Type')
           .eq('id', user.id)
           .single();
         
-        // Add admin emails here
-        const adminEmails = ['admin@example.com']; // Replace with actual admin emails
-        setIsAdmin(profile?.email ? adminEmails.includes(profile.email) : false);
+        setIsAdmin(profile?.Type === 'admin');
       }
     };
     checkAdminStatus();
