@@ -13,7 +13,7 @@ const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }
     <div ref={ref} className="h-full w-full">
       <LeafletMapContainer
         className="h-full w-full"
-        center={[20, 0] as [number, number]}
+        center={[20, 0]}
         zoom={2}
         scrollWheelZoom={false}
       >
