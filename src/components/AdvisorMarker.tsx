@@ -54,11 +54,12 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
       eventHandlers={{
         click: () => setIsOpen(true),
       }}
-      icon={createCustomIcon()}
     >
       {isOpen && (
         <Popup
-          onClose={() => setIsOpen(false)}
+          eventHandlers={{
+            remove: () => setIsOpen(false)
+          }}
         >
           <div className="space-y-4">
             {advisors.map((advisor) => (
