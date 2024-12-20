@@ -52,9 +52,8 @@ const AdvisorMarker = ({ advisor, position, onMarkerClick }: AdvisorMarkerProps)
     >
       {isOpen && (
         <Popup
-          closeButton={true}
-          closeOnClick={false}
-          className="advisor-popup"
+          onClose={() => setIsOpen(false)}
+          autoPan={true}
         >
           <div className="flex items-start space-x-4 p-2">
             <Avatar className="h-12 w-12">

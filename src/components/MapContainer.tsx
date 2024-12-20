@@ -19,10 +19,12 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(
         bounds={bounds}
         className={className}
         style={style}
-        zoom={2}
         center={[20, 0]}
+        zoom={2}
+        scrollWheelZoom={false}
       >
         <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {children}
