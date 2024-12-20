@@ -6,6 +6,7 @@ import { MessageSquare, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { getCommentsTable } from "@/types/supabase";
 
 interface Comment {
   id: string;
@@ -24,7 +25,7 @@ interface CommentDialogProps {
 export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUpdate, companyPrefix }: CommentDialogProps) => {
   const [comment, setComment] = useState("");
   const { toast } = useToast();
-  const commentsTable = `${companyPrefix}_Comments`;
+  const commentsTable = getCommentsTable(companyPrefix);
 
   const handleSubmitComment = async () => {
     if (!comment.trim()) return;

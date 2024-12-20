@@ -5,6 +5,7 @@ import { type PipelineRow } from "../../utils/googleSheets";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentDialog } from "./CommentDialog";
+import { getCommentsTable } from "@/types/supabase";
 
 interface Comment {
   id: string;
@@ -33,7 +34,7 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
-  const commentsTable = `${companyPrefix}_Comments`;
+  const commentsTable = getCommentsTable(companyPrefix);
 
   const fetchComments = async () => {
     try {
