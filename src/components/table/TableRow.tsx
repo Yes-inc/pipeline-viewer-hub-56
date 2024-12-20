@@ -33,7 +33,7 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
-  const commentsTable = `${companyPrefix}_Comments`;
+  const commentsTable = `${companyPrefix}_Comments` as const;
 
   const fetchComments = async () => {
     try {
@@ -62,7 +62,7 @@ export const PipelineTableRow = ({
       data-state={selectedRow === index ? "selected" : undefined}
       onClick={() => setSelectedRow(selectedRow === index ? null : index)}
     >
-      <TableCell>
+      <TableCell className="w-[70px]">
         <div className="flex items-center gap-3">
           <Avatar>
             {row.Profile_Picture ? (
@@ -75,23 +75,23 @@ export const PipelineTableRow = ({
           </Avatar>
         </div>
       </TableCell>
-      <TableCell className="text-gray-900">{row.Full_Name}</TableCell>
-      <TableCell className="text-gray-900">{row.Company}</TableCell>
-      <TableCell>
+      <TableCell className="min-w-[130px] text-gray-900">{row.Full_Name}</TableCell>
+      <TableCell className="min-w-[130px] text-gray-900">{row.Company}</TableCell>
+      <TableCell className="min-w-[130px]">
         <a href={row.LinkedIn_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
           Profile
         </a>
       </TableCell>
       {(isEngagedProspects || isGeneratedLeads) && (
-        <TableCell>
+        <TableCell className="min-w-[130px]">
           <a href={row.Company_Website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
             Website
           </a>
         </TableCell>
       )}
-      <TableCell className="text-gray-900">{row.Advisor}</TableCell>
-      <TableCell className="text-gray-900">{row.Deal_Size}</TableCell>
-      <TableCell>
+      <TableCell className="min-w-[130px] text-gray-900">{row.Advisor}</TableCell>
+      <TableCell className="min-w-[130px] text-gray-900">{row.Deal_Size}</TableCell>
+      <TableCell className="w-[100px]">
         <CommentDialog
           linkedinUrl={row.LinkedIn_URL}
           hasComments={hasComments}
