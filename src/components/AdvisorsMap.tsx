@@ -60,7 +60,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">
       <h2 className="text-lg font-semibold text-[#1A1F2C]">Advisors Locations</h2>
-      <div className="h-[400px]">
+      <div className="h-[400px] relative">
         <MapContainer>
           {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
             locationAdvisors.map((advisor, index) => (
