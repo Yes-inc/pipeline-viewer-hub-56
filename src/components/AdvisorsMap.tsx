@@ -27,10 +27,15 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   const { data: advisors = [], isLoading } = useQuery({
     queryKey: ['advisors', companyPrefix],
     queryFn: async () => {
+      console.log('Fetching advisors for:', companyPrefix);
       const { data, error } = await supabase
         .from(`${companyPrefix}_Advisors`)
         .select('*');
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching advisors:', error);
+        throw error;
+      }
+      console.log('Fetched advisors:', data);
       return data as Advisor[];
     }
   });
@@ -49,6 +54,8 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
     }
     return acc;
   }, {});
+
+  console.log('Advisors by location:', advisorsByLocation);
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">

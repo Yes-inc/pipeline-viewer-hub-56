@@ -23,7 +23,7 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
   const totalPipeline = leads.reduce((sum, lead) => {
     const dealSize = typeof lead.Deal_Size === 'string' 
       ? parseInt(String(lead.Deal_Size).replace(/[^0-9]/g, ''), 10) || 0
-      : lead.Deal_Size || 0;
+      : Number(lead.Deal_Size) || 0;
     return sum + dealSize;
   }, 0);
 
