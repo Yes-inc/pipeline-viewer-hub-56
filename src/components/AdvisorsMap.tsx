@@ -1,84 +1,73 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import { useRef } from "react";
-import type { Map as LeafletMap } from 'leaflet';
-import { locationCoordinates } from '../utils/locationData';
-import MapContainer from './MapContainer';
-import AdvisorMarker from './AdvisorMarker';
-import type { Advisor } from '../types/advisor';
-
-// Fix for default marker icon in react-leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+import MapContainer from "./MapContainer";
+import AdvisorMarker from "./AdvisorMarker";
+import { Advisor } from "@/types/advisor";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface AdvisorsMapProps {
-  companyPrefix: "Mitigram" | "ToExceed";
+  companyPrefix: string | null;
 }
 
 const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
-  const mapRef = useRef<LeafletMap | null>(null);
-  
   const { data: advisors = [], isLoading } = useQuery({
     queryKey: ['advisors', companyPrefix],
     queryFn: async () => {
+      if (!companyPrefix) return [];
       console.log('Fetching advisors for:', companyPrefix);
-      const tableName = companyPrefix === "ToExceed" ? "Toexceed_Advisors" : "Mitigram_Advisors";
       const { data, error } = await supabase
-        .from(tableName)
+        .from(`${companyPrefix}_Advisors`)
         .select('*');
+      
       if (error) {
         console.error('Error fetching advisors:', error);
         throw error;
       }
+      
       console.log('Fetched advisors:', data);
       return data as Advisor[];
-    }
+    },
+    enabled: !!companyPrefix
   });
 
-  if (isLoading) {
-    return <div className="h-[400px] bg-white p-6 rounded-lg shadow-sm animate-pulse" />;
+  if (isLoading || !advisors.length) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Advisor Locations</CardTitle>
+        </CardHeader>
+        <CardContent className="h-[400px] flex items-center justify-center">
+          {isLoading ? (
+            <p>Loading advisors...</p>
+          ) : (
+            <p>No advisors found</p>
+          )}
+        </CardContent>
+      </Card>
+    );
   }
 
-  // Group advisors by location
-  const advisorsByLocation = advisors.reduce((acc: { [key: string]: Advisor[] }, advisor) => {
-    if (advisor.Location && locationCoordinates[advisor.Location]) {
-      if (!acc[advisor.Location]) {
-        acc[advisor.Location] = [];
+  const advisorsByLocation: { [key: string]: Advisor[] } = {};
+  advisors.forEach(advisor => {
+    if (advisor.Location) {
+      if (!advisorsByLocation[advisor.Location]) {
+        advisorsByLocation[advisor.Location] = [];
       }
-      acc[advisor.Location].push(advisor);
+      advisorsByLocation[advisor.Location].push(advisor);
     }
-    return acc;
-  }, {});
+  });
 
   console.log('Advisors by location:', advisorsByLocation);
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up space-y-4">
-      <h2 className="text-lg font-semibold text-[#1A1F2C]">Advisors Locations</h2>
-      <div className="h-[400px] relative">
-        <MapContainer>
-          {Object.entries(advisorsByLocation).map(([location, locationAdvisors]) => (
-            locationAdvisors.map((advisor, index) => (
-              <AdvisorMarker
-                key={`${location}-${index}`}
-                advisor={advisor}
-                position={locationCoordinates[location]}
-                onMarkerClick={() => {
-                  console.log('Marker clicked:', advisor);
-                }}
-                companyPrefix={companyPrefix}
-              />
-            ))
-          ))}
-        </MapContainer>
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Advisor Locations</CardTitle>
+      </CardHeader>
+      <CardContent className="h-[400px]">
+        <MapContainer advisors={advisors} />
+      </CardContent>
+    </Card>
   );
 };
 

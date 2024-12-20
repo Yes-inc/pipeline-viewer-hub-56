@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/select";
 
 interface CompanySelectorProps {
-  onCompanyChange: (company: "Mitigram" | "ToExceed") => void;
-  currentCompany: "Mitigram" | "ToExceed" | null;
+  onCompanyChange: (company: "Mitigram" | "ToExceed" | "Gimi") => void;
+  currentCompany: "Mitigram" | "ToExceed" | "Gimi" | null;
 }
 
 const CompanySelector = ({ onCompanyChange, currentCompany }: CompanySelectorProps) => {
@@ -16,7 +16,7 @@ const CompanySelector = ({ onCompanyChange, currentCompany }: CompanySelectorPro
     <div className="mb-6">
       <Select
         value={currentCompany || undefined}
-        onValueChange={(value: "Mitigram" | "ToExceed") => onCompanyChange(value)}
+        onValueChange={(value: "Mitigram" | "ToExceed" | "Gimi") => onCompanyChange(value)}
       >
         <SelectTrigger className="w-[280px] bg-white border-gray-200 text-gray-900">
           <SelectValue placeholder="Select company" />
@@ -24,6 +24,7 @@ const CompanySelector = ({ onCompanyChange, currentCompany }: CompanySelectorPro
         <SelectContent className="bg-white border-gray-200">
           <SelectItem value="Mitigram" className="text-gray-900 hover:bg-gray-50">Mitigram</SelectItem>
           <SelectItem value="ToExceed" className="text-gray-900 hover:bg-gray-50">ToExceed</SelectItem>
+          <SelectItem value="Gimi" className="text-gray-900 hover:bg-gray-50">Gimi</SelectItem>
         </SelectContent>
       </Select>
     </div>

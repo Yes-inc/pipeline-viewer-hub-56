@@ -1,67 +1,62 @@
-import { Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import type { LatLngExpression } from 'leaflet';
-import { useState } from 'react';
-import type { Advisor } from '../types/advisor';
-import AdvisorPopup from './AdvisorPopup';
+import { useState } from "react";
+import { Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import { Advisor } from "@/types/advisor";
+import AdvisorPopup from "./AdvisorPopup";
+
+// Define the coordinates mapping
+const locationCoordinates: { [key: string]: [number, number] } = {
+  "Dubai": [25.2048, 55.2708],
+  "Amsterdam": [52.3676, 4.9041],
+  "Brazil": [-14.2350, -51.9253],
+  "Portugal": [39.3999, -8.2245],
+  "Bangladesh": [23.6850, 90.3563],
+  "Namibia": [-22.9576, 18.4904],
+  // Add more locations as needed
+};
+
+// Create a custom icon
+const createCustomIcon = (imageUrl: string) => {
+  return L.icon({
+    iconUrl: imageUrl,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+    className: "rounded-full border-2 border-white shadow-lg"
+  });
+};
 
 interface AdvisorMarkerProps {
   advisor: Advisor;
-  position: LatLngExpression;
-  onMarkerClick: () => void;
-  companyPrefix: "Mitigram" | "ToExceed";
 }
 
-const AdvisorMarker = ({ advisor, position, onMarkerClick, companyPrefix }: AdvisorMarkerProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  
+  if (!advisor.Location || !locationCoordinates[advisor.Location]) {
+    console.warn(`No coordinates found for location: ${advisor.Location}`);
+    return null;
+  }
 
-  const customIcon = L.divIcon({
-    className: 'custom-div-icon',
-    html: `
-      <div style="
-        background-color: white;
-        border: 2px solid #4F46E5;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      ">
-        ${advisor.Picture 
-          ? `<img src="${advisor.Picture}" alt="${advisor.Name}" style="width: 100%; height: 100%; object-fit: cover;" />`
-          : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-        }
-      </div>
-    `,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  });
+  const coordinates = locationCoordinates[advisor.Location];
+  const customIcon = createCustomIcon(advisor.Picture || "/placeholder.svg");
 
   return (
-    <Marker
-      position={position}
+    <Marker 
+      position={coordinates}
       eventHandlers={{
-        click: () => {
-          setIsOpen(true);
-          onMarkerClick();
-        },
+        click: () => setIsPopupOpen(true),
       }}
       icon={customIcon}
     >
-      {isOpen && (
-        <Popup
-          closeOnClick={false}
-          eventHandlers={{
-            remove: () => setIsOpen(false),
-          }}
-        >
-          <div className="custom-popup">
-            <AdvisorPopup advisors={[advisor]} companyPrefix={companyPrefix} />
-          </div>
-        </Popup>
-      )}
+      <Popup
+        closeOnClick={false}
+        eventHandlers={{
+          remove: () => setIsPopupOpen(false),
+        }}
+      >
+        <AdvisorPopup advisor={advisor} />
+      </Popup>
     </Marker>
   );
 };
