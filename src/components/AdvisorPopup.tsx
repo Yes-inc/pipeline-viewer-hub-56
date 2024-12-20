@@ -1,96 +1,62 @@
-import { Linkedin } from 'lucide-react';
-import { Badge } from './ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import type { Advisor } from '../types/advisor';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Advisor } from "../types/advisor";
 
 interface AdvisorPopupProps {
-  advisor: Advisor;
+  advisors: Advisor[];
+  companyPrefix: "Mitigram" | "ToExceed";
 }
 
-const getDurationColor = (duration: number | null) => {
-  if (duration === null) return 'bg-gray-500';
-  if (duration === 0) return 'bg-blue-500';
-  if (duration <= 3) return 'bg-green-500';
-  if (duration <= 6) return 'bg-yellow-500';
-  return 'bg-red-500';
-};
-
-const AdvisorPopup = ({ advisor }: AdvisorPopupProps) => {
-  // Query for generated leads count and total pipeline
-  const { data: leadsData } = useQuery({
-    queryKey: ['advisor-leads', advisor.Name],
+const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
+  const { data: leads = [] } = useQuery({
+    queryKey: ['advisor-leads', companyPrefix, advisors.map(a => a.Name)],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('Leads')
-        .select('Deal_Size')
-        .eq('Advisor', advisor.Name);
-      
+        .from(`${companyPrefix}_Leads`)
+        .select('*')
+        .in('Advisor', advisors.map(a => a.Name));
       if (error) throw error;
-      
-      const totalPipeline = data.reduce((sum, lead) => {
-        const dealSize = lead.Deal_Size || '0';
-        const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
-        return sum + numericValue;
-      }, 0);
-
-      return {
-        count: data.length,
-        pipeline: totalPipeline
-      };
+      return data;
     }
   });
 
+  const totalPipeline = leads.reduce((sum, lead) => {
+    const dealSize = lead.Deal_Size || '0';
+    const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+    return sum + value;
+  }, 0);
+
+  const formattedPipeline = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(totalPipeline);
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg min-w-[280px]">
-      <div className="flex flex-col items-center gap-3">
-        <Avatar className="w-16 h-16 border-2 border-white shadow-md">
-          {advisor.Picture ? (
-            <AvatarImage src={advisor.Picture} alt={advisor.Name} />
-          ) : (
-            <AvatarFallback className="bg-primary text-white text-lg">
-              {advisor.Name.charAt(0)}
-            </AvatarFallback>
-          )}
-        </Avatar>
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <h3 className="font-semibold text-lg">{advisor.Name}</h3>
-            {advisor.LinkedIn && (
-              <a 
-                href={advisor.LinkedIn} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
+    <div className="p-2">
+      {advisors.map((advisor) => (
+        <div key={advisor.Name} className="mb-4 last:mb-0">
+          <div className="flex items-center gap-3 mb-2">
+            {advisor.Picture && (
+              <img
+                src={advisor.Picture}
+                alt={advisor.Name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
             )}
-          </div>
-          <div className="text-sm text-gray-500 mb-3">{advisor.Location}</div>
-          <div className="flex flex-wrap justify-center gap-2 mb-3">
-            {advisor.Industry && (
-              <Badge variant="secondary" className="text-xs">
-                {advisor.Industry}
-              </Badge>
-            )}
-            {advisor.Duration !== null && (
-              <Badge className={`text-xs ${getDurationColor(advisor.Duration)}`}>
-                {advisor.Duration} {advisor.Duration === 1 ? 'month' : 'months'}
-              </Badge>
-            )}
-          </div>
-          {leadsData && (
-            <div className="text-sm">
-              <div className="font-medium">Generated Leads: {leadsData.count}</div>
-              <div className="text-green-600 font-medium">
-                Pipeline: ${leadsData.pipeline.toLocaleString()}
-              </div>
+            <div>
+              <h3 className="font-semibold">{advisor.Name}</h3>
+              <p className="text-sm text-gray-600">{advisor.Industry}</p>
             </div>
-          )}
+          </div>
+          <div className="text-sm">
+            <p>Duration: {advisor.Duration} years</p>
+            <p>Pipeline: {formattedPipeline}</p>
+            <p>Leads: {leads.filter(l => l.Advisor === advisor.Name).length}</p>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

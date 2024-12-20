@@ -8,50 +8,82 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PipelineRow } from "../utils/googleSheets";
 import AdvisorsMap from "../components/AdvisorsMap";
 import PipelineTotalGraph from "../components/PipelineTotalGraph";
+import { useEffect, useState } from "react";
 
 const Index = () => {
+  const [companyPrefix, setCompanyPrefix] = useState<"Mitigram" | "ToExceed" | null>(null);
+
+  // Fetch user's company information
+  useEffect(() => {
+    const fetchUserCompany = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('Company')
+          .eq('id', user.id)
+          .single();
+        
+        if (profile?.Company === 'Mitigram') {
+          setCompanyPrefix('Mitigram');
+        } else if (profile?.Company === 'ToExceed') {
+          setCompanyPrefix('ToExceed');
+        }
+      }
+    };
+    fetchUserCompany();
+  }, []);
+
   const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
-    queryKey: ['established-connections'],
+    queryKey: ['established-connections', companyPrefix],
     queryFn: async () => {
+      if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from('Established-Connection')
+        .from(`${companyPrefix}_Established_Connections`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
-    }
+    },
+    enabled: !!companyPrefix
   });
 
   const { data: activeLeads = [], isLoading: isLoadingActive, error: errorActive } = useQuery<PipelineRow[]>({
-    queryKey: ['active-leads'],
+    queryKey: ['active-leads', companyPrefix],
     queryFn: async () => {
+      if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from('More-Active-Leads')
+        .from(`${companyPrefix}_Active_Leads`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
-    }
+    },
+    enabled: !!companyPrefix
   });
 
   const { data: generatedLeads = [], isLoading: isLoadingGenerated, error: errorGenerated } = useQuery<PipelineRow[]>({
-    queryKey: ['generated-leads'],
+    queryKey: ['generated-leads', companyPrefix],
     queryFn: async () => {
+      if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from('Leads')
+        .from(`${companyPrefix}_Leads`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
-    }
+    },
+    enabled: !!companyPrefix
   });
 
   const { data: uncertainLeads = [], isLoading: isLoadingUncertain, error: errorUncertain } = useQuery<PipelineRow[]>({
-    queryKey: ['uncertain-leads'],
+    queryKey: ['uncertain-leads', companyPrefix],
     queryFn: async () => {
+      if (!companyPrefix) return [];
       const { data, error } = await supabase
-        .from('Uncertain Leads')
+        .from(`${companyPrefix}_Uncertain_Leads`)
         .select('*');
       if (error) throw error;
       return data as PipelineRow[];
-    }
+    },
+    enabled: !!companyPrefix
   });
 
   // Calculate metrics
@@ -71,6 +103,21 @@ const Index = () => {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(totalPotentialPipeline);
+
+  if (!companyPrefix) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold mb-2">Loading company information...</h2>
+            <p className="text-gray-600">Please wait while we fetch your data.</p>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  // ... keep existing code (rest of the JSX for the dashboard)
 
   return (
     <DashboardLayout>
@@ -111,7 +158,7 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <AdvisorsMap />
+          <AdvisorsMap companyPrefix={companyPrefix} />
           <PipelineTotalGraph generatedLeads={generatedLeads} />
         </div>
 

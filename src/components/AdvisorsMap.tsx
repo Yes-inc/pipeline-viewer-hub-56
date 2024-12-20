@@ -17,14 +17,18 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const AdvisorsMap = () => {
+interface AdvisorsMapProps {
+  companyPrefix: "Mitigram" | "ToExceed";
+}
+
+const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
   const mapRef = useRef<LeafletMap | null>(null);
   
   const { data: advisors = [], isLoading } = useQuery({
-    queryKey: ['advisors'],
+    queryKey: ['advisors', companyPrefix],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('Advisors')
+        .from(`${companyPrefix}_Advisors`)
         .select('*');
       if (error) throw error;
       return data as Advisor[];
@@ -56,6 +60,7 @@ const AdvisorsMap = () => {
               key={location}
               advisors={locationAdvisors}
               position={locationCoordinates[location]}
+              companyPrefix={companyPrefix}
             />
           ))}
         </MapContainer>
