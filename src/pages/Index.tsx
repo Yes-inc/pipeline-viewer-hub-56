@@ -10,6 +10,7 @@ import AdvisorsMap from "../components/AdvisorsMap";
 import PipelineTotalGraph from "../components/PipelineTotalGraph";
 import { useEffect, useState } from "react";
 import AdminDashboardSelector from "../components/AdminDashboardSelector";
+import CompanySelector from "../components/CompanySelector";
 import DashboardTitle from "../components/DashboardTitle";
 import { useOrganization } from "@/contexts/OrganizationContext";
 
@@ -18,7 +19,7 @@ const Index = () => {
   const { organization } = useOrganization();
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Check if user is admin by looking at the Type column in profiles
+  // Check if user is admin
   useEffect(() => {
     const checkAdminStatus = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -35,11 +36,11 @@ const Index = () => {
     checkAdminStatus();
   }, []);
 
-  // Fetch user's company information
+  // For non-admin users, fetch their company
   useEffect(() => {
     const fetchUserCompany = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+      if (user && !isAdmin) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('Company')
@@ -54,7 +55,7 @@ const Index = () => {
       }
     };
     fetchUserCompany();
-  }, []);
+  }, [isAdmin]);
 
   const { data: establishedConnections = [], isLoading: isLoadingEstablished, error: errorEstablished } = useQuery<PipelineRow[]>({
     queryKey: ['established-connections', companyPrefix],
@@ -126,7 +127,7 @@ const Index = () => {
     maximumFractionDigits: 0,
   }).format(totalPotentialPipeline);
 
-  if (!companyPrefix) {
+  if (!companyPrefix && !isAdmin) {
     return (
       <DashboardLayout>
         <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
@@ -143,13 +144,18 @@ const Index = () => {
     <DashboardLayout>
       <div className="space-y-6">
         {isAdmin && (
-          <AdminDashboardSelector
-            onOrganizationChange={(orgId) => {
-              // Handle organization change
-              console.log("Selected organization:", orgId);
-            }}
-            currentOrganizationId={organization?.id || null}
-          />
+          <div className="space-y-6">
+            <AdminDashboardSelector
+              onOrganizationChange={(orgId) => {
+                console.log("Selected organization:", orgId);
+              }}
+              currentOrganizationId={organization?.id || null}
+            />
+            <CompanySelector
+              onCompanyChange={setCompanyPrefix}
+              currentCompany={companyPrefix}
+            />
+          </div>
         )}
         
         <div className="flex justify-between items-center">
