@@ -14,10 +14,11 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
       const { data, error } = await supabase
         .from(`${companyPrefix}_Leads`)
         .select('*')
-        .in('Advisor', advisors.map(a => a.Name));
+        .in('Advisor', advisors.map(a => a.Name || ''));
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: advisors.some(a => a.Name)
   });
 
   const totalPipeline = leads.reduce((sum, lead) => {
@@ -37,22 +38,22 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
   return (
     <div className="p-2">
       {advisors.map((advisor) => (
-        <div key={advisor.Name} className="mb-4 last:mb-0">
+        <div key={advisor.Name || advisor.LinkedIn} className="mb-4 last:mb-0">
           <div className="flex items-center gap-3 mb-2">
             {advisor.Picture && (
               <img
                 src={advisor.Picture}
-                alt={advisor.Name}
+                alt={advisor.Name || ''}
                 className="w-10 h-10 rounded-full object-cover"
               />
             )}
             <div>
-              <h3 className="font-semibold">{advisor.Name}</h3>
-              <p className="text-sm text-gray-600">{advisor.Industry}</p>
+              <h3 className="font-semibold">{advisor.Name || 'Unknown'}</h3>
+              <p className="text-sm text-gray-600">{advisor.Industry || 'N/A'}</p>
             </div>
           </div>
           <div className="text-sm">
-            <p>Duration: {advisor.Duration} years</p>
+            <p>Duration: {advisor.Duration || 0} years</p>
             <p>Pipeline: {formattedPipeline}</p>
             <p>Leads: {leads.filter(l => l.Advisor === advisor.Name).length}</p>
           </div>

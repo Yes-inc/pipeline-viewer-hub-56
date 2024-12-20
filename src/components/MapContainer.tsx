@@ -13,7 +13,7 @@ interface MapContainerProps {
 
 const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({ 
   children, 
-  bounds = [[0, -180], [75, -15]], // Expanded bounds for a more zoomed out view
+  bounds = [[-60, -180], [85, 180]], // Expanded bounds for better visibility
   className = '' 
 }, ref) => {
   return (
@@ -21,10 +21,14 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(({
       ref={ref}
       bounds={bounds}
       className={`w-full h-full ${className}`}
-      style={{ minHeight: '300px' }}
+      style={{ minHeight: '400px' }}
+      zoom={2}
+      center={[20, 0]}
+      scrollWheelZoom={true}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {children}
     </LeafletMapContainer>

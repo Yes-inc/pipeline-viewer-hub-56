@@ -23,7 +23,7 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
         <div class="flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
           <img 
             src="${advisor.Picture}" 
-            alt="${advisor.Name}"
+            alt="${advisor.Name || ''}"
             class="w-full h-full rounded-full border-2 border-white shadow-lg object-cover"
           />
           ${advisors.length > 1 ? `
@@ -58,12 +58,15 @@ const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps
     >
       {isOpen && (
         <Popup
+          closeButton={true}
+          closeOnClick={false}
+          closeOnEscapeKey={true}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
             {advisors.map((advisor) => (
               <AdvisorPopup
-                key={advisor.Name}
+                key={advisor.Name || advisor.LinkedIn}
                 advisors={[advisor]}
                 companyPrefix={companyPrefix}
               />
