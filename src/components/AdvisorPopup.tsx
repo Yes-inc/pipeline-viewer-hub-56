@@ -55,21 +55,21 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
           </CardHeader>
           <CardContent className="p-4 pt-2 space-y-2">
             <div className="text-center">
-              <h3 className="font-semibold text-lg">{advisor.Name || 'Unknown'}</h3>
-              <p className="text-sm text-muted-foreground">{advisor.Industry || 'N/A'}</p>
+              <h3 className="font-semibold text-lg text-gray-900">{advisor.Name || 'Unknown'}</h3>
+              <p className="text-sm text-gray-600">{advisor.Industry || 'N/A'}</p>
             </div>
             <div className="space-y-1 text-sm border-t pt-2 mt-2">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Duration:</span>
-                <span className="font-medium">{advisor.Duration || 0} years</span>
+                <span className="text-gray-600">Duration:</span>
+                <span className="font-medium text-gray-900">{advisor.Duration || 0} years</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Pipeline:</span>
-                <span className="font-medium">{formattedPipeline}</span>
+                <span className="text-gray-600">Pipeline:</span>
+                <span className="font-medium text-gray-900">{formattedPipeline}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Leads:</span>
-                <span className="font-medium">{leads.filter(l => l.Advisor === advisor.Name).length}</span>
+                <span className="text-gray-600">Leads:</span>
+                <span className="font-medium text-gray-900">{leads.filter(l => l.Advisor === advisor.Name).length}</span>
               </div>
             </div>
           </CardContent>
