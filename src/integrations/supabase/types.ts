@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      access_tokens: {
+        Row: {
+          access_token: string
+          expiration_time: number
+          id: number
+        }
+        Insert: {
+          access_token: string
+          expiration_time: number
+          id?: number
+        }
+        Update: {
+          access_token?: string
+          expiration_time?: number
+          id?: number
+        }
+        Relationships: []
+      }
+      alembic_version: {
+        Row: {
+          version_num: string
+        }
+        Insert: {
+          version_num: string
+        }
+        Update: {
+          version_num?: string
+        }
+        Relationships: []
+      }
       Gimi_Active_Leads: {
         Row: {
           Advisor: string | null
@@ -192,6 +222,51 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
+        }
+        Relationships: []
+      }
+      hubspot_tokens: {
+        Row: {
+          id: number
+          token: string
+        }
+        Insert: {
+          id?: number
+          token: string
+        }
+        Update: {
+          id?: number
+          token?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          adviser_name: string | null
+          company_name: string | null
+          domain: string | null
+          id: number
+          lead_name: string | null
+          lead_title: string | null
+          linkedin_url: string | null
+        }
+        Insert: {
+          adviser_name?: string | null
+          company_name?: string | null
+          domain?: string | null
+          id?: number
+          lead_name?: string | null
+          lead_title?: string | null
+          linkedin_url?: string | null
+        }
+        Update: {
+          adviser_name?: string | null
+          company_name?: string | null
+          domain?: string | null
+          id?: number
+          lead_name?: string | null
+          lead_title?: string | null
+          linkedin_url?: string | null
         }
         Relationships: []
       }
@@ -674,6 +749,24 @@ export type Database = {
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          email: string
+          id: number
+          password: string
+        }
+        Insert: {
+          email: string
+          id?: number
+          password: string
+        }
+        Update: {
+          email?: string
+          id?: number
+          password?: string
         }
         Relationships: []
       }

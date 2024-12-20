@@ -19,12 +19,13 @@ const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }
         center={defaultCenter}
         zoom={2}
         scrollWheelZoom={false}
+        key={advisors.length} // Force re-render when advisors change
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {advisors.map((advisor, index) => (
-          <AdvisorMarker key={index} advisor={advisor} />
+          <AdvisorMarker key={`${advisor.Name}-${index}`} advisor={advisor} />
         ))}
       </LeafletMapContainer>
     </div>

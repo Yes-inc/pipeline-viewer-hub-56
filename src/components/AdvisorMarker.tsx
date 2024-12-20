@@ -19,6 +19,7 @@ const createCustomIcon = (imageUrl: string) => {
     className: 'custom-div-icon',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
+    popupAnchor: [0, -35]
   });
 };
 
@@ -46,7 +47,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
       icon={customIcon}
     >
       <Popup
-        className="custom-popup"
+        offset={[0, -20]}
         eventHandlers={{
           remove: () => setIsPopupOpen(false),
         }}
