@@ -539,7 +539,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Comments: {
+      Toexceed_Comments: {
         Row: {
           comment: string
           created_at: string
@@ -560,7 +560,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Established_Connections: {
+      Toexceed_Established_Connections: {
         Row: {
           Advisor: string | null
           Company: string | null
@@ -602,7 +602,7 @@ export type Database = {
         }
         Relationships: []
       }
-      ToExceed_Leads: {
+      Toexceed_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null

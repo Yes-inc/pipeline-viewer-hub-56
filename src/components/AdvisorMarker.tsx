@@ -2,8 +2,6 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import type { LatLngExpression } from 'leaflet';
 import { useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { UserRound } from 'lucide-react';
 import type { Advisor } from '../types/advisor';
 import AdvisorPopup from './AdvisorPopup';
 
@@ -54,13 +52,14 @@ const AdvisorMarker = ({ advisor, position, onMarkerClick, companyPrefix }: Advi
     >
       {isOpen && (
         <Popup
-          className="custom-popup"
           closeOnClick={false}
           eventHandlers={{
             remove: () => setIsOpen(false),
           }}
         >
-          <AdvisorPopup advisors={[advisor]} companyPrefix={companyPrefix} />
+          <div className="custom-popup">
+            <AdvisorPopup advisors={[advisor]} companyPrefix={companyPrefix} />
+          </div>
         </Popup>
       )}
     </Marker>

@@ -19,8 +19,8 @@ const MapContainer = forwardRef<LeafletMap, MapContainerProps>(
         bounds={bounds}
         className={className}
         style={{ height: '100%', ...style }}
-        defaultCenter={[20, 0]}
-        defaultZoom={2}
+        center={[20, 0]}
+        zoom={2}
         scrollWheelZoom={false}
       >
         <TileLayer

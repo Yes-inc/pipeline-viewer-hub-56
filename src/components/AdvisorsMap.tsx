@@ -28,8 +28,9 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
     queryKey: ['advisors', companyPrefix],
     queryFn: async () => {
       console.log('Fetching advisors for:', companyPrefix);
+      const tableName = companyPrefix === "ToExceed" ? "Toexceed_Advisors" : "Mitigram_Advisors";
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Advisors`)
+        .from(tableName)
         .select('*');
       if (error) {
         console.error('Error fetching advisors:', error);
