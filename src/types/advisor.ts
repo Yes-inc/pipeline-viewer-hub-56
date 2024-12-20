@@ -1,8 +1,8 @@
 export interface Advisor {
-  Name: string;
-  Location: string | null;
-  Picture: string | null;
-  Industry: string | null;
-  Duration: number | null;
-  LinkedIn: string | null;
+  Name?: string;
+  Location?: string;
+  Picture?: string;
+  Industry?: string;
+  Duration?: number;
+  LinkedIn?: string;
 }

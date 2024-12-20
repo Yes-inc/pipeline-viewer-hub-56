@@ -113,9 +113,19 @@ const Index = () => {
   const totalEngaged = activeLeads.length;
   const totalGenerated = generatedLeads.length;
   const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => {
-    const dealSize = lead.Deal_Size || '0';
-    const numericValue = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
-    return sum + numericValue;
+    if (!lead.Deal_Size) return sum;
+    
+    // Handle both string and number types for Deal_Size
+    if (typeof lead.Deal_Size === 'string') {
+      // For string values (e.g., "$500,000"), extract the number
+      const numericValue = parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0;
+      return sum + numericValue;
+    } else if (typeof lead.Deal_Size === 'number') {
+      // For number values (bigint), add directly
+      return sum + lead.Deal_Size;
+    }
+    
+    return sum;
   }, 0);
 
   // Format the total pipeline value

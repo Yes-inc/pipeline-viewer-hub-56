@@ -13,8 +13,14 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
     .map(lead => {
       const timestamp = lead.Time_Stamp;
       const date = timestamp ? format(parseISO(timestamp), 'MMM dd') : '';
-      const dealSize = lead.Deal_Size || '0';
-      const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
+      
+      // Handle both string and number types for Deal_Size
+      let value = 0;
+      if (typeof lead.Deal_Size === 'string') {
+        value = parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0;
+      } else if (typeof lead.Deal_Size === 'number') {
+        value = lead.Deal_Size;
+      }
       
       return {
         timestamp: timestamp,
