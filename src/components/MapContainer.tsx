@@ -20,9 +20,11 @@ const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }
         zoom={2}
         scrollWheelZoom={false}
         key={advisors.length} // Force re-render when advisors change
+        style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {advisors.map((advisor, index) => (
           <AdvisorMarker key={`${advisor.Name}-${index}`} advisor={advisor} />

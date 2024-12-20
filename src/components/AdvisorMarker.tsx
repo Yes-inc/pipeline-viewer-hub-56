@@ -15,7 +15,9 @@ const locationCoordinates: { [key: string]: [number, number] } = {
 
 const createCustomIcon = (imageUrl: string) => {
   return L.divIcon({
-    html: `<img src="${imageUrl}" class="w-10 h-10 rounded-full border-2 border-white shadow-lg" />`,
+    html: `<div class="advisor-marker">
+            <img src="${imageUrl}" class="w-10 h-10 rounded-full border-2 border-white shadow-lg" />
+          </div>`,
     className: 'custom-div-icon',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
@@ -41,6 +43,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
   return (
     <Marker 
       position={coordinates}
+      icon={customIcon}
       eventHandlers={{
         click: () => setIsPopupOpen(true),
       }}

@@ -32,7 +32,7 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
       return data as Advisor[];
     },
     enabled: !!companyPrefix,
-    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+    staleTime: 5 * 60 * 1000,
     retry: 2,
     retryDelay: 1000
   });
