@@ -8,13 +8,14 @@ import AdvisorPopup from './AdvisorPopup';
 interface AdvisorMarkerProps {
   advisors: Advisor[];
   position: LatLngExpression;
+  companyPrefix: "Mitigram" | "ToExceed";
 }
 
-const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
+const AdvisorMarker = ({ advisors, position, companyPrefix }: AdvisorMarkerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const createCustomIcon = () => {
-    const advisor = advisors[0]; // Use the first advisor's picture for the marker
+    const advisor = advisors[0];
     const size = 40;
     
     const html = advisor.Picture 
@@ -57,15 +58,14 @@ const AdvisorMarker = ({ advisors, position }: AdvisorMarkerProps) => {
     >
       {isOpen && (
         <Popup
-          closeButton={true}
-          closeOnClick={false}
           onClose={() => setIsOpen(false)}
         >
           <div className="space-y-4">
             {advisors.map((advisor) => (
               <AdvisorPopup
                 key={advisor.Name}
-                advisor={advisor}
+                advisors={[advisor]}
+                companyPrefix={companyPrefix}
               />
             ))}
           </div>

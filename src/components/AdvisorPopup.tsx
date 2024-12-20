@@ -21,9 +21,10 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
   });
 
   const totalPipeline = leads.reduce((sum, lead) => {
-    const dealSize = lead.Deal_Size || '0';
-    const value = parseInt(dealSize.replace(/[^0-9]/g, ''), 10) || 0;
-    return sum + value;
+    const dealSize = typeof lead.Deal_Size === 'string' 
+      ? parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0
+      : lead.Deal_Size || 0;
+    return sum + dealSize;
   }, 0);
 
   const formattedPipeline = new Intl.NumberFormat('en-US', {

@@ -19,6 +19,7 @@ interface PipelineTableRowProps {
   setSelectedRow: (index: number | null) => void;
   isEngagedProspects: boolean;
   isGeneratedLeads: boolean;
+  companyPrefix: "Mitigram" | "ToExceed";
 }
 
 export const PipelineTableRow = ({
@@ -28,6 +29,7 @@ export const PipelineTableRow = ({
   setSelectedRow,
   isEngagedProspects,
   isGeneratedLeads,
+  companyPrefix,
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
@@ -35,7 +37,7 @@ export const PipelineTableRow = ({
   const fetchComments = async () => {
     try {
       const { data, error } = await supabase
-        .from("comments")
+        .from(`${companyPrefix}_Comments`)
         .select("*")
         .eq("lead_linkedin_url", row.LinkedIn_URL)
         .order("created_at", { ascending: false });
@@ -51,7 +53,7 @@ export const PipelineTableRow = ({
 
   useEffect(() => {
     fetchComments();
-  }, [row.LinkedIn_URL]);
+  }, [row.LinkedIn_URL, companyPrefix]);
 
   return (
     <UITableRow 
@@ -94,6 +96,7 @@ export const PipelineTableRow = ({
           hasComments={hasComments}
           comments={comments}
           onCommentsUpdate={fetchComments}
+          companyPrefix={companyPrefix}
         />
       </TableCell>
     </UITableRow>

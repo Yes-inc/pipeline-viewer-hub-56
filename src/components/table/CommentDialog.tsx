@@ -18,9 +18,10 @@ interface CommentDialogProps {
   hasComments: boolean;
   comments: Comment[];
   onCommentsUpdate: () => void;
+  companyPrefix: "Mitigram" | "ToExceed";
 }
 
-export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUpdate }: CommentDialogProps) => {
+export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUpdate, companyPrefix }: CommentDialogProps) => {
   const [comment, setComment] = useState("");
   const { toast } = useToast();
 
@@ -28,12 +29,14 @@ export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUp
     if (!comment.trim()) return;
 
     try {
-      const { error } = await supabase.from("comments").insert([
-        {
-          lead_linkedin_url: linkedinUrl,
-          comment: comment.trim(),
-        },
-      ]);
+      const { error } = await supabase
+        .from(`${companyPrefix}_Comments`)
+        .insert([
+          {
+            lead_linkedin_url: linkedinUrl,
+            comment: comment.trim(),
+          },
+        ]);
 
       if (error) throw error;
 
@@ -56,7 +59,7 @@ export const CommentDialog = ({ linkedinUrl, hasComments, comments, onCommentsUp
   const handleDeleteComment = async (commentId: string) => {
     try {
       const { error } = await supabase
-        .from('comments')
+        .from(`${companyPrefix}_Comments`)
         .delete()
         .eq('id', commentId);
 
