@@ -44,7 +44,7 @@ export const PipelineTableRow = ({
 
       if (error) throw error;
 
-      setComments(data || []);
+      setComments(data as Comment[]);
       setHasComments(data && data.length > 0);
     } catch (error) {
       console.error("Error fetching comments:", error);
