@@ -16,7 +16,7 @@ const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }
     <div ref={ref} className="h-full w-full">
       <LeafletMapContainer
         className="h-full w-full"
-        center={defaultCenter}
+        defaultCenter={defaultCenter}
         zoom={2}
         scrollWheelZoom={false}
         key={advisors.length} // Force re-render when advisors change

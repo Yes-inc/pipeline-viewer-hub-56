@@ -44,10 +44,8 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
       eventHandlers={{
         click: () => setIsPopupOpen(true),
       }}
-      icon={customIcon}
     >
       <Popup
-        offset={[0, -20]}
         eventHandlers={{
           remove: () => setIsPopupOpen(false),
         }}
