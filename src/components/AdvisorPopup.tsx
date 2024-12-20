@@ -5,22 +5,22 @@ import { Card, CardContent, CardHeader } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface AdvisorPopupProps {
-  advisors: Advisor[];
-  companyPrefix: "Mitigram" | "ToExceed";
+  advisor: Advisor;
 }
 
-const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
+const AdvisorPopup = ({ advisor }: AdvisorPopupProps) => {
   const { data: leads = [] } = useQuery({
-    queryKey: ['advisor-leads', companyPrefix, advisors.map(a => a.Name)],
+    queryKey: ['advisor-leads', advisor.Name],
     queryFn: async () => {
+      if (!advisor.Name) return [];
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Leads`)
+        .from('Mitigram_Leads')
         .select('*')
-        .in('Advisor', advisors.map(a => a.Name || ''));
+        .eq('Advisor', advisor.Name);
       if (error) throw error;
       return data;
     },
-    enabled: advisors.some(a => a.Name)
+    enabled: !!advisor.Name
   });
 
   const totalPipeline = leads.reduce((sum, lead) => {
@@ -39,42 +39,40 @@ const AdvisorPopup = ({ advisors, companyPrefix }: AdvisorPopupProps) => {
 
   return (
     <div className="min-w-[280px] p-1">
-      {advisors.map((advisor) => (
-        <Card key={advisor.Name || advisor.LinkedIn} className="bg-white shadow-lg mb-2 last:mb-0">
-          <CardHeader className="flex items-center justify-center p-4 pb-2">
-            <Avatar className="w-16 h-16">
-              <AvatarImage
-                src={advisor.Picture || ''}
-                alt={advisor.Name || 'Advisor'}
-                className="object-cover"
-              />
-              <AvatarFallback className="bg-primary/10 text-primary">
-                {advisor.Name?.slice(0, 2).toUpperCase() || 'AD'}
-              </AvatarFallback>
-            </Avatar>
-          </CardHeader>
-          <CardContent className="p-4 pt-2 space-y-2">
-            <div className="text-center">
-              <h3 className="font-semibold text-lg text-gray-900">{advisor.Name || 'Unknown'}</h3>
-              <p className="text-sm text-gray-600">{advisor.Industry || 'N/A'}</p>
+      <Card className="bg-white shadow-lg">
+        <CardHeader className="flex items-center justify-center p-4 pb-2">
+          <Avatar className="w-16 h-16">
+            <AvatarImage
+              src={advisor.Picture || ''}
+              alt={advisor.Name || 'Advisor'}
+              className="object-cover"
+            />
+            <AvatarFallback className="bg-primary/10 text-primary">
+              {advisor.Name?.slice(0, 2).toUpperCase() || 'AD'}
+            </AvatarFallback>
+          </Avatar>
+        </CardHeader>
+        <CardContent className="p-4 pt-2 space-y-2">
+          <div className="text-center">
+            <h3 className="font-semibold text-lg text-gray-900">{advisor.Name || 'Unknown'}</h3>
+            <p className="text-sm text-gray-600">{advisor.Industry || 'N/A'}</p>
+          </div>
+          <div className="space-y-1 text-sm border-t pt-2 mt-2">
+            <div className="flex justify-between">
+              <span className="text-gray-600">Duration:</span>
+              <span className="font-medium text-gray-900">{advisor.Duration || 0} years</span>
             </div>
-            <div className="space-y-1 text-sm border-t pt-2 mt-2">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Duration:</span>
-                <span className="font-medium text-gray-900">{advisor.Duration || 0} years</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Pipeline:</span>
-                <span className="font-medium text-gray-900">{formattedPipeline}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Leads:</span>
-                <span className="font-medium text-gray-900">{leads.filter(l => l.Advisor === advisor.Name).length}</span>
-              </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600">Pipeline:</span>
+              <span className="font-medium text-gray-900">{formattedPipeline}</span>
             </div>
-          </CardContent>
-        </Card>
-      ))}
+            <div className="flex justify-between">
+              <span className="text-gray-600">Leads:</span>
+              <span className="font-medium text-gray-900">{leads.length}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

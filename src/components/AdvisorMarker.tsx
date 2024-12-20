@@ -12,7 +12,6 @@ const locationCoordinates: { [key: string]: [number, number] } = {
   "Portugal": [39.3999, -8.2245],
   "Bangladesh": [23.6850, 90.3563],
   "Namibia": [-22.9576, 18.4904],
-  // Add more locations as needed
 };
 
 // Create a custom icon
@@ -49,7 +48,6 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
       icon={customIcon}
     >
       <Popup
-        className="custom-popup"
         offset={[0, -20]}
         eventHandlers={{
           remove: () => setIsPopupOpen(false),

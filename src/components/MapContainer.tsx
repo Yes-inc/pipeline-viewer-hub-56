@@ -8,26 +8,26 @@ interface MapContainerProps {
   advisors: Advisor[];
 }
 
-const MapContainer = forwardRef<any, MapContainerProps>(({ advisors }, ref) => {
+const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }, ref) => {
   const defaultCenter: [number, number] = [20, 0];
   const defaultZoom = 2;
 
   return (
-    <LeafletMapContainer
-      ref={ref}
-      className="h-full w-full"
-      center={defaultCenter}
-      zoom={defaultZoom}
-      scrollWheelZoom={false}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {advisors.map((advisor, index) => (
-        <AdvisorMarker key={index} advisor={advisor} />
-      ))}
-    </LeafletMapContainer>
+    <div ref={ref} className="h-full w-full">
+      <LeafletMapContainer
+        center={defaultCenter}
+        zoom={defaultZoom}
+        scrollWheelZoom={false}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {advisors.map((advisor, index) => (
+          <AdvisorMarker key={index} advisor={advisor} />
+        ))}
+      </LeafletMapContainer>
+    </div>
   );
 });
 

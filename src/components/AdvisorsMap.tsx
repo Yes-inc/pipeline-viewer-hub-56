@@ -15,8 +15,10 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
     queryFn: async () => {
       if (!companyPrefix) return [];
       console.log('Fetching advisors for:', companyPrefix);
+      
+      const tableName = `${companyPrefix}_Advisors` as const;
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Advisors`)
+        .from(tableName)
         .select('*');
       
       if (error) {
@@ -46,18 +48,6 @@ const AdvisorsMap = ({ companyPrefix }: AdvisorsMapProps) => {
       </Card>
     );
   }
-
-  const advisorsByLocation: { [key: string]: Advisor[] } = {};
-  advisors.forEach(advisor => {
-    if (advisor.Location) {
-      if (!advisorsByLocation[advisor.Location]) {
-        advisorsByLocation[advisor.Location] = [];
-      }
-      advisorsByLocation[advisor.Location].push(advisor);
-    }
-  });
-
-  console.log('Advisors by location:', advisorsByLocation);
 
   return (
     <Card>
