@@ -33,7 +33,7 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
-  const commentsTable = `${companyPrefix}_Comments` as const;
+  const commentsTable = `${companyPrefix}_Comments`;
 
   const fetchComments = async () => {
     try {
@@ -61,19 +61,18 @@ export const PipelineTableRow = ({
       key={index}
       data-state={selectedRow === index ? "selected" : undefined}
       onClick={() => setSelectedRow(selectedRow === index ? null : index)}
+      className="w-full"
     >
       <TableCell className="w-[70px] pl-4">
-        <div className="flex items-center gap-3">
-          <Avatar>
-            {row.Profile_Picture ? (
-              <AvatarImage src={row.Profile_Picture} alt={row.Full_Name || ""} />
-            ) : (
-              <AvatarFallback>
-                <UserRound className="h-4 w-4" />
-              </AvatarFallback>
-            )}
-          </Avatar>
-        </div>
+        <Avatar>
+          {row.Profile_Picture ? (
+            <AvatarImage src={row.Profile_Picture} alt={row.Full_Name || ""} />
+          ) : (
+            <AvatarFallback>
+              <UserRound className="h-4 w-4" />
+            </AvatarFallback>
+          )}
+        </Avatar>
       </TableCell>
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Full_Name}</TableCell>
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Company}</TableCell>
@@ -91,7 +90,7 @@ export const PipelineTableRow = ({
       )}
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Advisor}</TableCell>
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Deal_Size}</TableCell>
-      <TableCell className="w-[120px] pl-4 pr-4">
+      <TableCell className="w-[150px] pl-4 pr-4">
         <CommentDialog
           linkedinUrl={row.LinkedIn_URL}
           hasComments={hasComments}
