@@ -39,6 +39,27 @@ export type Database = {
         }
         Relationships: []
       }
+      bad_fit_leads: {
+        Row: {
+          company_prefix: string
+          id: string
+          linkedin_url: string
+          marked_at: string | null
+        }
+        Insert: {
+          company_prefix: string
+          id?: string
+          linkedin_url: string
+          marked_at?: string | null
+        }
+        Update: {
+          company_prefix?: string
+          id?: string
+          linkedin_url?: string
+          marked_at?: string | null
+        }
+        Relationships: []
+      }
       Gimi_Active_Leads: {
         Row: {
           Advisor: string | null

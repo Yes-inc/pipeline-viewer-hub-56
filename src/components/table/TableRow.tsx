@@ -1,11 +1,13 @@
 import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRound } from "lucide-react";
+import { UserRound, ThumbsDown } from "lucide-react";
 import { type PipelineRow } from "../../utils/googleSheets";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentDialog } from "./CommentDialog";
 import { getCommentsTable } from "@/types/supabase";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface Comment {
   id: string;
@@ -20,7 +22,7 @@ interface PipelineTableRowProps {
   setSelectedRow: (index: number | null) => void;
   isEngagedProspects: boolean;
   isGeneratedLeads: boolean;
-  companyPrefix: "Mitigram" | "ToExceed";
+  companyPrefix: "Mitigram" | "ToExceed" | "Gimi";
 }
 
 export const PipelineTableRow = ({
@@ -34,6 +36,7 @@ export const PipelineTableRow = ({
 }: PipelineTableRowProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [hasComments, setHasComments] = useState(false);
+  const [isBadFit, setIsBadFit] = useState(false);
   const commentsTable = getCommentsTable(companyPrefix);
 
   const fetchComments = async () => {
@@ -53,8 +56,39 @@ export const PipelineTableRow = ({
     }
   };
 
+  const checkBadFitStatus = async () => {
+    const { data } = await supabase
+      .from('bad_fit_leads')
+      .select('*')
+      .eq('company_prefix', companyPrefix)
+      .eq('linkedin_url', row.LinkedIn_URL)
+      .single();
+    
+    setIsBadFit(!!data);
+  };
+
+  const handleMarkAsBadFit = async () => {
+    try {
+      const { error } = await supabase
+        .from('bad_fit_leads')
+        .insert({
+          company_prefix: companyPrefix,
+          linkedin_url: row.LinkedIn_URL
+        });
+
+      if (error) throw error;
+
+      setIsBadFit(true);
+      toast.success("Lead marked as bad fit");
+    } catch (error) {
+      console.error("Error marking as bad fit:", error);
+      toast.error("Failed to mark lead as bad fit");
+    }
+  };
+
   useEffect(() => {
     fetchComments();
+    checkBadFitStatus();
   }, [row.LinkedIn_URL, companyPrefix]);
 
   return (
@@ -62,7 +96,7 @@ export const PipelineTableRow = ({
       key={index}
       data-state={selectedRow === index ? "selected" : undefined}
       onClick={() => setSelectedRow(selectedRow === index ? null : index)}
-      className="w-full"
+      className={`w-full ${isBadFit ? 'opacity-50' : ''}`}
     >
       <TableCell className="w-[70px] pl-4">
         <Avatar>
@@ -91,7 +125,7 @@ export const PipelineTableRow = ({
       )}
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Advisor}</TableCell>
       <TableCell className="min-w-[130px] pl-4 text-gray-900">{row.Deal_Size}</TableCell>
-      <TableCell className="w-[150px] pl-4 pr-4">
+      <TableCell className="w-[200px] pl-4 pr-4 flex items-center gap-2">
         <CommentDialog
           linkedinUrl={row.LinkedIn_URL}
           hasComments={hasComments}
@@ -99,6 +133,20 @@ export const PipelineTableRow = ({
           onCommentsUpdate={fetchComments}
           companyPrefix={companyPrefix}
         />
+        {!isBadFit && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1 text-destructive hover:text-destructive"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleMarkAsBadFit();
+            }}
+          >
+            <ThumbsDown className="h-4 w-4" />
+            Bad Fit
+          </Button>
+        )}
       </TableCell>
     </UITableRow>
   );
