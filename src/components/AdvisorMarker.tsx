@@ -14,6 +14,7 @@ const locationCoordinates: { [key: string]: [number, number] } = {
   "Houston, Texas": [29.7604, -95.3698],
   "Boynton Beach, Florida, USA": [26.5317, -80.0905],
   "United States": [37.0902, -95.7129],
+  "United States ": [37.0902, -95.7129], // Added with space to match exact string
 };
 
 const createCustomIcon = (imageUrl: string) => {
