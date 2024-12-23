@@ -20,6 +20,8 @@ export type TableNames =
 
 export type AdvisorTableNames = "Mitigram_Advisors" | "ToExceed_Advisors" | "Gimi_Advisors";
 
-export const getCommentsTable = (companyPrefix: "Mitigram" | "ToExceed") => {
-  return companyPrefix === "Mitigram" ? "Mitigram_Comments" : "ToExceed_Comments";
+export type CompanyPrefix = "Mitigram" | "ToExceed" | "Gimi";
+
+export const getCommentsTable = (companyPrefix: CompanyPrefix) => {
+  return `${companyPrefix}_Comments` as const;
 };

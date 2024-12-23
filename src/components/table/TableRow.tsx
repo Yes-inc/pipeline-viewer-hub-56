@@ -5,7 +5,7 @@ import { type PipelineRow } from "../../utils/googleSheets";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CommentDialog } from "./CommentDialog";
-import { getCommentsTable } from "@/types/supabase";
+import { getCommentsTable, CompanyPrefix } from "@/types/supabase";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -22,7 +22,7 @@ interface PipelineTableRowProps {
   setSelectedRow: (index: number | null) => void;
   isEngagedProspects: boolean;
   isGeneratedLeads: boolean;
-  companyPrefix: "Mitigram" | "ToExceed" | "Gimi";
+  companyPrefix: CompanyPrefix;
 }
 
 export const PipelineTableRow = ({

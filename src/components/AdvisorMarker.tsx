@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, MarkerProps } from "react-leaflet";
 import L from "leaflet";
 import { Advisor } from "@/types/advisor";
 import AdvisorPopup from "./AdvisorPopup";
@@ -43,7 +43,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
   return (
     <Marker 
       position={coordinates}
-      icon={customIcon as L.DivIcon}
+      icon={customIcon}
       eventHandlers={{
         click: () => setIsPopupOpen(true),
       }}
