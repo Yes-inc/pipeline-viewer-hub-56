@@ -225,30 +225,10 @@ const Index = () => {
         <div className="space-y-12">
           <Tabs defaultValue="generated" className="w-full">
             <TabsList className="w-full flex flex-wrap justify-start gap-2 bg-gray-100/80 p-2 rounded-lg">
-              <TabsTrigger 
-                value="established" 
-                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-              >
-                Established
-              </TabsTrigger>
-              <TabsTrigger 
-                value="active"
-                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-              >
-                Engaged
-              </TabsTrigger>
-              <TabsTrigger 
-                value="generated"
-                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-              >
-                Generated
-              </TabsTrigger>
-              <TabsTrigger 
-                value="uncertain"
-                className="flex-1 min-w-[120px] rounded-md text-[#1A1F2C] data-[state=active]:bg-white data-[state=active]:text-[#1A1F2C] data-[state=active]:shadow-sm transition-all text-sm py-2"
-              >
-                Unverified
-              </TabsTrigger>
+              <TabsTrigger value="established">Established</TabsTrigger>
+              <TabsTrigger value="active">Engaged</TabsTrigger>
+              <TabsTrigger value="generated">Generated</TabsTrigger>
+              <TabsTrigger value="uncertain">Unverified</TabsTrigger>
             </TabsList>
             <TabsContent value="established" className="mt-12">
               <PipelineTable 
@@ -256,6 +236,7 @@ const Index = () => {
                 data={establishedConnections}
                 isLoading={isLoadingEstablished}
                 error={errorEstablished}
+                companyPrefix={companyPrefix}
               />
             </TabsContent>
             <TabsContent value="active" className="mt-12">
@@ -264,6 +245,7 @@ const Index = () => {
                 data={activeLeads}
                 isLoading={isLoadingActive}
                 error={errorActive}
+                companyPrefix={companyPrefix}
               />
             </TabsContent>
             <TabsContent value="generated" className="mt-12">
@@ -272,6 +254,7 @@ const Index = () => {
                 data={generatedLeads}
                 isLoading={isLoadingGenerated}
                 error={errorGenerated}
+                companyPrefix={companyPrefix}
               />
             </TabsContent>
             <TabsContent value="uncertain" className="mt-12">
@@ -280,6 +263,7 @@ const Index = () => {
                 data={uncertainLeads}
                 isLoading={isLoadingUncertain}
                 error={errorUncertain}
+                companyPrefix={companyPrefix}
               />
             </TabsContent>
           </Tabs>

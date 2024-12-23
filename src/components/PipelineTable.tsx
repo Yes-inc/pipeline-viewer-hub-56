@@ -54,8 +54,10 @@ export const PipelineTable = ({
           <PipelineTableHeader
             sortConfig={sortConfig}
             onSort={setSortConfig}
+            isEngagedProspects={title.includes("Engaged")}
+            isGeneratedLeads={title.includes("Generated")}
           />
-          <TableBody className="text-[#1A1F2C]">
+          <TableBody>
             {sortedData.map((row, index) => (
               <TableRow 
                 key={index} 
