@@ -22,18 +22,14 @@ export const PipelineTableHeader = ({
   onSort 
 }: TableHeaderProps) => {
   return (
-    <TableHeader className="bg-white">
-      <TableRow className="border-b">
-        <TableHead className="w-[70px] pl-4 text-gray-900">Profile</TableHead>
-        <TableHead className="min-w-[130px] pl-4 text-gray-900">Full Name</TableHead>
-        <TableHead className="min-w-[130px] pl-4 text-gray-900">Company</TableHead>
-        <TableHead className="min-w-[130px] pl-4 text-gray-900">LinkedIn URL</TableHead>
-        {(isEngagedProspects || isGeneratedLeads) && (
-          <TableHead className="min-w-[130px] pl-4 text-gray-900">Company Website</TableHead>
-        )}
-        <TableHead className="min-w-[130px] pl-4 text-gray-900">Advisor</TableHead>
-        <TableHead className="min-w-[130px] pl-4 text-gray-900">Potential Pipeline</TableHead>
-        <TableHead className="w-[150px] pl-4 pr-4 text-gray-900">Comments</TableHead>
+    <TableHeader>
+      <TableRow>
+        <TableHead className="w-[250px]">Profile</TableHead>
+        <TableHead>Email</TableHead>
+        <TableHead>Company Website</TableHead>
+        <TableHead>Deal Size</TableHead>
+        <TableHead>Advisor</TableHead>
+        <TableHead className="w-[70px]">Actions</TableHead>
       </TableRow>
     </TableHeader>
   );

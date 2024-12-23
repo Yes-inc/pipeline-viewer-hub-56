@@ -16,7 +16,7 @@ const TableRow = ({ row, companyPrefix }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
 
   return (
-    <UITableRow className="text-[#1A1F2C]">
+    <UITableRow>
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar>
@@ -24,15 +24,15 @@ const TableRow = ({ row, companyPrefix }: TableRowProps) => {
             <AvatarFallback>{row.Full_Name?.[0] || '?'}</AvatarFallback>
           </Avatar>
           <div>
-            <div className="font-medium">{row.Full_Name}</div>
-            <div className="text-sm text-[#8E9196]">{row.Company}</div>
+            <div className="font-medium text-gray-900">{row.Full_Name}</div>
+            <div className="text-sm text-gray-500">{row.Company}</div>
           </div>
         </div>
       </TableCell>
-      <TableCell>{row.Email}</TableCell>
-      <TableCell>{row.Company_Website}</TableCell>
-      <TableCell>{row.Deal_Size}</TableCell>
-      <TableCell>{row.Advisor}</TableCell>
+      <TableCell className="text-gray-900">{row.Email}</TableCell>
+      <TableCell className="text-gray-900">{row.Company_Website}</TableCell>
+      <TableCell className="text-gray-900">{row.Deal_Size}</TableCell>
+      <TableCell className="text-gray-900">{row.Advisor}</TableCell>
       <TableCell>
         <Button
           variant="ghost"

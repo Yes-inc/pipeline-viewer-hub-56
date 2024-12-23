@@ -47,9 +47,9 @@ export const PipelineTable = ({
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-[#1A1F2C]">{title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
       </div>
-      <div className="border rounded-lg">
+      <div className="border rounded-lg bg-white">
         <Table>
           <PipelineTableHeader
             sortConfig={sortConfig}
