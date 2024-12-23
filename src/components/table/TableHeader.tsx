@@ -25,7 +25,8 @@ export const PipelineTableHeader = ({
   return (
     <TableHeader className="sticky top-0 bg-white z-10 shadow-sm">
       <TableRow>
-        <TableHead className="w-[250px] text-black pl-6">Profile</TableHead>
+        <TableHead className="w-[200px] text-black pl-6">Profile</TableHead>
+        <TableHead className="text-black">Company</TableHead>
         {!isGeneratedLeads && <TableHead className="text-black">Email</TableHead>}
         <TableHead className="text-black">
           <span className="inline-flex items-center gap-2">

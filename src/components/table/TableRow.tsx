@@ -26,7 +26,6 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
           </Avatar>
           <div>
             <div className="font-medium text-black">{row.Full_Name}</div>
-            <div className="text-sm text-gray-500">{row.Company}</div>
             <a
               href={row.LinkedIn_URL}
               target="_blank"
@@ -38,6 +37,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
           </div>
         </div>
       </TableCell>
+      <TableCell className="text-black">{row.Company}</TableCell>
       {!isGeneratedLeads && <TableCell className="text-black">{row.Email}</TableCell>}
       <TableCell>
         {row.Company_Website && (
@@ -57,7 +57,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="opacity-100"
+          onClick={() => setIsCommentDialogOpen(true)}
         >
           <MessageSquare className="h-4 w-4" />
         </Button>
