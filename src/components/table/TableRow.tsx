@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import CommentDialog from "./CommentDialog";
 import { useState } from "react";
+import { CompanyPrefix } from "@/types/supabase";
 
 interface TableRowProps {
   row: PipelineRow;
+  companyPrefix: CompanyPrefix;
 }
 
-const TableRow = ({ row }: TableRowProps) => {
+const TableRow = ({ row, companyPrefix }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
 
   return (
@@ -40,9 +42,10 @@ const TableRow = ({ row }: TableRowProps) => {
           <MessageSquare className="h-4 w-4" />
         </Button>
         <CommentDialog
-          open={isCommentDialogOpen}
-          onOpenChange={setIsCommentDialogOpen}
-          linkedinUrl={row.LinkedIn_URL}
+          isOpen={isCommentDialogOpen}
+          onClose={() => setIsCommentDialogOpen(false)}
+          leadLinkedInURL={row.LinkedIn_URL}
+          companyPrefix={companyPrefix}
         />
       </TableCell>
     </UITableRow>

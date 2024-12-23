@@ -5,22 +5,30 @@ import { useState } from "react";
 import type { PipelineRow } from "../utils/googleSheets";
 import ErrorState from "./ErrorState";
 import LoadingState from "./LoadingState";
+import { CompanyPrefix } from "@/types/supabase";
 
 interface PipelineTableProps {
   title: string;
   data: PipelineRow[];
   isLoading?: boolean;
   error?: Error | null;
+  companyPrefix: CompanyPrefix;
 }
 
-export const PipelineTable = ({ title, data, isLoading, error }: PipelineTableProps) => {
+export const PipelineTable = ({ 
+  title, 
+  data, 
+  isLoading, 
+  error,
+  companyPrefix 
+}: PipelineTableProps) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof PipelineRow;
     direction: "asc" | "desc";
   } | null>(null);
 
   if (isLoading) return <LoadingState />;
-  if (error) return <ErrorState error={error} />;
+  if (error) return <ErrorState message={error.message} />;
 
   const sortedData = [...data].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -49,7 +57,11 @@ export const PipelineTable = ({ title, data, isLoading, error }: PipelineTablePr
           />
           <TableBody className="text-[#1A1F2C]">
             {sortedData.map((row, index) => (
-              <TableRow key={index} row={row} />
+              <TableRow 
+                key={index} 
+                row={row} 
+                companyPrefix={companyPrefix}
+              />
             ))}
           </TableBody>
         </Table>

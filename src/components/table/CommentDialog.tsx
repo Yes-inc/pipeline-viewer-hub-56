@@ -2,34 +2,47 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { CompanyPrefix, getCommentsTable } from "@/types/supabase";
+import { CompanyPrefix } from "@/types/supabase";
 
 interface CommentDialogProps {
   isOpen: boolean;
   onClose: () => void;
   leadLinkedInURL: string;
   companyPrefix: CompanyPrefix;
-  comments: any[];
 }
 
 const CommentDialog = ({
   isOpen,
   onClose,
   leadLinkedInURL,
-  companyPrefix,
-  comments
+  companyPrefix
 }: CommentDialogProps) => {
   const [newComment, setNewComment] = useState("");
   const queryClient = useQueryClient();
+
+  const { data: comments = [] } = useQuery({
+    queryKey: ['comments', companyPrefix, leadLinkedInURL],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from(`${companyPrefix}_Comments`)
+        .select('*')
+        .eq('lead_linkedin_url', leadLinkedInURL)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: isOpen
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
     const { error } = await supabase
-      .from(getCommentsTable(companyPrefix))
+      .from(`${companyPrefix}_Comments`)
       .insert([
         {
           lead_linkedin_url: leadLinkedInURL,
@@ -53,26 +66,29 @@ const CommentDialog = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add Comment</DialogTitle>
+          <DialogTitle>Comments</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <Textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Write your comment here..."
             rows={4}
           />
-          <div className="flex justify-end mt-4">
-            <Button type="button" onClick={onClose} variant="outline" className="mr-2">
+          <div className="flex justify-end gap-2">
+            <Button type="button" onClick={onClose} variant="outline">
               Cancel
             </Button>
             <Button type="submit">Submit</Button>
           </div>
         </form>
-        <div className="mt-4">
-          {comments.map((comment, index) => (
-            <div key={index} className="border-b py-2">
-              <p>{comment.comment}</p>
+        <div className="mt-4 space-y-2">
+          {comments.map((comment: any) => (
+            <div key={comment.id} className="border-b py-2">
+              <p className="text-[#1A1F2C]">{comment.comment}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(comment.created_at).toLocaleString()}
+              </p>
             </div>
           ))}
         </div>
