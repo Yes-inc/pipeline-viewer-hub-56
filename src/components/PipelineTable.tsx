@@ -3,16 +3,23 @@ import { PipelineTableHeader } from "./table/TableHeader";
 import { PipelineTableRow } from "./table/TableRow";
 import { useState } from "react";
 import type { PipelineRow } from "../utils/googleSheets";
+import { CompanyPrefix } from "@/types/supabase";
 
 interface PipelineTableProps {
   title: string;
   data: PipelineRow[];
   isLoading?: boolean;
   error?: Error | null;
-  companyPrefix?: "Mitigram" | "ToExceed";
+  companyPrefix?: CompanyPrefix;
 }
 
-export const PipelineTable = ({ title, data, isLoading, error, companyPrefix = "Mitigram" }: PipelineTableProps) => {
+export const PipelineTable = ({ 
+  title, 
+  data, 
+  isLoading, 
+  error, 
+  companyPrefix = "Mitigram" 
+}: PipelineTableProps) => {
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const isEngagedProspects = title === "Engaged Prospects";
   const isGeneratedLeads = title === "Generated Leads";
