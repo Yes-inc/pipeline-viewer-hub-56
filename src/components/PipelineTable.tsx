@@ -45,28 +45,30 @@ export const PipelineTable = ({
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
       </div>
-      <div className="border rounded-lg bg-white">
-        <Table>
-          <PipelineTableHeader
-            sortConfig={sortConfig}
-            onSort={setSortConfig}
-            isEngagedProspects={title.includes("Engaged")}
-            isGeneratedLeads={title.includes("Generated")}
-          />
-          <TableBody>
-            {sortedData.map((row, index) => (
-              <TableRow 
-                key={index} 
-                row={row} 
-                companyPrefix={companyPrefix}
-              />
-            ))}
-          </TableBody>
-        </Table>
+      <div className="border rounded-lg bg-white overflow-hidden">
+        <div className="max-h-[600px] overflow-y-auto relative">
+          <Table>
+            <PipelineTableHeader
+              sortConfig={sortConfig}
+              onSort={setSortConfig}
+              isEngagedProspects={title.includes("Engaged")}
+              isGeneratedLeads={title.includes("Generated")}
+            />
+            <TableBody>
+              {sortedData.map((row, index) => (
+                <TableRow 
+                  key={index} 
+                  row={row} 
+                  companyPrefix={companyPrefix}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );

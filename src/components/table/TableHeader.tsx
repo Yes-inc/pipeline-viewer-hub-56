@@ -22,14 +22,16 @@ export const PipelineTableHeader = ({
   onSort 
 }: TableHeaderProps) => {
   return (
-    <TableHeader>
+    <TableHeader className="sticky top-0 bg-white z-10 shadow-sm">
       <TableRow>
-        <TableHead className="w-[250px]">Profile</TableHead>
-        <TableHead>Email</TableHead>
-        <TableHead>Company Website</TableHead>
-        <TableHead>Deal Size</TableHead>
-        <TableHead>Advisor</TableHead>
-        <TableHead className="w-[70px]">Actions</TableHead>
+        <TableHead className="w-[250px] text-black">Profile</TableHead>
+        <TableHead className="text-black">Email</TableHead>
+        <TableHead className="text-black">
+          <span className="inline-block">Visit Website</span>
+        </TableHead>
+        <TableHead className="text-black">Deal Size</TableHead>
+        <TableHead className="text-black">Advisor</TableHead>
+        <TableHead className="w-[70px] text-black">Actions</TableHead>
       </TableRow>
     </TableHeader>
   );
