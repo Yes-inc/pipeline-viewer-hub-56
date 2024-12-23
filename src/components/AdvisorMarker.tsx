@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Marker, Popup, MarkerProps } from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { Advisor } from "@/types/advisor";
 import AdvisorPopup from "./AdvisorPopup";
@@ -11,6 +11,9 @@ const locationCoordinates: { [key: string]: [number, number] } = {
   "Portugal": [39.3999, -8.2245],
   "Bangladesh": [23.6850, 90.3563],
   "Namibia": [-22.9576, 18.4904],
+  "Houston, Texas": [29.7604, -95.3698],
+  "Boynton Beach, Florida, USA": [26.5317, -80.0905],
+  "United States": [37.0902, -95.7129],
 };
 
 const createCustomIcon = (imageUrl: string) => {
