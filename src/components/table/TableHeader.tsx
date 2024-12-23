@@ -1,6 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PipelineRow } from "@/utils/googleSheets";
 import { Dispatch, SetStateAction } from "react";
+import { Link } from "lucide-react";
 
 interface TableHeaderProps {
   isEngagedProspects: boolean;
@@ -25,9 +26,12 @@ export const PipelineTableHeader = ({
     <TableHeader className="sticky top-0 bg-white z-10 shadow-sm">
       <TableRow>
         <TableHead className="w-[250px] text-black pl-6">Profile</TableHead>
-        <TableHead className="text-black">Email</TableHead>
+        {!isGeneratedLeads && <TableHead className="text-black">Email</TableHead>}
         <TableHead className="text-black">
-          <span className="inline-block">Visit Website</span>
+          <span className="inline-flex items-center gap-2">
+            Company Website
+            <Link className="h-4 w-4" />
+          </span>
         </TableHead>
         <TableHead className="text-black">Deal Size</TableHead>
         <TableHead className="text-black">Advisor</TableHead>

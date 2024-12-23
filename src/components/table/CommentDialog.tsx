@@ -1,11 +1,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 import { CompanyPrefix } from "@/types/supabase";
-import { toast } from "@/components/ui/use-toast";
+import { format } from "date-fns";
 
 interface CommentDialogProps {
   isOpen: boolean;
@@ -14,77 +14,95 @@ interface CommentDialogProps {
   companyPrefix: CompanyPrefix;
 }
 
-const CommentDialog = ({ isOpen, onClose, leadLinkedInURL, companyPrefix }: CommentDialogProps) => {
-  const [newComment, setNewComment] = useState("");
-  const queryClient = useQueryClient();
+const getCommentsTableName = (companyPrefix: CompanyPrefix) => {
+  switch (companyPrefix) {
+    case "Mitigram":
+      return "mitigram_comments";
+    case "ToExceed":
+      return "toexceed_comments";
+    case "Gimi":
+      return "gimi_comments";
+    default:
+      throw new Error("Invalid company prefix");
+  }
+};
 
-  const { data: comments = [] } = useQuery({
-    queryKey: ['comments', companyPrefix, leadLinkedInURL],
+const CommentDialog = ({ isOpen, onClose, leadLinkedInURL, companyPrefix }: CommentDialogProps) => {
+  const [comment, setComment] = useState("");
+  const queryClient = useQueryClient();
+  const commentsTableName = getCommentsTableName(companyPrefix);
+  
+  const { data: comments = [], isLoading } = useQuery({
+    queryKey: ['comments', leadLinkedInURL, commentsTableName],
     queryFn: async () => {
-      const tableName = `${companyPrefix}_Comments` as const;
       const { data, error } = await supabase
-        .from(tableName)
+        .from(commentsTableName)
         .select('*')
         .eq('lead_linkedin_url', leadLinkedInURL)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data || [];
-    },
+      return data;
+    }
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    if (!comment.trim()) return;
 
-    const tableName = `${companyPrefix}_Comments` as const;
     const { error } = await supabase
-      .from(tableName)
+      .from(commentsTableName)
       .insert([
         {
           lead_linkedin_url: leadLinkedInURL,
-          comment: newComment.trim(),
-        },
+          comment: comment.trim()
+        }
       ]);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to add comment. Please try again.",
-        variant: "destructive",
-      });
+      console.error('Error inserting comment:', error);
       return;
     }
 
-    setNewComment("");
-    queryClient.invalidateQueries({ queryKey: ['comments', companyPrefix, leadLinkedInURL] });
+    setComment("");
+    queryClient.invalidateQueries({ queryKey: ['comments', leadLinkedInURL, commentsTableName] });
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Comments</DialogTitle>
         </DialogHeader>
-        <div className="max-h-[300px] overflow-y-auto space-y-4">
-          {comments.map((comment: any) => (
-            <div key={comment.id} className="p-3 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">{comment.comment}</p>
-              <p className="text-xs text-gray-400 mt-1">
-                {new Date(comment.created_at).toLocaleString()}
-              </p>
-            </div>
-          ))}
+        <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-2">
+            <Textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Add a comment..."
+              className="min-h-[100px]"
+            />
+            <Button type="submit" disabled={!comment.trim()}>
+              Add Comment
+            </Button>
+          </form>
+          <div className="space-y-4 max-h-[300px] overflow-y-auto">
+            {isLoading ? (
+              <p>Loading comments...</p>
+            ) : comments.length > 0 ? (
+              comments.map((comment: any) => (
+                <div key={comment.id} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-sm text-gray-600 mb-1">
+                    {format(new Date(comment.created_at), 'MMM d, yyyy HH:mm')}
+                  </p>
+                  <p className="text-gray-800">{comment.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500">No comments yet</p>
+            )}
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-            className="min-h-[100px]"
-          />
-          <Button type="submit">Add Comment</Button>
-        </form>
       </DialogContent>
     </Dialog>
   );

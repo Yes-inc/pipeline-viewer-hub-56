@@ -44,6 +44,8 @@ export const PipelineTable = ({
     return 0;
   });
 
+  const isGeneratedLeads = title.includes("Generated") || title.includes("Unverified");
+
   return (
     <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center">
@@ -56,7 +58,7 @@ export const PipelineTable = ({
               sortConfig={sortConfig}
               onSort={setSortConfig}
               isEngagedProspects={title.includes("Engaged")}
-              isGeneratedLeads={title.includes("Generated")}
+              isGeneratedLeads={isGeneratedLeads}
             />
             <TableBody>
               {sortedData.map((row, index) => (
@@ -64,6 +66,7 @@ export const PipelineTable = ({
                   key={index} 
                   row={row} 
                   companyPrefix={companyPrefix}
+                  isGeneratedLeads={isGeneratedLeads}
                 />
               ))}
             </TableBody>

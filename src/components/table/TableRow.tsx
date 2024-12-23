@@ -10,9 +10,10 @@ import { CompanyPrefix } from "@/types/supabase";
 interface TableRowProps {
   row: PipelineRow;
   companyPrefix: CompanyPrefix;
+  isGeneratedLeads?: boolean;
 }
 
-const TableRow = ({ row, companyPrefix }: TableRowProps) => {
+const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
 
   return (
@@ -37,7 +38,7 @@ const TableRow = ({ row, companyPrefix }: TableRowProps) => {
           </div>
         </div>
       </TableCell>
-      <TableCell className="text-black">{row.Email}</TableCell>
+      {!isGeneratedLeads && <TableCell className="text-black">{row.Email}</TableCell>}
       <TableCell>
         {row.Company_Website && (
           <a
@@ -56,7 +57,7 @@ const TableRow = ({ row, companyPrefix }: TableRowProps) => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setIsCommentDialogOpen(true)}
+          className="opacity-100"
         >
           <MessageSquare className="h-4 w-4" />
         </Button>
