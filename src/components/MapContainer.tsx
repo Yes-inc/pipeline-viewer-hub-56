@@ -20,7 +20,7 @@ const MapContainer = ({
   return (
     <LeafletMapContainer
       className={`h-[400px] w-full ${className}`}
-      center={defaultCenter}
+      center={defaultCenter as [number, number]}
       zoom={defaultZoom}
       scrollWheelZoom={false}
     >

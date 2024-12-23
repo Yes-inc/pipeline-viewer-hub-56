@@ -31,7 +31,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
   return (
     <Marker 
       position={coordinates}
-      icon={customIcon}
+      icon={customIcon as L.Icon}
     >
       <Popup>
         <div className="flex flex-col items-center p-2">

@@ -129,6 +129,27 @@ export type Database = {
         }
         Relationships: []
       }
+      gimi_comments: {
+        Row: {
+          comment: string
+          created_at: string
+          id: string
+          lead_linkedin_url: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          id?: string
+          lead_linkedin_url: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: string
+          lead_linkedin_url?: string
+        }
+        Relationships: []
+      }
       Gimi_Established_Connections: {
         Row: {
           Advisor: string | null
