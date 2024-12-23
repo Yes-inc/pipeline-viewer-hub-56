@@ -24,14 +24,14 @@ export const PipelineTableHeader = ({
   return (
     <TableHeader className="sticky top-0 bg-white z-10 shadow-sm">
       <TableRow>
-        <TableHead className="w-[250px] text-black">Profile</TableHead>
+        <TableHead className="w-[250px] text-black pl-6">Profile</TableHead>
         <TableHead className="text-black">Email</TableHead>
         <TableHead className="text-black">
           <span className="inline-block">Visit Website</span>
         </TableHead>
         <TableHead className="text-black">Deal Size</TableHead>
         <TableHead className="text-black">Advisor</TableHead>
-        <TableHead className="w-[70px] text-black">Actions</TableHead>
+        <TableHead className="w-[70px] text-black">Comments</TableHead>
       </TableRow>
     </TableHeader>
   );

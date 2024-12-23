@@ -18,7 +18,7 @@ const TableRow = ({ row, companyPrefix }: TableRowProps) => {
   return (
     <UITableRow>
       <TableCell>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 pl-6">
           <Avatar>
             <AvatarImage src={row.Profile_Picture || ''} />
             <AvatarFallback>{row.Full_Name?.[0] || '?'}</AvatarFallback>
