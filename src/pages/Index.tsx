@@ -12,11 +12,32 @@ import { useEffect, useState } from "react";
 import CompanySelector from "../components/CompanySelector";
 import DashboardTitle from "../components/DashboardTitle";
 import { useOrganization } from "@/contexts/OrganizationContext";
+import { Organization } from "@/types/organization";
 
 const Index = () => {
   const [companyPrefix, setCompanyPrefix] = useState<"Mitigram" | "ToExceed" | "Gimi" | null>(null);
   const { organization } = useOrganization();
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Fetch organization data based on company prefix
+  const { data: selectedOrganization } = useQuery<Organization | null>({
+    queryKey: ['organization', companyPrefix],
+    queryFn: async () => {
+      if (!companyPrefix) return null;
+      const { data, error } = await supabase
+        .from('organizations')
+        .select('*')
+        .eq('name', companyPrefix)
+        .single();
+      
+      if (error) {
+        console.error('Error fetching organization:', error);
+        return null;
+      }
+      return data;
+    },
+    enabled: !!companyPrefix
+  });
 
   // Check if user is admin
   useEffect(() => {
@@ -50,6 +71,8 @@ const Index = () => {
           setCompanyPrefix('Mitigram');
         } else if (profile?.Company === 'ToExceed') {
           setCompanyPrefix('ToExceed');
+        } else if (profile?.Company === 'Gimi') {
+          setCompanyPrefix('Gimi');
         }
       }
     };
@@ -160,7 +183,7 @@ const Index = () => {
         )}
         
         <div className="flex justify-between items-center">
-          <DashboardTitle organization={organization} />
+          <DashboardTitle organization={selectedOrganization} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
