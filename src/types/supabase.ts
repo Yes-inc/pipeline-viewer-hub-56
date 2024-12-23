@@ -11,7 +11,7 @@ export type TableNames =
   | "ToExceed_Advisors"
   | "ToExceed_Established_Connections"
   | "ToExceed_Leads"
-  | "ToExceed_Uncertian_Leads"
+  | "ToExceed_Uncertain_Leads"
   | "Gimi_Active_Leads"
   | "Gimi_Advisors"
   | "Gimi_Comments"

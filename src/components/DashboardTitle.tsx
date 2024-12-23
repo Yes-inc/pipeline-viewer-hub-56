@@ -11,7 +11,7 @@ const DashboardTitle = ({ organization }: DashboardTitleProps) => {
         <img
           src={organization.logo_url}
           alt={`${organization.name} logo`}
-          className="h-8 w-8 object-contain"
+          className="h-8 w-8 object-contain bg-white rounded-md"
         />
       )}
       <h1 className="text-2xl font-bold text-[#1A1F2C]">
