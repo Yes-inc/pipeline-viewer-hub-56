@@ -1,55 +1,51 @@
-import { useState } from "react";
-import { Marker, Popup } from "react-leaflet";
-import L from "leaflet";
-import { Advisor } from "@/types/advisor";
-import AdvisorPopup from "./AdvisorPopup";
-import { findClosestLocation } from "@/utils/locationData";
-
-const createCustomIcon = (imageUrl: string) => {
-  return L.divIcon({
-    html: `<div class="advisor-marker">
-            <img src="${imageUrl}" class="w-10 h-10 rounded-full border-2 border-white shadow-lg" />
-          </div>`,
-    className: 'custom-div-icon',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -35]
-  });
-};
+import { Marker, Popup } from 'react-leaflet';
+import { Icon } from 'leaflet';
+import { locationCoordinates } from '@/utils/locationData';
 
 interface AdvisorMarkerProps {
-  advisor: Advisor;
+  advisor: {
+    Name?: string | null;
+    Location?: string | null;
+    Picture?: string | null;
+    Industry?: string | null;
+    Duration?: number | null;
+    LinkedIn?: string | null;
+  };
 }
 
 const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
-  if (!advisor.Location) {
-    console.warn(`No location provided for advisor: ${advisor.Name}`);
-    return null;
-  }
+  if (!advisor.Location) return null;
 
-  const coordinates = findClosestLocation(advisor.Location);
+  const coordinates = locationCoordinates[advisor.Location];
   if (!coordinates) {
+    console.warn(`No coordinates found for location: ${advisor.Location}`);
     return null;
   }
 
-  const customIcon = createCustomIcon(advisor.Picture || "/placeholder.svg");
+  const customIcon = new Icon({
+    iconUrl: advisor.Picture || '/placeholder.svg',
+    iconSize: [32, 32],
+    className: 'rounded-full border-2 border-white shadow-lg',
+  });
 
   return (
     <Marker 
       position={coordinates}
       icon={customIcon}
-      eventHandlers={{
-        click: () => setIsPopupOpen(true),
-      }}
     >
-      <Popup
-        eventHandlers={{
-          remove: () => setIsPopupOpen(false),
-        }}
-      >
-        <AdvisorPopup advisor={advisor} />
+      <Popup>
+        <div className="flex flex-col items-center p-2">
+          <img
+            src={advisor.Picture || '/placeholder.svg'}
+            alt={advisor.Name || 'Advisor'}
+            className="w-16 h-16 rounded-full mb-2"
+          />
+          <h3 className="font-semibold">{advisor.Name}</h3>
+          <p className="text-sm text-gray-600">{advisor.Location}</p>
+          {advisor.Industry && (
+            <p className="text-sm text-gray-600">{advisor.Industry}</p>
+          )}
+        </div>
       </Popup>
     </Marker>
   );

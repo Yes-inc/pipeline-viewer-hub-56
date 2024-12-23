@@ -1,39 +1,35 @@
-import { forwardRef } from "react";
-import { MapContainer as LeafletMapContainer, TileLayer } from "react-leaflet";
-import { Advisor } from "@/types/advisor";
-import AdvisorMarker from "./AdvisorMarker";
-import "leaflet/dist/leaflet.css";
-import { LatLngTuple } from "leaflet";
+import { MapContainer as LeafletMapContainer, TileLayer } from 'react-leaflet';
+import { LatLngTuple } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface MapContainerProps {
-  advisors: Advisor[];
+  children: React.ReactNode;
+  className?: string;
+  defaultCenter?: LatLngTuple;
+  defaultZoom?: number;
 }
 
-const MapContainer = forwardRef<HTMLDivElement, MapContainerProps>(({ advisors }, ref) => {
-  const defaultCenter: LatLngTuple = [20, 0];
-  
+const MapContainer = ({ 
+  children, 
+  className = "", 
+  defaultCenter = [20, 0],
+  defaultZoom = 2 
+}: MapContainerProps) => {
   return (
-    <div ref={ref} className="h-full w-full">
-      <LeafletMapContainer
-        className="h-full w-full"
-        center={defaultCenter}
-        zoom={2}
-        scrollWheelZoom={false}
-        key={advisors.length}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {advisors.map((advisor, index) => (
-          <AdvisorMarker key={`${advisor.Name}-${index}`} advisor={advisor} />
-        ))}
-      </LeafletMapContainer>
-    </div>
+    <LeafletMapContainer
+      className={className}
+      center={defaultCenter}
+      zoom={defaultZoom}
+      scrollWheelZoom={false}
+      style={{ height: '400px', width: '100%' }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      {children}
+    </LeafletMapContainer>
   );
-});
-
-MapContainer.displayName = "MapContainer";
+};
 
 export default MapContainer;
