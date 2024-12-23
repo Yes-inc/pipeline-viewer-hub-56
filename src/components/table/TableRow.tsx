@@ -58,8 +58,9 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
           variant="ghost"
           size="icon"
           onClick={() => setIsCommentDialogOpen(true)}
+          className="hover:bg-transparent"
         >
-          <MessageSquare className="h-4 w-4" />
+          <MessageSquare className="h-4 w-4 text-gray-600" />
         </Button>
         <CommentDialog
           isOpen={isCommentDialogOpen}
