@@ -1,10 +1,10 @@
-import { MapContainer as LeafletMapContainer, TileLayer, MapContainerProps as LeafletMapContainerProps } from 'react-leaflet';
+import { MapContainer as LeafletMapContainer, TileLayer } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Advisor } from '@/types/advisor';
 import AdvisorMarker from './AdvisorMarker';
 
-interface MapContainerProps extends Omit<LeafletMapContainerProps, 'center' | 'zoom'> {
+interface MapContainerProps {
   advisors: Advisor[];
   className?: string;
   defaultCenter?: LatLngTuple;
@@ -13,19 +13,16 @@ interface MapContainerProps extends Omit<LeafletMapContainerProps, 'center' | 'z
 
 const MapContainer = ({ 
   advisors,
-  className = "", 
+  className = "",
   defaultCenter = [20, 0] as LatLngTuple,
   defaultZoom = 2,
-  ...props
 }: MapContainerProps) => {
   return (
     <LeafletMapContainer
-      className={className}
+      className={`h-[400px] w-full ${className}`}
       center={defaultCenter}
       zoom={defaultZoom}
       scrollWheelZoom={false}
-      style={{ height: '400px', width: '100%' }}
-      {...props}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

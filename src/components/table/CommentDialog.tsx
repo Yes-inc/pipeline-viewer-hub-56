@@ -25,8 +25,9 @@ const CommentDialog = ({
   const { data: comments = [] } = useQuery({
     queryKey: ['comments', companyPrefix, leadLinkedInURL],
     queryFn: async () => {
+      const tableName = `${companyPrefix}_Comments`;
       const { data, error } = await supabase
-        .from(`${companyPrefix}_Comments`)
+        .from(tableName)
         .select('*')
         .eq('lead_linkedin_url', leadLinkedInURL)
         .order('created_at', { ascending: false });
@@ -41,8 +42,9 @@ const CommentDialog = ({
     e.preventDefault();
     if (!newComment.trim()) return;
 
+    const tableName = `${companyPrefix}_Comments`;
     const { error } = await supabase
-      .from(`${companyPrefix}_Comments`)
+      .from(tableName)
       .insert([
         {
           lead_linkedin_url: leadLinkedInURL,

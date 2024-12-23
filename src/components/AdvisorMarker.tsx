@@ -1,5 +1,5 @@
 import { Marker, Popup } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import L from 'leaflet';
 import { locationCoordinates } from '@/utils/locationData';
 
 interface AdvisorMarkerProps {
@@ -22,7 +22,7 @@ const AdvisorMarker = ({ advisor }: AdvisorMarkerProps) => {
     return null;
   }
 
-  const customIcon = new Icon({
+  const customIcon = new L.Icon({
     iconUrl: advisor.Picture || '/placeholder.svg',
     iconSize: [32, 32],
     className: 'rounded-full border-2 border-white shadow-lg',
