@@ -1,37 +1,35 @@
 import { MapContainer as LeafletMapContainer, TileLayer } from 'react-leaflet';
-import { LatLngTuple } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Advisor } from '@/types/advisor';
-import AdvisorMarker from './AdvisorMarker';
+import { ReactNode } from 'react';
 
 interface MapContainerProps {
-  advisors: Advisor[];
+  children: ReactNode;
   className?: string;
-  defaultCenter?: LatLngTuple;
-  defaultZoom?: number;
+  defaultCenter: [number, number];
+  defaultZoom: number;
 }
 
 const MapContainer = ({ 
-  advisors,
-  className = "",
-  defaultCenter = [20, 0] as LatLngTuple,
-  defaultZoom = 2,
+  children, 
+  className = "", 
+  defaultCenter = [0, 0],
+  defaultZoom = 2 
 }: MapContainerProps) => {
   return (
-    <LeafletMapContainer
-      className={`h-[400px] w-full ${className}`}
-      center={defaultCenter as [number, number]}
-      zoom={defaultZoom}
-      scrollWheelZoom={false}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {advisors.map((advisor, index) => (
-        <AdvisorMarker key={index} advisor={advisor} />
-      ))}
-    </LeafletMapContainer>
+    <div className={className}>
+      <LeafletMapContainer
+        center={defaultCenter}
+        zoom={defaultZoom}
+        scrollWheelZoom={false}
+        className="h-full w-full rounded-lg"
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {children}
+      </LeafletMapContainer>
+    </div>
   );
 };
 
