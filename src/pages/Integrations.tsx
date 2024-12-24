@@ -6,7 +6,16 @@ import IntegrationButton from "../components/IntegrationButton";
 const Integrations = () => {
   const handleIntegration = (name: string) => {
     if (name === "HubSpot") {
-      window.open("https://client-dashboard-444907.uc.r.appspot.com/hubspot/auth", "_blank");
+      const width = 600;
+      const height = 700;
+      const left = (window.screen.width - width) / 2;
+      const top = (window.screen.height - height) / 2;
+      
+      window.open(
+        "https://client-dashboard-444907.uc.r.appspot.com/hubspot/auth",
+        "HubSpot Integration",
+        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,location=no,status=no`
+      );
     } else {
       toast.info(`Starting ${name} integration...`);
     }
