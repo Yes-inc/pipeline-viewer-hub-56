@@ -6,7 +6,7 @@ import IntegrationButton from "../components/IntegrationButton";
 const Integrations = () => {
   const handleIntegration = (name: string) => {
     if (name === "HubSpot") {
-      window.open("https://a3e9-199-115-99-34.ngrok-free.app/", "_blank");
+      window.open("https://client-dashboard-444907.uc.r.appspot.com/hubspot/auth", "_blank");
     } else {
       toast.info(`Starting ${name} integration...`);
     }
