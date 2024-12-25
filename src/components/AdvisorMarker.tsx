@@ -15,8 +15,8 @@ const AdvisorMarker = ({ advisor, position, customIcon }: AdvisorMarkerProps) =>
       icon={customIcon}
       key={advisor.LinkedIn}
     >
-      <Popup className="custom-popup">
-        <div className="p-4 bg-white rounded-lg">
+      <Popup>
+        <div className="min-w-[240px] max-w-[280px] p-4 bg-white rounded-lg">
           <div className="flex items-center space-x-3">
             {advisor.Picture && (
               <img 
@@ -25,9 +25,9 @@ const AdvisorMarker = ({ advisor, position, customIcon }: AdvisorMarkerProps) =>
                 className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
               />
             )}
-            <div>
-              <h3 className="font-semibold text-gray-900">{advisor.Name}</h3>
-              <p className="text-sm text-gray-600">{advisor.Location}</p>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-gray-900 truncate">{advisor.Name}</h3>
+              <p className="text-sm text-gray-600 truncate">{advisor.Location}</p>
             </div>
           </div>
         </div>
