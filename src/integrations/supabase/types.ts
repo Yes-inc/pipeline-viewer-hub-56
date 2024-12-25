@@ -681,8 +681,10 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: number | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -694,8 +696,10 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -707,8 +711,10 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
