@@ -8,6 +8,7 @@ export interface PipelineRow {
   Company: string | null;
   Profile_Picture: string | null;
   Company_Website: string | null;
-  Deal_Size: string | number | null;
+  Deal_Size?: string | number | null;
+  deal_size?: number | null;
   Time_Stamp?: string | null;
 }
