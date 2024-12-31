@@ -16,6 +16,21 @@ interface TableRowProps {
 const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
 
+  const formatDealSize = (dealSize: string | number | null) => {
+    if (!dealSize) return '';
+    
+    const numericValue = typeof dealSize === 'string' 
+      ? parseInt(dealSize.replace(/[^0-9]/g, ''), 10)
+      : dealSize;
+
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(numericValue);
+  };
+
   return (
     <UITableRow>
       <TableCell>
@@ -51,7 +66,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
           </a>
         )}
       </TableCell>
-      <TableCell className="text-black">{row.Deal_Size}</TableCell>
+      <TableCell className="text-black">{formatDealSize(row.Deal_Size)}</TableCell>
       <TableCell className="text-black">{row.Advisor}</TableCell>
       <TableCell>
         <Button

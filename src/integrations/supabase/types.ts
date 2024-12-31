@@ -64,8 +64,10 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: number | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -77,8 +79,10 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -90,8 +94,10 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -154,8 +160,10 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: number | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -167,8 +175,10 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -180,8 +190,10 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: number | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -316,8 +328,10 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: string | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -329,8 +343,10 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -342,8 +358,10 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -406,11 +424,13 @@ export type Database = {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: string | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
-          Full_Name: string
+          Full_Name: string | null
           Last_Name: string | null
           LinkedIn_URL: string
           Profile_Picture: string | null
@@ -419,11 +439,13 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
-          Full_Name: string
+          Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL: string
           Profile_Picture?: string | null
@@ -432,11 +454,13 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
-          Full_Name?: string
+          Full_Name?: string | null
           Last_Name?: string | null
           LinkedIn_URL?: string
           Profile_Picture?: string | null
@@ -587,12 +611,14 @@ export type Database = {
           },
         ]
       }
-      ToExceed_Active_Leads: {
+      Test_Active_Leads: {
         Row: {
           Advisor: string | null
           Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
           Company_Website: string | null
-          Deal_Size: string | null
+          deal_size: number | null
           Email: string | null
           First_Name: string | null
           Full_Name: string | null
@@ -604,8 +630,10 @@ export type Database = {
         Insert: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
@@ -617,8 +645,58 @@ export type Database = {
         Update: {
           Advisor?: string | null
           Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
           Company_Website?: string | null
-          Deal_Size?: string | null
+          deal_size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL?: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Relationships: []
+      }
+      ToExceed_Active_Leads: {
+        Row: {
+          Advisor: string | null
+          Company: string | null
+          Company_Size: number | null
+          Company_Type: string | null
+          Company_Website: string | null
+          deal_size: number | null
+          Email: string | null
+          First_Name: string | null
+          Full_Name: string | null
+          Last_Name: string | null
+          LinkedIn_URL: string
+          Profile_Picture: string | null
+          Time_Stamp: string | null
+        }
+        Insert: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
+          Company_Website?: string | null
+          deal_size?: number | null
+          Email?: string | null
+          First_Name?: string | null
+          Full_Name?: string | null
+          Last_Name?: string | null
+          LinkedIn_URL: string
+          Profile_Picture?: string | null
+          Time_Stamp?: string | null
+        }
+        Update: {
+          Advisor?: string | null
+          Company?: string | null
+          Company_Size?: number | null
+          Company_Type?: string | null
+          Company_Website?: string | null
+          deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
           Full_Name?: string | null
