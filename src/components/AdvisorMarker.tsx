@@ -1,12 +1,12 @@
 import { Marker, Popup } from 'react-leaflet';
-import { LatLngExpression, DivIcon } from 'leaflet';
+import { LatLngExpression } from 'leaflet';
 import { Advisor } from '@/types/advisor';
 import AdvisorPopup from './AdvisorPopup';
 
 interface AdvisorMarkerProps {
   advisor: Advisor;
   position: LatLngExpression;
-  customIcon: DivIcon;
+  customIcon: L.DivIcon;
 }
 
 const AdvisorMarker = ({ advisor, position, customIcon }: AdvisorMarkerProps) => {
@@ -14,7 +14,6 @@ const AdvisorMarker = ({ advisor, position, customIcon }: AdvisorMarkerProps) =>
     <Marker 
       position={position} 
       icon={customIcon}
-      key={advisor.LinkedIn}
     >
       <Popup>
         <AdvisorPopup advisor={advisor} />
