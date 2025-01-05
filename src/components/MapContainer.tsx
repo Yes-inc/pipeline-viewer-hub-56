@@ -33,14 +33,14 @@ const MapContainer = ({ advisors }: MapContainerProps) => {
   return (
     <div className="h-full w-full">
       <LeafletMapContainer
-        defaultCenter={defaultCenter}
-        defaultZoom={defaultZoom}
+        center={defaultCenter}
+        zoom={defaultZoom}
         scrollWheelZoom={false}
         className="h-full w-full rounded-lg"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attributionUrl='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {advisors.map((advisor) => {
           const position = findClosestLocation(advisor.Location || '');
