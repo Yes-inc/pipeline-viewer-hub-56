@@ -6,6 +6,7 @@ import { MessageSquare, ExternalLink } from "lucide-react";
 import CommentDialog from "./CommentDialog";
 import { useState } from "react";
 import { CompanyPrefix } from "@/types/supabase";
+import { format } from "date-fns";
 
 interface TableRowProps {
   row: PipelineRow;
@@ -41,6 +42,15 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
 
   const getDealSize = (row: PipelineRow) => {
     return formatDealSize(row.Deal_Size || row.deal_size);
+  };
+
+  const formatDate = (timestamp: string | null | undefined) => {
+    if (!timestamp) return '';
+    try {
+      return format(new Date(timestamp), 'yyyy-MM-dd');
+    } catch {
+      return '';
+    }
   };
 
   return (
@@ -80,6 +90,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
       </TableCell>
       <TableCell className="text-black">{getDealSize(row)}</TableCell>
       <TableCell className="text-black">{row.Advisor}</TableCell>
+      <TableCell className="text-black">{formatDate(row.Time_Stamp)}</TableCell>
       <TableCell>
         <Button
           variant="ghost"
