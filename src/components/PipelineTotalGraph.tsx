@@ -3,7 +3,7 @@ import { type PipelineRow } from "../utils/googleSheets";
 import { format, parseISO } from 'date-fns';
 
 interface PipelineTotalGraphProps {
-  activeLeads: PipelineRow[]; // Changed from generatedLeads to activeLeads
+  activeLeads: PipelineRow[];
 }
 
 const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
@@ -14,12 +14,19 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
       const timestamp = lead.Time_Stamp;
       const date = timestamp ? format(parseISO(timestamp), 'MMM dd') : '';
       
-      // Handle both string and number types for Deal_Size
+      // Handle both deal_size and Deal_Size fields, and both string and number types
       let value = 0;
-      if (typeof lead.Deal_Size === 'string') {
-        value = parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0;
-      } else if (typeof lead.Deal_Size === 'number') {
-        value = lead.Deal_Size;
+      if (lead.deal_size !== null && lead.deal_size !== undefined) {
+        value = typeof lead.deal_size === 'number' ? lead.deal_size : 0;
+      } else if (lead.Deal_Size !== null && lead.Deal_Size !== undefined) {
+        if (typeof lead.Deal_Size === 'string') {
+          // Remove any non-numeric characters except decimal points
+          value = parseFloat(lead.Deal_Size.replace(/[^0-9.]/g, '')) || 30000; // Default to 30000 if parsing fails
+        } else if (typeof lead.Deal_Size === 'number') {
+          value = lead.Deal_Size;
+        }
+      } else {
+        value = 30000; // Default value if no deal size is specified
       }
       
       return {
@@ -45,7 +52,7 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     };
   });
 
-  console.log('Pipeline Chart Data:', chartData);
+  console.log('Pipeline Chart Data with values:', chartData);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -76,6 +83,7 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
               tickFormatter={formatCurrency}
               tick={{ fontSize: 12, fill: "#1A1F2C" }}
               dx={-10}
+              domain={[30000, 'auto']}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
