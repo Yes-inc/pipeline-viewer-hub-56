@@ -3,12 +3,12 @@ import { type PipelineRow } from "../utils/googleSheets";
 import { format, parseISO } from 'date-fns';
 
 interface PipelineTotalGraphProps {
-  generatedLeads: PipelineRow[];
+  activeLeads: PipelineRow[]; // Changed from generatedLeads to activeLeads
 }
 
-const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
+const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
   // Create data points for the chart
-  const dataPoints = generatedLeads
+  const dataPoints = activeLeads
     .filter(lead => lead.Time_Stamp) // Filter out leads without timestamps
     .map(lead => {
       const timestamp = lead.Time_Stamp;
@@ -58,7 +58,7 @@ const PipelineTotalGraph = ({ generatedLeads }: PipelineTotalGraphProps) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm animate-fade-up">
-      <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Cumulative Pipeline Generated</h2>
+      <h2 className="text-lg font-semibold mb-4 text-[#1A1F2C]">Cumulative Pipeline Engaged</h2>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 

@@ -219,7 +219,7 @@ const Index = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <AdvisorsMap companyPrefix={companyPrefix} />
-          <PipelineTotalGraph generatedLeads={generatedLeads} />
+          <PipelineTotalGraph activeLeads={activeLeads} />
         </div>
 
         <div className="space-y-12">
@@ -276,4 +276,3 @@ const Index = () => {
 };
 
 export default Index;
-
