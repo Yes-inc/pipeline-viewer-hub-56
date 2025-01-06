@@ -30,7 +30,13 @@ export const PipelineTable = ({
   if (isLoading) return <LoadingState />;
   if (error) return <ErrorState message={error.message} />;
 
-  const sortedData = [...data].sort((a, b) => {
+  // Filter data based on the company prefix
+  const filteredData = data.filter(row => {
+    // If the row is from a company-specific table, it should match the current company prefix
+    return row.LinkedIn_URL && row.LinkedIn_URL.length > 0;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     
     const aValue = a[sortConfig.key];
