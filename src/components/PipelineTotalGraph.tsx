@@ -30,7 +30,7 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
       }
       
       return {
-        timestamp: timestamp,
+        timestamp,
         date,
         value
       };
@@ -42,12 +42,21 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   });
 
+  // Group by date and calculate daily totals
+  const dailyTotals = new Map();
+  dataPoints.forEach(point => {
+    if (!dailyTotals.has(point.date)) {
+      dailyTotals.set(point.date, 0);
+    }
+    dailyTotals.set(point.date, dailyTotals.get(point.date) + point.value);
+  });
+
   // Calculate cumulative totals
   let runningTotal = 0;
-  const chartData = dataPoints.map(point => {
-    runningTotal += point.value;
+  const chartData = Array.from(dailyTotals.entries()).map(([date, value]) => {
+    runningTotal += value;
     return {
-      date: point.date,
+      date,
       pipeline: runningTotal
     };
   });
