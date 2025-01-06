@@ -36,6 +36,7 @@ export const PipelineTableHeader = ({
         </TableHead>
         <TableHead className="text-black">Deal Size</TableHead>
         <TableHead className="text-black">Advisor</TableHead>
+        <TableHead className="text-black">Current Title</TableHead>
         <TableHead className="text-black">Date</TableHead>
         <TableHead className="w-[70px] text-black">Comments</TableHead>
       </TableRow>

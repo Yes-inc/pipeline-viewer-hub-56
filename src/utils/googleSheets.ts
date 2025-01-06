@@ -11,4 +11,5 @@ export interface PipelineRow {
   Deal_Size?: string | number | null;
   deal_size?: number | null;
   Time_Stamp?: string | null;
+  Current_Title?: string | null;
 }

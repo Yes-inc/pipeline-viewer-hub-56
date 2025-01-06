@@ -90,6 +90,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
       </TableCell>
       <TableCell className="text-black">{getDealSize(row)}</TableCell>
       <TableCell className="text-black">{row.Advisor}</TableCell>
+      <TableCell className="text-black">{row.Current_Title || 'N/A'}</TableCell>
       <TableCell className="text-black">{formatDate(row.Time_Stamp)}</TableCell>
       <TableCell>
         <Button
