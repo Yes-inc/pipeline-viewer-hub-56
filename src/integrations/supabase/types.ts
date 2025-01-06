@@ -331,6 +331,7 @@ export type Database = {
           Company_Size: number | null
           Company_Type: string | null
           Company_Website: string | null
+          Current_Title: string | null
           deal_size: number | null
           Email: string | null
           First_Name: string | null
@@ -346,6 +347,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -361,6 +363,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -427,6 +430,7 @@ export type Database = {
           Company_Size: number | null
           Company_Type: string | null
           Company_Website: string | null
+          Current_Title: string | null
           deal_size: number | null
           Email: string | null
           First_Name: string | null
@@ -442,6 +446,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -457,6 +462,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -473,6 +479,7 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
+          Current_Title: string | null
           Deal_Size: string | null
           Email: string | null
           First_Name: string | null
@@ -486,6 +493,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -499,6 +507,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           Deal_Size?: string | null
           Email?: string | null
           First_Name?: string | null
@@ -515,6 +524,7 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
+          Current_Title: string | null
           First_Name: string | null
           Full_Name: string | null
           Last_Name: string | null
@@ -525,6 +535,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
@@ -535,6 +546,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
@@ -666,6 +678,7 @@ export type Database = {
           Company_Size: number | null
           Company_Type: string | null
           Company_Website: string | null
+          Current_Title: string | null
           deal_size: number | null
           Email: string | null
           First_Name: string | null
@@ -681,6 +694,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -696,6 +710,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -762,6 +777,7 @@ export type Database = {
           Company_Size: number | null
           Company_Type: string | null
           Company_Website: string | null
+          Current_Title: string | null
           deal_size: number | null
           Email: string | null
           First_Name: string | null
@@ -777,6 +793,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -792,6 +809,7 @@ export type Database = {
           Company_Size?: number | null
           Company_Type?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           deal_size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -808,6 +826,7 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
+          Current_Title: string | null
           Deal_Size: number | null
           Email: string | null
           First_Name: string | null
@@ -821,6 +840,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           Deal_Size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -834,6 +854,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           Deal_Size?: number | null
           Email?: string | null
           First_Name?: string | null
@@ -850,6 +871,7 @@ export type Database = {
           Advisor: string | null
           Company: string | null
           Company_Website: string | null
+          Current_Title: string | null
           First_Name: string | null
           Full_Name: string | null
           Last_Name: string | null
@@ -860,6 +882,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
@@ -870,6 +893,7 @@ export type Database = {
           Advisor?: string | null
           Company?: string | null
           Company_Website?: string | null
+          Current_Title?: string | null
           First_Name?: string | null
           Full_Name?: string | null
           Last_Name?: string | null
