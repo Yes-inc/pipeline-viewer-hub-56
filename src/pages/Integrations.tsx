@@ -30,7 +30,15 @@ const Integrations = () => {
 
     // Listen for success message from the integration window
     window.addEventListener('message', (event) => {
-      if (event.data === 'integration-success') {
+      // Handle both simple message and structured message formats
+      const isSuccess = 
+        event.data === 'integration-success' || 
+        (typeof event.data === 'object' && 
+         event.data?.status?.toLowerCase() === 'success') ||
+        (typeof event.data === 'string' && 
+         event.data.toLowerCase().includes('oauth callback successful'));
+
+      if (isSuccess) {
         setShowSuccess(true);
         toast.success(`${name} successfully synchronized`, {
           style: { background: '#22c55e', color: 'white' }
