@@ -14,19 +14,15 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
       const timestamp = lead.Time_Stamp;
       const date = timestamp ? format(parseISO(timestamp), 'MMM dd') : '';
       
-      // Handle both deal_size and Deal_Size fields, and both string and number types
+      // Handle deal_size field, ensuring we only count numeric values
       let value = 0;
       if (lead.deal_size !== null && lead.deal_size !== undefined) {
-        value = typeof lead.deal_size === 'number' ? lead.deal_size : 0;
-      } else if (lead.Deal_Size !== null && lead.Deal_Size !== undefined) {
-        if (typeof lead.Deal_Size === 'string') {
+        if (typeof lead.deal_size === 'string') {
           // Remove any non-numeric characters except decimal points
-          value = parseFloat(lead.Deal_Size.replace(/[^0-9.]/g, '')) || 30000; // Default to 30000 if parsing fails
-        } else if (typeof lead.Deal_Size === 'number') {
-          value = lead.Deal_Size;
+          value = parseFloat(lead.deal_size.replace(/[^0-9.]/g, '')) || 0;
+        } else if (typeof lead.deal_size === 'number') {
+          value = lead.deal_size;
         }
-      } else {
-        value = 30000; // Default value if no deal size is specified
       }
       
       return {
@@ -45,10 +41,11 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
   // Group by date and calculate daily totals
   const dailyTotals = new Map();
   dataPoints.forEach(point => {
-    if (!dailyTotals.has(point.date)) {
-      dailyTotals.set(point.date, 0);
+    const currentDate = point.date;
+    if (!dailyTotals.has(currentDate)) {
+      dailyTotals.set(currentDate, 0);
     }
-    dailyTotals.set(point.date, dailyTotals.get(point.date) + point.value);
+    dailyTotals.set(currentDate, dailyTotals.get(currentDate) + point.value);
   });
 
   // Calculate cumulative totals
@@ -57,7 +54,7 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     runningTotal += value;
     return {
       date,
-      pipeline: runningTotal
+      pipeline: Math.round(runningTotal) // Ensure we round to whole numbers
     };
   });
 
@@ -92,7 +89,6 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
               tickFormatter={formatCurrency}
               tick={{ fontSize: 12, fill: "#1A1F2C" }}
               dx={-10}
-              domain={[30000, 'auto']}
             />
             <Tooltip 
               formatter={(value: number) => formatCurrency(value)}
