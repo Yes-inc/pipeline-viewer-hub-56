@@ -29,28 +29,26 @@ const Integrations = () => {
     );
 
     // Listen for success message from the integration window
-    window.addEventListener('message', (event) => {
-      // Handle both simple message and structured message formats
+    const handleMessage = (event: MessageEvent) => {
+      const data = event.data;
       const isSuccess = 
-        event.data === 'integration-success' || 
-        (typeof event.data === 'object' && 
-         event.data?.status?.toLowerCase() === 'success') ||
-        (typeof event.data === 'string' && 
-         event.data.toLowerCase().includes('oauth callback successful'));
+        (typeof data === 'object' && data?.status?.toLowerCase() === 'success') ||
+        (typeof data === 'string' && data.toLowerCase().includes('oauth callback successful'));
 
       if (isSuccess) {
-        setShowSuccess(true);
         // Store sync timestamp
         localStorage.setItem(
           `${name.toLowerCase()}_sync_time`, 
           new Date().toISOString()
         );
-        toast.success(`${name} successfully synchronized`, {
-          style: { background: '#22c55e', color: 'white' }
-        });
+        setShowSuccess(true);
+        toast.success(`${name} successfully synchronized`);
         integrationWindow?.close();
+        window.removeEventListener('message', handleMessage);
       }
-    });
+    };
+
+    window.addEventListener('message', handleMessage);
 
     // Check if window is closed
     const checkWindow = setInterval(() => {
@@ -60,13 +58,12 @@ const Integrations = () => {
         
         // Only show cancellation message if success state wasn't set
         if (!showSuccess) {
-          toast.error(`${name} synchronization cancelled`, {
-            style: { background: '#ef4444', color: 'white' }
-          });
+          toast.error(`${name} synchronization cancelled`);
         }
         
         setShowSuccess(false);
         setCurrentIntegration(null);
+        window.removeEventListener('message', handleMessage);
       }
     }, 500);
   };
