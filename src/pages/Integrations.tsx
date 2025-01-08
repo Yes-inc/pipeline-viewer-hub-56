@@ -40,6 +40,11 @@ const Integrations = () => {
 
       if (isSuccess) {
         setShowSuccess(true);
+        // Store sync timestamp
+        localStorage.setItem(
+          `${name.toLowerCase()}_sync_time`, 
+          new Date().toISOString()
+        );
         toast.success(`${name} successfully synchronized`, {
           style: { background: '#22c55e', color: 'white' }
         });
