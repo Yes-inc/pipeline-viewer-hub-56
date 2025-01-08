@@ -28,20 +28,27 @@ const Integrations = () => {
       `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,location=no,status=no`
     );
 
+    // Listen for success message from the integration window
+    window.addEventListener('message', (event) => {
+      if (event.data === 'integration-success') {
+        setShowSuccess(true);
+        toast.success(`${name} successfully synchronized`, {
+          style: { background: '#22c55e', color: 'white' }
+        });
+        integrationWindow?.close();
+      }
+    });
+
     // Check if window is closed
     const checkWindow = setInterval(() => {
       if (integrationWindow?.closed) {
         clearInterval(checkWindow);
         setIsLoading(false);
         
-        // If the window was closed before completion
+        // Only show cancellation message if success state wasn't set
         if (!showSuccess) {
           toast.error(`${name} synchronization cancelled`, {
             style: { background: '#ef4444', color: 'white' }
-          });
-        } else {
-          toast.success(`${name} ready to sync contacts`, {
-            style: { background: '#22c55e', color: 'white' }
           });
         }
         
@@ -49,14 +56,6 @@ const Integrations = () => {
         setCurrentIntegration(null);
       }
     }, 500);
-
-    // Listen for success message from the integration window
-    window.addEventListener('message', (event) => {
-      if (event.data === 'integration-success') {
-        setShowSuccess(true);
-        integrationWindow?.close();
-      }
-    });
   };
 
   return (
