@@ -9,12 +9,10 @@ const Integrations = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [currentIntegration, setCurrentIntegration] = useState<string | null>(null);
-  const [programmaticClose, setProgrammaticClose] = useState(false);
 
   const handleIntegration = (name: string) => {
     setCurrentIntegration(name);
     setIsLoading(true);
-    setProgrammaticClose(false);
     
     const width = 600;
     const height = 700;
@@ -45,7 +43,6 @@ const Integrations = () => {
           new Date().toISOString()
         );
         setShowSuccess(true);
-        setProgrammaticClose(true);
         toast.success(`${name} successfully synchronized`);
         integrationWindow?.close();
         window.removeEventListener('message', handleMessage);
@@ -59,15 +56,8 @@ const Integrations = () => {
       if (integrationWindow?.closed) {
         clearInterval(checkWindow);
         setIsLoading(false);
-        
-        // Only show cancellation message if success state wasn't set and it wasn't a programmatic close
-        if (!showSuccess && !programmaticClose) {
-          toast.error(`${name} synchronization cancelled`);
-        }
-        
         setShowSuccess(false);
         setCurrentIntegration(null);
-        setProgrammaticClose(false);
         window.removeEventListener('message', handleMessage);
       }
     }, 500);
