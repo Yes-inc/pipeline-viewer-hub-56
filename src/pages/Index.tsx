@@ -135,17 +135,17 @@ const Index = () => {
   const totalEstablished = establishedConnections.length;
   const totalEngaged = activeLeads.length;
   const totalGenerated = generatedLeads.length;
-  const totalPotentialPipeline = generatedLeads.reduce((sum, lead) => {
-    if (!lead.Deal_Size) return sum;
+  const totalPotentialPipeline = activeLeads.reduce((sum, lead) => {
+    if (!lead.deal_size) return sum;
     
-    // Handle both string and number types for Deal_Size
-    if (typeof lead.Deal_Size === 'string') {
+    // Handle both string and number types for deal_size
+    if (typeof lead.deal_size === 'string') {
       // For string values (e.g., "$500,000"), extract the number
-      const numericValue = parseInt(lead.Deal_Size.replace(/[^0-9]/g, ''), 10) || 0;
+      const numericValue = parseInt(lead.deal_size.replace(/[^0-9]/g, ''), 10) || 0;
       return sum + numericValue;
-    } else if (typeof lead.Deal_Size === 'number') {
+    } else if (typeof lead.deal_size === 'number') {
       // For number values (bigint), add directly
-      return sum + lead.Deal_Size;
+      return sum + lead.deal_size;
     }
     
     return sum;
