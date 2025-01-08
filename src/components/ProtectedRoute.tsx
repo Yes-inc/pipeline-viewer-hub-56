@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/components/ui/use-toast";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -15,11 +14,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         if (error) throw error;
         
         if (!session) {
-          toast({
-            title: "Authentication Required",
-            description: "Please log in to access this page.",
-            variant: "destructive",
-          });
           navigate("/login");
         }
       } catch (error) {
