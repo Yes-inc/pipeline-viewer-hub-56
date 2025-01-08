@@ -8,39 +8,55 @@ import LoaderOverlay from "../components/LoaderOverlay";
 const Integrations = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [currentIntegration, setCurrentIntegration] = useState<string | null>(null);
 
   const handleIntegration = (name: string) => {
-    if (name === "HubSpot") {
-      setIsLoading(true);
-      const width = 600;
-      const height = 700;
-      const left = (window.screen.width - width) / 2;
-      const top = (window.screen.height - height) / 2;
-      
-      const hubspotWindow = window.open(
-        "https://client-dashboard-444907.uc.r.appspot.com/hubspot/auth",
-        "HubSpot Integration",
-        `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,location=no,status=no`
-      );
+    setCurrentIntegration(name);
+    setIsLoading(true);
+    const width = 600;
+    const height = 700;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+    
+    const url = name === "HubSpot" 
+      ? "https://client-dashboard-444907.uc.r.appspot.com/hubspot/auth"
+      : "https://client-dashboard-444907.uc.r.appspot.com/pipedrive/auth/pipedrive";
 
-      // Check if window is closed
-      const checkWindow = setInterval(() => {
-        if (hubspotWindow?.closed) {
-          clearInterval(checkWindow);
-          setIsLoading(false);
-          setShowSuccess(true);
-          toast.success("HubSpot ready to sync contacts", {
+    const integrationWindow = window.open(
+      url,
+      `${name} Integration`,
+      `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,location=no,status=no`
+    );
+
+    // Check if window is closed
+    const checkWindow = setInterval(() => {
+      if (integrationWindow?.closed) {
+        clearInterval(checkWindow);
+        setIsLoading(false);
+        
+        // If the window was closed before completion
+        if (!showSuccess) {
+          toast.error(`${name} synchronization cancelled`, {
+            style: { background: '#ef4444', color: 'white' }
+          });
+        } else {
+          toast.success(`${name} ready to sync contacts`, {
             style: { background: '#22c55e', color: 'white' }
           });
-          // Hide success icon after 5 seconds
-          setTimeout(() => {
-            setShowSuccess(false);
-          }, 5000);
         }
-      }, 500);
-    } else {
-      toast.info(`Starting ${name} integration...`);
-    }
+        
+        setShowSuccess(false);
+        setCurrentIntegration(null);
+      }
+    }, 500);
+
+    // Listen for success message from the integration window
+    window.addEventListener('message', (event) => {
+      if (event.data === 'integration-success') {
+        setShowSuccess(true);
+        integrationWindow?.close();
+      }
+    });
   };
 
   return (

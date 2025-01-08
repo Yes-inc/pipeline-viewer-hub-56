@@ -902,6 +902,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_pipedrive_tokens: {
+        Row: {
+          access_token: string
+          creator_id: number
+          expiration_time: number
+          id: number
+          user_email: string | null
+        }
+        Insert: {
+          access_token: string
+          creator_id: number
+          expiration_time: number
+          id?: number
+          user_email?: string | null
+        }
+        Update: {
+          access_token?: string
+          creator_id?: number
+          expiration_time?: number
+          id?: number
+          user_email?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           email: string
