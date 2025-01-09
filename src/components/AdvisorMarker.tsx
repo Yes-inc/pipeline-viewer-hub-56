@@ -15,6 +15,7 @@ const AdvisorMarker = ({ advisor, position, customIcon }: AdvisorMarkerProps) =>
     <Marker 
       position={position} 
       icon={customIcon}
+      key={advisor.LinkedIn}
     >
       <Popup>
         <AdvisorPopup advisor={advisor} />
