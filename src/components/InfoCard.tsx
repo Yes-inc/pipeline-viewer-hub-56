@@ -9,12 +9,19 @@ interface InfoCardProps {
 }
 
 const InfoCard = ({ title, value, icon: Icon, trend, trendUp }: InfoCardProps) => {
+  // Format number with commas for better readability
+  const formatNumber = (value: string) => {
+    const num = parseInt(value);
+    if (isNaN(num)) return value;
+    return num.toLocaleString();
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow animate-fade-up">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs font-medium text-gray-600">{title}</p>
-          <p className="mt-1 text-2xl font-bold text-gray-900">{value}</p>
+          <p className="mt-1 text-2xl font-bold text-gray-900">{formatNumber(value)}</p>
           {trend && (
             <p className={`mt-1 text-xs ${trendUp ? 'text-success' : 'text-red-500'}`}>
               {trend}
