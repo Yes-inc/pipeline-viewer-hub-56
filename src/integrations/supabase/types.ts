@@ -377,7 +377,7 @@ export type Database = {
       }
       Mitigram_Advisors: {
         Row: {
-          Duration: number | null
+          Duration: string | null
           Industry: string | null
           LinkedIn: string | null
           Location: string | null
@@ -385,7 +385,7 @@ export type Database = {
           Picture: string | null
         }
         Insert: {
-          Duration?: number | null
+          Duration?: string | null
           Industry?: string | null
           LinkedIn?: string | null
           Location?: string | null
@@ -393,7 +393,7 @@ export type Database = {
           Picture?: string | null
         }
         Update: {
-          Duration?: number | null
+          Duration?: string | null
           Industry?: string | null
           LinkedIn?: string | null
           Location?: string | null

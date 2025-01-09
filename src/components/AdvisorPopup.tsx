@@ -60,7 +60,7 @@ const AdvisorPopup = ({ advisor }: AdvisorPopupProps) => {
           <div className="space-y-1 text-sm border-t pt-2 mt-2">
             <div className="flex justify-between">
               <span className="text-gray-600">Duration:</span>
-              <span className="font-medium text-gray-900">{advisor.Duration || 0} years</span>
+              <span className="font-medium text-gray-900">{advisor.Duration || 0}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Pipeline:</span>
