@@ -9,11 +9,11 @@ interface InfoCardProps {
 }
 
 const InfoCard = ({ title, value, icon: Icon, trend, trendUp }: InfoCardProps) => {
-  // Format number with commas for better readability
+  // Format number with commas for better readability, without rounding
   const formatNumber = (value: string) => {
     const num = parseInt(value);
     if (isNaN(num)) return value;
-    return num.toLocaleString();
+    return num.toLocaleString('en-US', { maximumFractionDigits: 0 });
   };
 
   return (
