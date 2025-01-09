@@ -223,14 +223,13 @@ const Index = () => {
         </div>
 
         <div className="space-y-12">
-
-<Tabs defaultValue="generated" className="w-full">
-  <TabsList className="w-full flex justify-evenly bg-gray-100/80 p-2 rounded-lg">
-    <TabsTrigger value="established">Established</TabsTrigger>
-    <TabsTrigger value="active">Engaged</TabsTrigger>
-    <TabsTrigger value="generated">Generated</TabsTrigger>
-    <TabsTrigger value="uncertain">Unverified</TabsTrigger>
-  </TabsList>
+          <Tabs defaultValue="generated" className="w-full">
+            <TabsList className="w-full flex justify-evenly bg-gray-100/80 p-2 rounded-lg">
+              <TabsTrigger value="established">Established</TabsTrigger>
+              <TabsTrigger value="active">Engaged</TabsTrigger>
+              <TabsTrigger value="generated">Generated</TabsTrigger>
+              <TabsTrigger value="uncertain">Unverified</TabsTrigger>
+            </TabsList>
             <TabsContent value="established" className="mt-12">
               <PipelineTable 
                 title="Established Connections" 
@@ -267,8 +266,7 @@ const Index = () => {
                 companyPrefix={companyPrefix}
               />
             </TabsContent>
-</Tabs>
-
+          </Tabs>
         </div>
       </div>
     </DashboardLayout>
