@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import TableHeader from "./table/TableHeader";
+import { PipelineTableHeader } from "./table/TableHeader";
 import TableRow from "./table/TableRow";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
@@ -21,7 +21,7 @@ export const PipelineTable = ({
   companyPrefix,
 }: PipelineTableProps) => {
   if (isLoading) return <LoadingState />;
-  if (error) return <ErrorState error={error} />;
+  if (error) return <ErrorState message={error.message} />;
 
   // Display count only for Mitigram Established Connections
   const displayTitle = companyPrefix === "Mitigram" && title === "Established Connections" 
@@ -35,7 +35,12 @@ export const PipelineTable = ({
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
-          <TableHeader />
+          <PipelineTableHeader 
+            isEngagedProspects={false} 
+            isGeneratedLeads={false}
+            sortConfig={null}
+            onSort={() => {}}
+          />
           <div className="divide-y">
             {data.map((row, index) => (
               <TableRow key={index} row={row} companyPrefix={companyPrefix} />

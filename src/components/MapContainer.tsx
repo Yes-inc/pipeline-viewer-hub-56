@@ -33,8 +33,8 @@ const MapContainer = ({ advisors }: MapContainerProps) => {
   return (
     <div className="h-full w-full">
       <LeafletMapContainer
-        center={defaultCenter}
-        zoom={defaultZoom}
+        defaultCenter={defaultCenter}
+        defaultZoom={defaultZoom}
         scrollWheelZoom={false}
         className="h-full w-full rounded-lg"
       >
