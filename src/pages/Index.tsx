@@ -87,6 +87,7 @@ const Index = () => {
         .from(`${companyPrefix}_Established_Connections`)
         .select('*');
       if (error) throw error;
+      console.log(`Number of ${companyPrefix} established connections:`, data?.length);
       return data as PipelineRow[];
     },
     enabled: !!companyPrefix
