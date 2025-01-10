@@ -36,6 +36,8 @@ export const PipelineTable = ({
     return row.LinkedIn_URL && row.LinkedIn_URL.length > 0;
   });
 
+  console.log(`Number of profiles in ${title}:`, filteredData.length);
+
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     
@@ -56,6 +58,9 @@ export const PipelineTable = ({
     <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <div className="text-sm text-gray-500">
+          Total: {filteredData.length} profiles
+        </div>
       </div>
       <div className="border rounded-lg bg-white overflow-hidden">
         <div className="max-h-[600px] overflow-y-auto relative">
