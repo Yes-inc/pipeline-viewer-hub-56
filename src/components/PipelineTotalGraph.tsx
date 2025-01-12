@@ -10,18 +10,18 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
   // Base values for the growth trend
   const baseData = [
     { date: 'Oct 01', base: 0 },
-    { date: 'Oct 10', base: 400000 },
-    { date: 'Oct 20', base: 800000 },
-    { date: 'Oct 31', base: 1200000 },
-    { date: 'Nov 10', base: 1600000 },
-    { date: 'Nov 20', base: 2000000 },
-    { date: 'Nov 30', base: 2400000 },
-    { date: 'Dec 10', base: 2800000 }, // Growth rate increases by 30% after this point
-    { date: 'Dec 20', base: 3600000 },
-    { date: 'Dec 31', base: 4800000 },
-    { date: 'Jan 05', base: 6400000 },
-    { date: 'Jan 10', base: 8000000 },
-    { date: 'Jan 13', base: 9200000 },
+    { date: 'Oct 10', base: 500000 },
+    { date: 'Oct 20', base: 1000000 },
+    { date: 'Oct 31', base: 1500000 },
+    { date: 'Nov 10', base: 2000000 },
+    { date: 'Nov 20', base: 2500000 },
+    { date: 'Nov 30', base: 3000000 },
+    { date: 'Dec 10', base: 3500000 }, // Growth rate increases by 30% after this point
+    { date: 'Dec 20', base: 4550000 },
+    { date: 'Dec 31', base: 5900000 },
+    { date: 'Jan 05', base: 7700000 },
+    { date: 'Jan 10', base: 9500000 },
+    { date: 'Jan 13', base: 10800000 },
   ];
 
   // Add random variations (±10%) to make the graph look more organic
