@@ -21,14 +21,24 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Dec 31', base: 5900000 },
     { date: 'Jan 05', base: 7700000 },
     { date: 'Jan 10', base: 9100000 },
-    { date: 'Jan 13', base: 10721413 },
+    { date: 'Jan 13', base: 10721413 }, // Exact final value
   ];
 
-  // Add random variations (±10%) to make the graph look more organic
-  const chartData = baseData.map(point => ({
-    date: point.date,
-    pipeline: Math.round(point.base * (1 + (Math.random() * 0.2 - 0.1))) // Random variation between -10% and +10%
-  }));
+  // Add random variations (±10%) to make the graph look more organic, but ensure final point is exact
+  const chartData = baseData.map((point, index) => {
+    // For the last point, use exact value without variation
+    if (index === baseData.length - 1) {
+      return {
+        date: point.date,
+        pipeline: point.base
+      };
+    }
+    // For other points, add random variation
+    return {
+      date: point.date,
+      pipeline: Math.round(point.base * (1 + (Math.random() * 0.2 - 0.1))) // Random variation between -10% and +10%
+    };
+  });
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
