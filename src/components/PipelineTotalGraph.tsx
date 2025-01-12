@@ -7,23 +7,28 @@ interface PipelineTotalGraphProps {
 }
 
 const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
-  // Static data points showing growth from Oct 1st 2024 to Jan 13th 2025
-  // Growth rate increases by 50% after Dec 10th
-  const chartData = [
-    { date: 'Oct 01', pipeline: 0 },
-    { date: 'Oct 10', pipeline: 400000 },
-    { date: 'Oct 20', pipeline: 800000 },
-    { date: 'Oct 31', pipeline: 1200000 },
-    { date: 'Nov 10', pipeline: 1600000 },
-    { date: 'Nov 20', pipeline: 2000000 },
-    { date: 'Nov 30', pipeline: 2400000 },
-    { date: 'Dec 10', pipeline: 2800000 }, // Growth rate increases by 50% after this point
-    { date: 'Dec 20', pipeline: 3800000 },
-    { date: 'Dec 31', pipeline: 5300000 },
-    { date: 'Jan 05', pipeline: 7800000 },
-    { date: 'Jan 10', pipeline: 9800000 },
-    { date: 'Jan 13', pipeline: 11500000 },
+  // Base values for the growth trend
+  const baseData = [
+    { date: 'Oct 01', base: 0 },
+    { date: 'Oct 10', base: 400000 },
+    { date: 'Oct 20', base: 800000 },
+    { date: 'Oct 31', base: 1200000 },
+    { date: 'Nov 10', base: 1600000 },
+    { date: 'Nov 20', base: 2000000 },
+    { date: 'Nov 30', base: 2400000 },
+    { date: 'Dec 10', base: 2800000 }, // Growth rate increases by 50% after this point
+    { date: 'Dec 20', base: 3800000 },
+    { date: 'Dec 31', base: 5300000 },
+    { date: 'Jan 05', base: 7800000 },
+    { date: 'Jan 10', base: 9800000 },
+    { date: 'Jan 13', base: 11500000 },
   ];
+
+  // Add random variations (±5%) to make the graph look more organic
+  const chartData = baseData.map(point => ({
+    date: point.date,
+    pipeline: Math.round(point.base * (1 + (Math.random() * 0.1 - 0.05))) // Random variation between -5% and +5%
+  }));
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
