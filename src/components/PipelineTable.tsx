@@ -52,7 +52,8 @@ export const PipelineTable = ({
     return 0;
   });
 
-  const isGeneratedLeads = title.includes("Generated") || title.includes("Unverified");
+  const isGeneratedLeads = title.includes("Generated");
+  const isUncertainLeads = title.includes("Unverified");
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,6 +79,7 @@ export const PipelineTable = ({
                   row={row} 
                   companyPrefix={companyPrefix}
                   isGeneratedLeads={isGeneratedLeads}
+                  isUncertainLeads={isUncertainLeads}
                 />
               ))}
             </TableBody>

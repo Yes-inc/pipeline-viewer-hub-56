@@ -2,7 +2,7 @@ import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { PipelineRow } from "@/utils/googleSheets";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ExternalLink, ArrowRightFromLine } from "lucide-react";
+import { MessageSquare, ExternalLink, ArrowRightFromLine, ArrowLeftFromLine } from "lucide-react";
 import CommentDialog from "./CommentDialog";
 import { useState } from "react";
 import { CompanyPrefix } from "@/types/supabase";
@@ -14,9 +14,10 @@ interface TableRowProps {
   row: PipelineRow;
   companyPrefix: CompanyPrefix;
   isGeneratedLeads?: boolean;
+  isUncertainLeads?: boolean;
 }
 
-const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
+const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
   const { toast } = useToast();
@@ -104,6 +105,53 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
     }
   };
 
+  const moveToGenerated = async () => {
+    if (!companyPrefix || isMoving) return;
+    
+    setIsMoving(true);
+    try {
+      // Insert into generated leads
+      const { error: insertError } = await supabase
+        .from(`${companyPrefix}_Leads`)
+        .insert([{
+          Advisor: row.Advisor,
+          LinkedIn_URL: row.LinkedIn_URL,
+          Full_Name: row.Full_Name,
+          First_Name: row.First_Name,
+          Last_Name: row.Last_Name,
+          Company: row.Company,
+          Profile_Picture: row.Profile_Picture,
+          Company_Website: row.Company_Website,
+          Current_Title: row.Current_Title
+        }]);
+
+      if (insertError) throw insertError;
+
+      // Delete from uncertain leads
+      const { error: deleteError } = await supabase
+        .from(`${companyPrefix}_Uncertain_Leads`)
+        .delete()
+        .eq('LinkedIn_URL', row.LinkedIn_URL);
+
+      if (deleteError) throw deleteError;
+
+      toast({
+        title: "Lead Moved",
+        description: "Successfully moved lead to generated leads.",
+      });
+
+    } catch (error) {
+      console.error('Error moving lead:', error);
+      toast({
+        title: "Error",
+        description: "Failed to move lead. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsMoving(false);
+    }
+  };
+
   return (
     <UITableRow>
       <TableCell>
@@ -126,7 +174,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
         </div>
       </TableCell>
       <TableCell className="text-black">{row.Company}</TableCell>
-      {!isGeneratedLeads && <TableCell className="text-black">{row.Email}</TableCell>}
+      {!isGeneratedLeads && !isUncertainLeads && <TableCell className="text-black">{row.Email}</TableCell>}
       <TableCell>
         {row.Company_Website && (
           <a
@@ -161,6 +209,17 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
             className="hover:bg-transparent"
           >
             <ArrowRightFromLine className="h-4 w-4 text-gray-600" />
+          </Button>
+        )}
+        {isUncertainLeads && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={moveToGenerated}
+            disabled={isMoving}
+            className="hover:bg-transparent"
+          >
+            <ArrowLeftFromLine className="h-4 w-4 text-gray-600" />
           </Button>
         )}
         <CommentDialog
