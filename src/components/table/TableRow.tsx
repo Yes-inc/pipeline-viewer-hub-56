@@ -2,11 +2,13 @@ import { TableCell, TableRow as UITableRow } from "@/components/ui/table";
 import { PipelineRow } from "@/utils/googleSheets";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ExternalLink } from "lucide-react";
+import { MessageSquare, ExternalLink, ArrowRightFromLine } from "lucide-react";
 import CommentDialog from "./CommentDialog";
 import { useState } from "react";
 import { CompanyPrefix } from "@/types/supabase";
 import { format } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 interface TableRowProps {
   row: PipelineRow;
@@ -16,6 +18,8 @@ interface TableRowProps {
 
 const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
+  const [isMoving, setIsMoving] = useState(false);
+  const { toast } = useToast();
 
   const formatDealSize = (dealSize: string | number | null | undefined) => {
     if (!dealSize) return '';
@@ -50,6 +54,53 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
       return format(new Date(timestamp), 'yyyy-MM-dd');
     } catch {
       return '';
+    }
+  };
+
+  const moveToUncertain = async () => {
+    if (!companyPrefix || isMoving) return;
+    
+    setIsMoving(true);
+    try {
+      // Insert into uncertain leads
+      const { error: insertError } = await supabase
+        .from(`${companyPrefix}_Uncertain_Leads`)
+        .insert([{
+          Advisor: row.Advisor,
+          LinkedIn_URL: row.LinkedIn_URL,
+          Full_Name: row.Full_Name,
+          First_Name: row.First_Name,
+          Last_Name: row.Last_Name,
+          Company: row.Company,
+          Profile_Picture: row.Profile_Picture,
+          Company_Website: row.Company_Website,
+          Current_Title: row.Current_Title
+        }]);
+
+      if (insertError) throw insertError;
+
+      // Delete from generated leads
+      const { error: deleteError } = await supabase
+        .from(`${companyPrefix}_Leads`)
+        .delete()
+        .eq('LinkedIn_URL', row.LinkedIn_URL);
+
+      if (deleteError) throw deleteError;
+
+      toast({
+        title: "Lead Moved",
+        description: "Successfully moved lead to unverified leads.",
+      });
+
+    } catch (error) {
+      console.error('Error moving lead:', error);
+      toast({
+        title: "Error",
+        description: "Failed to move lead. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsMoving(false);
     }
   };
 
@@ -92,7 +143,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
       <TableCell className="text-black">{row.Advisor}</TableCell>
       <TableCell className="text-black">{row.Current_Title || 'N/A'}</TableCell>
       <TableCell className="text-black">{formatDate(row.Time_Stamp)}</TableCell>
-      <TableCell>
+      <TableCell className="flex items-center gap-2">
         <Button
           variant="ghost"
           size="icon"
@@ -101,6 +152,17 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads }: TableRowProps) => {
         >
           <MessageSquare className="h-4 w-4 text-gray-600" />
         </Button>
+        {isGeneratedLeads && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={moveToUncertain}
+            disabled={isMoving}
+            className="hover:bg-transparent"
+          >
+            <ArrowRightFromLine className="h-4 w-4 text-gray-600" />
+          </Button>
+        )}
         <CommentDialog
           isOpen={isCommentDialogOpen}
           onClose={() => setIsCommentDialogOpen(false)}
