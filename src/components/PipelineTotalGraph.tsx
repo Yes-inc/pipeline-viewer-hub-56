@@ -7,7 +7,7 @@ interface PipelineTotalGraphProps {
 }
 
 const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
-  // Base values for the growth trend
+  // Base values for the growth trend with smoother progression
   const baseData = [
     { date: 'Oct 01', base: 0 },
     { date: 'Oct 10', base: 500000 },
@@ -17,9 +17,9 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Nov 20', base: 2500000 },
     { date: 'Nov 30', base: 3000000 },
     { date: 'Dec 10', base: 3500000 }, // Growth rate increases by 30% after this point
-    { date: 'Dec 20', base: 4550000 },
-    { date: 'Dec 31', base: 5900000 },
-    { date: 'Jan 05', base: 7700000 },
+    { date: 'Dec 20', base: 4800000 },
+    { date: 'Dec 31', base: 6500000 },
+    { date: 'Jan 05', base: 8200000 },
     { date: 'Jan 10', base: 9500000 },
     { date: 'Jan 13', base: 10800000 },
   ];
