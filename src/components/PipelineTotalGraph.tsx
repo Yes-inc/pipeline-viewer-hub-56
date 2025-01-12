@@ -20,6 +20,10 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Dec 20', base: 4550000 },
     { date: 'Dec 31', base: 5900000 },
     { date: 'Jan 05', base: 7700000 },
+    { date: 'Jan 06', base: 8000000 },
+    { date: 'Jan 07', base: 8400000 },
+    { date: 'Jan 08', base: 8800000 },
+    { date: 'Jan 09', base: 9000000 },
     { date: 'Jan 10', base: 9100000 },
     { date: 'Jan 13', base: 10721413 }, // Exact final value
   ];
