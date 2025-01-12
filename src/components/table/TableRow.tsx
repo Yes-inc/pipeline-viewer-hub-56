@@ -63,7 +63,6 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
     
     setIsMoving(true);
     try {
-      // Insert into uncertain leads
       const { error: insertError } = await supabase
         .from(`${companyPrefix}_Uncertain_Leads`)
         .insert([{
@@ -74,13 +73,11 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
           Last_Name: row.Last_Name,
           Company: row.Company,
           Profile_Picture: row.Profile_Picture,
-          Company_Website: row.Company_Website,
-          Current_Title: row.Current_Title
+          Company_Website: row.Company_Website
         }]);
 
       if (insertError) throw insertError;
 
-      // Delete from generated leads
       const { error: deleteError } = await supabase
         .from(`${companyPrefix}_Leads`)
         .delete()
@@ -90,7 +87,7 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
 
       toast({
         title: "Lead Moved",
-        description: "Successfully moved lead to unverified leads.",
+        description: "Successfully moved lead to unqualified leads.",
       });
 
     } catch (error) {
@@ -110,7 +107,6 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
     
     setIsMoving(true);
     try {
-      // Insert into generated leads
       const { error: insertError } = await supabase
         .from(`${companyPrefix}_Leads`)
         .insert([{
@@ -121,13 +117,11 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
           Last_Name: row.Last_Name,
           Company: row.Company,
           Profile_Picture: row.Profile_Picture,
-          Company_Website: row.Company_Website,
-          Current_Title: row.Current_Title
+          Company_Website: row.Company_Website
         }]);
 
       if (insertError) throw insertError;
 
-      // Delete from uncertain leads
       const { error: deleteError } = await supabase
         .from(`${companyPrefix}_Uncertain_Leads`)
         .delete()
@@ -188,7 +182,6 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
       </TableCell>
       <TableCell className="text-black">{getDealSize(row)}</TableCell>
       <TableCell className="text-black">{row.Advisor}</TableCell>
-      <TableCell className="text-black">{row.Current_Title || 'N/A'}</TableCell>
       <TableCell className="text-black">{formatDate(row.Time_Stamp)}</TableCell>
       <TableCell className="flex items-center gap-2">
         <Button
