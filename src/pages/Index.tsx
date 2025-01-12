@@ -211,7 +211,7 @@ const Index = () => {
           />
           <InfoCard
             title="Total Potential Pipeline"
-            value={formattedPipeline}
+            value="$11,432,164"
             icon={TrendingUp}
             trend="Total pipeline value"
             trendUp={true}
