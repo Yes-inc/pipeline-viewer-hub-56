@@ -20,8 +20,8 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Dec 20', base: 4550000 },
     { date: 'Dec 31', base: 5900000 },
     { date: 'Jan 05', base: 7700000 },
-    { date: 'Jan 10', base: 9500000 },
-    { date: 'Jan 13', base: 10800000 },
+    { date: 'Jan 10', base: 9100000 },
+    { date: 'Jan 13', base: 10721413 },
   ];
 
   // Add random variations (±10%) to make the graph look more organic
