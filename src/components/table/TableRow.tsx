@@ -174,7 +174,6 @@ const TableRow = ({ row, companyPrefix, isGeneratedLeads, isUncertainLeads }: Ta
         </div>
       </TableCell>
       <TableCell className="text-black">{row.Company}</TableCell>
-      {!isGeneratedLeads && !isUncertainLeads && <TableCell className="text-black">{row.Email}</TableCell>}
       <TableCell>
         {row.Company_Website && (
           <a

@@ -6,6 +6,7 @@ import { Link } from "lucide-react";
 interface TableHeaderProps {
   isEngagedProspects: boolean;
   isGeneratedLeads: boolean;
+  isUncertainLeads?: boolean;
   sortConfig: {
     key: keyof PipelineRow;
     direction: "asc" | "desc";
@@ -19,6 +20,7 @@ interface TableHeaderProps {
 export const PipelineTableHeader = ({ 
   isEngagedProspects, 
   isGeneratedLeads,
+  isUncertainLeads,
   sortConfig,
   onSort 
 }: TableHeaderProps) => {
@@ -27,7 +29,6 @@ export const PipelineTableHeader = ({
       <TableRow>
         <TableHead className="w-[200px] text-black pl-6">Profile</TableHead>
         <TableHead className="text-black">Company</TableHead>
-        {!isGeneratedLeads && <TableHead className="text-black">Email</TableHead>}
         <TableHead className="text-black">
           <span className="inline-flex items-center gap-2">
             Company Website
