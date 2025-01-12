@@ -64,7 +64,7 @@ export const PipelineTable = ({
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <h2 className="text-xl font-semibold text-gray-900">
-            {showUncertain ? "Unverified Leads" : title}
+            {showUncertain ? "Unqualified Leads" : title}
           </h2>
           {isGeneratedLeads && (
             <Button
@@ -72,7 +72,7 @@ export const PipelineTable = ({
               onClick={() => setShowUncertain(!showUncertain)}
               className="text-sm"
             >
-              {showUncertain ? "Back to Generated" : "View Unverified"}
+              {showUncertain ? "Back to Generated" : "View Unqualified"}
             </Button>
           )}
         </div>
