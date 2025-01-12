@@ -16,15 +16,19 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Nov 10', base: 2000000 },
     { date: 'Nov 20', base: 2500000 },
     { date: 'Nov 30', base: 3000000 },
-    { date: 'Dec 10', base: 3500000 }, // Growth rate increases by 30% after this point
+    { date: 'Dec 10', base: 3500000 },
     { date: 'Dec 20', base: 4550000 },
-    { date: 'Dec 31', base: 5900000 },
+    { date: 'Dec 23', base: 5000000 },
+    { date: 'Dec 26', base: 5400000 },
+    { date: 'Dec 29', base: 5900000 },
+    { date: 'Jan 02', base: 6800000 },
     { date: 'Jan 05', base: 7700000 },
-    { date: 'Jan 10', base: 9100000 },
+    { date: 'Jan 07', base: 8500000 },
+    { date: 'Jan 09', base: 9500000 },
     { date: 'Jan 13', base: 10721413 }, // Exact final value
   ];
 
-  // Add random variations (±10%) to make the graph look more organic, but ensure final point is exact
+  // Add random variations (±5%) to make the graph look more organic, but ensure final point is exact
   const chartData = baseData.map((point, index) => {
     // For the last point, use exact value without variation
     if (index === baseData.length - 1) {
@@ -33,10 +37,11 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
         pipeline: point.base
       };
     }
-    // For other points, add random variation
+    // For other points, add random variation (±5%)
+    const variation = 1 + (Math.random() * 0.1 - 0.05); // Random variation between -5% and +5%
     return {
       date: point.date,
-      pipeline: Math.round(point.base * (1 + (Math.random() * 0.2 - 0.1))) // Random variation between -10% and +10%
+      pipeline: Math.round(point.base * variation)
     };
   });
 
