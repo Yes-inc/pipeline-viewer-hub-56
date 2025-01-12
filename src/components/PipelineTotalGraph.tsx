@@ -16,18 +16,18 @@ const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
     { date: 'Nov 10', base: 1600000 },
     { date: 'Nov 20', base: 2000000 },
     { date: 'Nov 30', base: 2400000 },
-    { date: 'Dec 10', base: 2800000 }, // Growth rate increases by 50% after this point
-    { date: 'Dec 20', base: 3800000 },
-    { date: 'Dec 31', base: 5300000 },
-    { date: 'Jan 05', base: 7800000 },
-    { date: 'Jan 10', base: 9800000 },
-    { date: 'Jan 13', base: 11500000 },
+    { date: 'Dec 10', base: 2800000 }, // Growth rate increases by 30% after this point
+    { date: 'Dec 20', base: 3600000 },
+    { date: 'Dec 31', base: 4800000 },
+    { date: 'Jan 05', base: 6400000 },
+    { date: 'Jan 10', base: 8000000 },
+    { date: 'Jan 13', base: 9200000 },
   ];
 
-  // Add random variations (±5%) to make the graph look more organic
+  // Add random variations (±10%) to make the graph look more organic
   const chartData = baseData.map(point => ({
     date: point.date,
-    pipeline: Math.round(point.base * (1 + (Math.random() * 0.1 - 0.05))) // Random variation between -5% and +5%
+    pipeline: Math.round(point.base * (1 + (Math.random() * 0.2 - 0.1))) // Random variation between -10% and +10%
   }));
 
   const formatCurrency = (value: number) => {
