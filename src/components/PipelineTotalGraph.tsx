@@ -7,19 +7,21 @@ interface PipelineTotalGraphProps {
 }
 
 const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
-  // Static data points showing growth to over $11M with acceleration after Christmas
+  // Static data points showing growth from Oct 1st 2024 to Jan 13th 2025
+  // Growth rate increases by 50% after Dec 10th
   const chartData = [
-    { date: 'Dec 01', pipeline: 3200000 },
-    { date: 'Dec 05', pipeline: 4100000 },
-    { date: 'Dec 10', pipeline: 5000000 },
-    { date: 'Dec 15', pipeline: 5800000 },
-    { date: 'Dec 20', pipeline: 6500000 },
-    { date: 'Dec 25', pipeline: 7000000 }, // Christmas
-    { date: 'Dec 28', pipeline: 7800000 },
-    { date: 'Dec 31', pipeline: 8500000 },
-    { date: 'Jan 03', pipeline: 9300000 },
-    { date: 'Jan 07', pipeline: 10200000 },
-    { date: 'Jan 10', pipeline: 10800000 },
+    { date: 'Oct 01', pipeline: 0 },
+    { date: 'Oct 10', pipeline: 400000 },
+    { date: 'Oct 20', pipeline: 800000 },
+    { date: 'Oct 31', pipeline: 1200000 },
+    { date: 'Nov 10', pipeline: 1600000 },
+    { date: 'Nov 20', pipeline: 2000000 },
+    { date: 'Nov 30', pipeline: 2400000 },
+    { date: 'Dec 10', pipeline: 2800000 }, // Growth rate increases by 50% after this point
+    { date: 'Dec 20', pipeline: 3800000 },
+    { date: 'Dec 31', pipeline: 5300000 },
+    { date: 'Jan 05', pipeline: 7800000 },
+    { date: 'Jan 10', pipeline: 9800000 },
     { date: 'Jan 13', pipeline: 11500000 },
   ];
 
