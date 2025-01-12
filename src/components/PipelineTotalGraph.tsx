@@ -7,58 +7,21 @@ interface PipelineTotalGraphProps {
 }
 
 const PipelineTotalGraph = ({ activeLeads }: PipelineTotalGraphProps) => {
-  // Create data points for the chart
-  const dataPoints = activeLeads
-    .filter(lead => lead.Time_Stamp) // Filter out leads without timestamps
-    .map(lead => {
-      const timestamp = lead.Time_Stamp;
-      const date = timestamp ? format(parseISO(timestamp), 'MMM dd') : '';
-      
-      // Handle deal_size field, ensuring we only count numeric values
-      let value = 0;
-      if (lead.deal_size !== null && lead.deal_size !== undefined) {
-        if (typeof lead.deal_size === 'string') {
-          // Remove any non-numeric characters except decimal points
-          value = parseFloat(lead.deal_size.replace(/[^0-9.]/g, '')) || 0;
-        } else if (typeof lead.deal_size === 'number') {
-          value = lead.deal_size;
-        }
-      }
-      
-      return {
-        timestamp,
-        date,
-        value
-      };
-    });
-
-  // Sort data points by timestamp
-  dataPoints.sort((a, b) => {
-    if (!a.timestamp || !b.timestamp) return 0;
-    return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
-  });
-
-  // Group by date and calculate daily totals
-  const dailyTotals = new Map();
-  dataPoints.forEach(point => {
-    const currentDate = point.date;
-    if (!dailyTotals.has(currentDate)) {
-      dailyTotals.set(currentDate, 0);
-    }
-    dailyTotals.set(currentDate, dailyTotals.get(currentDate) + point.value);
-  });
-
-  // Calculate cumulative totals
-  let runningTotal = 0;
-  const chartData = Array.from(dailyTotals.entries()).map(([date, value]) => {
-    runningTotal += value;
-    return {
-      date,
-      pipeline: Math.round(runningTotal) // Ensure we round to whole numbers
-    };
-  });
-
-  console.log('Pipeline Chart Data with values:', chartData);
+  // Static data points showing growth to over $11M with acceleration after Christmas
+  const chartData = [
+    { date: 'Dec 01', pipeline: 3200000 },
+    { date: 'Dec 05', pipeline: 4100000 },
+    { date: 'Dec 10', pipeline: 5000000 },
+    { date: 'Dec 15', pipeline: 5800000 },
+    { date: 'Dec 20', pipeline: 6500000 },
+    { date: 'Dec 25', pipeline: 7000000 }, // Christmas
+    { date: 'Dec 28', pipeline: 7800000 },
+    { date: 'Dec 31', pipeline: 8500000 },
+    { date: 'Jan 03', pipeline: 9300000 },
+    { date: 'Jan 07', pipeline: 10200000 },
+    { date: 'Jan 10', pipeline: 10800000 },
+    { date: 'Jan 13', pipeline: 11500000 },
+  ];
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
