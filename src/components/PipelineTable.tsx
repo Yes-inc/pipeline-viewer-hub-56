@@ -6,6 +6,7 @@ import type { PipelineRow } from "../utils/googleSheets";
 import ErrorState from "./ErrorState";
 import LoadingState from "./LoadingState";
 import { CompanyPrefix } from "@/types/supabase";
+import { Button } from "./ui/button";
 
 interface PipelineTableProps {
   title: string;
@@ -13,6 +14,7 @@ interface PipelineTableProps {
   isLoading?: boolean;
   error?: Error | null;
   companyPrefix: CompanyPrefix;
+  uncertainLeads?: PipelineRow[];
 }
 
 export const PipelineTable = ({ 
@@ -20,8 +22,10 @@ export const PipelineTable = ({
   data, 
   isLoading, 
   error,
-  companyPrefix 
+  companyPrefix,
+  uncertainLeads 
 }: PipelineTableProps) => {
+  const [showUncertain, setShowUncertain] = useState(false);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof PipelineRow;
     direction: "asc" | "desc";
@@ -53,14 +57,27 @@ export const PipelineTable = ({
   });
 
   const isGeneratedLeads = title.includes("Generated");
-  const isUncertainLeads = title.includes("Unverified");
+  const displayData = showUncertain && uncertainLeads ? uncertainLeads : sortedData;
 
   return (
     <div className="space-y-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center gap-4">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {showUncertain ? "Unverified Leads" : title}
+          </h2>
+          {isGeneratedLeads && (
+            <Button
+              variant="outline"
+              onClick={() => setShowUncertain(!showUncertain)}
+              className="text-sm"
+            >
+              {showUncertain ? "Back to Generated" : "View Unverified"}
+            </Button>
+          )}
+        </div>
         <div className="text-sm text-gray-500">
-          Total: {filteredData.length} profiles
+          Total: {displayData.length} profiles
         </div>
       </div>
       <div className="border rounded-lg bg-white overflow-hidden">
@@ -71,15 +88,16 @@ export const PipelineTable = ({
               onSort={setSortConfig}
               isEngagedProspects={title.includes("Engaged")}
               isGeneratedLeads={isGeneratedLeads}
+              isUncertainLeads={showUncertain}
             />
             <TableBody>
-              {sortedData.map((row, index) => (
+              {displayData.map((row, index) => (
                 <TableRow 
                   key={index} 
                   row={row} 
                   companyPrefix={companyPrefix}
                   isGeneratedLeads={isGeneratedLeads}
-                  isUncertainLeads={isUncertainLeads}
+                  isUncertainLeads={showUncertain}
                 />
               ))}
             </TableBody>

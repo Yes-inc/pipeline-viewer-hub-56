@@ -229,7 +229,6 @@ const Index = () => {
               <TabsTrigger value="established">Established</TabsTrigger>
               <TabsTrigger value="active">Engaged</TabsTrigger>
               <TabsTrigger value="generated">Generated</TabsTrigger>
-              <TabsTrigger value="uncertain">Unverified</TabsTrigger>
             </TabsList>
             <TabsContent value="established" className="mt-12">
               <PipelineTable 
@@ -253,17 +252,9 @@ const Index = () => {
               <PipelineTable 
                 title="Generated Leads" 
                 data={generatedLeads}
+                uncertainLeads={uncertainLeads}
                 isLoading={isLoadingGenerated}
                 error={errorGenerated}
-                companyPrefix={companyPrefix}
-              />
-            </TabsContent>
-            <TabsContent value="uncertain" className="mt-12">
-              <PipelineTable 
-                title="Unverified Leads" 
-                data={uncertainLeads}
-                isLoading={isLoadingUncertain}
-                error={errorUncertain}
                 companyPrefix={companyPrefix}
               />
             </TabsContent>
